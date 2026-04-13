@@ -1,0 +1,24 @@
+# AI-DIAGRAM: required
+# primary_message: Command feedback must separate accepted, device result, and final authoritative state.
+# reader: newcomer, reviewer
+# template_id: flow-dual-path-feedback
+# diagram_type: d2-flow
+# layout: left-to-right
+# max_nodes: 5
+# max_groups: 3
+# keep: two command paths, feedback states, 3 boundary rules
+# avoid: payload fields, every retry branch
+
+direction: right
+
+app: "App\nuser intent"
+firmware: "Firmware-side path\nCMD_V2 -> CMD_RESULT"
+central: "Central-side path\nvia CC bridge -> accepted -> sync"
+feedback: "App feedback\nin-flight\nsuccess\nfailed\ntimeout"
+rule: "Rules\naccepted != final state\nCC bridge != authority owner\nretry != silent success"
+
+app -> firmware: "near-device path"
+app -> central: "via CC bridge"
+firmware -> feedback: "device result"
+central -> feedback: "API + sync"
+rule -> feedback: "boundary"

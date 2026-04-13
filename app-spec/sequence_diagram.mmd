@@ -1,0 +1,50 @@
+%% AI-DIAGRAM: required
+%% primary_message: Current live peer decides whether command feedback goes through the Central-side path or the Firmware-side path.
+%% reader: newcomer, reviewer
+%% template_id: sequence-main-branch
+%% diagram_type: sequenceDiagram
+%% layout: top-to-bottom
+%% max_nodes: 4
+%% max_groups: 3
+%% keep: read path, reconcile branch, command feedback
+%% avoid: payload fields, every retry variant
+
+sequenceDiagram
+  participant UI as App UI
+  participant BLE as BleAdapter
+  participant PEER as Current BLE Peer
+  participant CA as Central API
+
+  UI->>BLE: Read CAPS_V2 / fallback CAP
+  BLE->>PEER: GATT read
+  PEER-->>BLE: capability payload
+  BLE-->>UI: enabled feature set
+
+  UI->>BLE: Read ROSTER_LIST + STATUS/METRICS_V2
+  BLE->>PEER: GATT read / notify
+  PEER-->>BLE: roster + telemetry
+  BLE-->>UI: runtime attach + TelemetryValueState
+
+  UI->>CA: Fetch metadata + authoritative assignment
+  CA-->>UI: central_ref, alias, active_gateway_id
+
+  alt runtime != authoritative
+    UI-->>UI: assignmentSyncState = pending_reconciliation/conflict
+    UI-->>UI: show Central Gateway + Runtime Gateway
+  else sources agree
+    UI-->>UI: assignmentSyncState = confirmed
+  end
+
+  UI-->>UI: inspect current live peer
+
+  alt current peer = CC bridge
+    UI->>CA: send command request
+    CA-->>UI: accepted / rejected
+    UI->>CA: wait metadata / sync confirmation
+    CA-->>UI: final success / failed / timeout
+  else current peer = Gateway / End Device
+    UI->>BLE: Write CMD_V2(txn_id, opcode)
+    BLE->>PEER: GATT write
+    PEER-->>BLE: CMD_RESULT notify
+    BLE-->>UI: SUCCESS / ERROR / REJECTED / timeout
+  end

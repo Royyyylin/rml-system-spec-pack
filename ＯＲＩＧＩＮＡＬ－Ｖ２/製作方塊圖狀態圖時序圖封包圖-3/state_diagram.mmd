@@ -1,0 +1,31 @@
+stateDiagram-v2
+    [*] --> active
+    
+    state "Operational States" as OS {
+        active --> maintenance: Enter Maintenance (Installer)
+        maintenance --> active: Exit Maintenance (Installer)
+        
+        active --> disabled: Disable (Engineer)
+        maintenance --> disabled: Disable (Engineer)
+        disabled --> active: Re-enable (Engineer)
+        
+        active --> retire_requested: Request Retire (Engineer)
+        maintenance --> retire_requested: Request Retire (Engineer)
+        disabled --> retire_requested: Request Retire (Engineer)
+        
+        retire_requested --> disabled: Cancel Retire (Engineer)
+        
+        active --> active: Replace (Installer)
+        maintenance --> maintenance: Replace (Installer)
+    }
+
+    state "Sync States" as SS {
+        [*] --> pending_sync
+        pending_sync --> synced: Success
+        pending_sync --> sync_failed: Failure
+        sync_failed --> pending_sync: Retry
+        
+        synced --> needs_review: Conflict/Review
+        needs_review --> synced: Resolved
+        needs_review --> rejected: Rejected
+    }

@@ -1,0 +1,26 @@
+sequenceDiagram
+    participant App as Phone App
+    participant GW as Gateway (GW)
+    participant ED as End Device (ED)
+
+    Note over App, ED: Phase 1: Basic Monitoring
+    App->>GW: Read STATUS (0x2A1D)
+    GW-->>App: RSSI, Zone, PHY, TX Power
+    
+    Note over App, ED: Phase 2: Inventory & State Sync
+    App->>GW: Request Roster / State (CMD)
+    GW-->>App: point_name, operational_state, sync_state
+    
+    Note over App, GW: Action Execution (e.g., Enter Maintenance)
+    App->>GW: Action: Enter Maintenance
+    GW->>GW: Update gw_point_state
+    GW-->>App: ACK (sync_state = pending_sync)
+    
+    Note over GW, ED: Backend Sync (Conceptual)
+    GW->>ED: Update Config / State
+    ED-->>GW: Confirm
+    GW->>GW: Update gw_ack (sync_state = synced)
+    
+    Note over App, GW: UI Update
+    App->>GW: Poll/Notify Status
+    GW-->>App: sync_state = synced (Green Badge)

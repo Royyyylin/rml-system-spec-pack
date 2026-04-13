@@ -1,0 +1,83 @@
+# AI-DIAGRAM: required
+# primary_message: App blocks map repo truth inputs into human-facing surfaces.
+# reader: engineer, reviewer
+# template_id: map-source-surface
+# diagram_type: d2-block
+# layout: left-to-right
+# max_nodes: 8
+# max_groups: 5
+# keep: SSOT inputs, app blocks, UI surfaces
+# avoid: sequence detail, every field-level mapping
+
+direction: right
+
+ssot: {
+  label: "Repo SSOT"
+  fw: "Firmware SSOT\nble_api.yaml"
+  app: "App SSOT\nAPP_ARCHITECTURE.md"
+  central: "Central SSOT\ndata-model.md\nalias-sync-spec.md"
+}
+
+blocks: {
+  label: "App Blocks"
+  b1: "BLK-001\nIdentity & Metadata Resolver"
+  b2: "BLK-002\nTelemetry Pipeline"
+  b3: "BLK-003\nAssignment Reconciliation"
+  b4: "BLK-004\nCommand Orchestrator"
+  b5: "BLK-005\nCapability & Role Gate"
+}
+
+ui: {
+  label: "App Surfaces"
+  l1: "L1 Device List"
+  l2: "L2 Device Detail"
+  l3: "L3 Engineer / Sync"
+}
+
+fw_io: {
+  label: "Firmware Channels"
+  telemetry: "STATUS / METRICS_V2"
+  roster: "ROSTER_LIST"
+  cmd: "CMD_V2 / CMD_RESULT"
+  meta: "DEVICE_INFO / FW_VERSION / DEVICE_ALIAS"
+  caps: "CAPS_V2 / CAP"
+}
+
+central_io: {
+  label: "Central Channels"
+  metadata: "Alias / Metadata"
+  assignment: "authoritative assignment"
+  command: "Command API / sync confirmation"
+}
+
+ssot.fw -> fw_io.telemetry
+ssot.fw -> fw_io.roster
+ssot.fw -> fw_io.cmd
+ssot.fw -> fw_io.meta
+ssot.fw -> fw_io.caps
+
+ssot.central -> central_io.metadata
+ssot.central -> central_io.assignment
+ssot.app -> blocks
+
+fw_io.telemetry -> blocks.b2
+fw_io.roster -> blocks.b1
+fw_io.roster -> blocks.b3
+fw_io.cmd -> blocks.b4
+fw_io.meta -> blocks.b1
+fw_io.caps -> blocks.b5
+central_io.metadata -> blocks.b1
+central_io.assignment -> blocks.b3
+central_io.command -> blocks.b4
+
+blocks.b1 -> ui.l1
+blocks.b1 -> ui.l2
+blocks.b1 -> ui.l3
+blocks.b2 -> ui.l1
+blocks.b2 -> ui.l2
+blocks.b3 -> ui.l1
+blocks.b3 -> ui.l2
+blocks.b3 -> ui.l3
+blocks.b4 -> ui.l2
+blocks.b4 -> ui.l3
+blocks.b5 -> ui.l2

@@ -1,0 +1,157 @@
+features:
+  RML-FEA-001:
+    spec: shared-spec/feature-telemetry-roster-visibility.md
+    diagram_sources: [shared-spec/feature-telemetry-roster-visibility.d2]
+    requirements: [REQ-001, REQ-003, REQ-004, REQ-005]
+  RML-FEA-002:
+    spec: shared-spec/feature-command-execution-feedback.md
+    diagram_sources: [shared-spec/feature-command-execution-feedback.d2]
+    requirements: [REQ-002, REQ-006]
+  RML-FEA-003:
+    spec: shared-spec/feature-identity-alias-metadata-display.md
+    diagram_sources: [shared-spec/feature-identity-alias-metadata-display.d2]
+    requirements: [REQ-003, REQ-005]
+  RML-FEA-004:
+    spec: shared-spec/feature-assignment-reconciliation.md
+    diagram_sources: [shared-spec/feature-assignment-reconciliation.d2]
+    requirements: [REQ-004]
+
+requirements:
+  REQ-001:
+    artifacts: [BLK-002, STA-001, SEQ-001, PKT-001, PKT-002]
+    acceptance: [AC-001]
+    tests: [TC-001, TC-002]
+  REQ-002:
+    artifacts: [BLK-005, SEQ-001, PKT-003]
+    acceptance: [AC-002]
+    tests: [TC-003]
+  REQ-003:
+    artifacts: [BLK-001, PKT-006]
+    acceptance: [AC-003]
+    tests: [TC-004]
+  REQ-004:
+    artifacts: [BLK-003, STA-002, SEQ-002, PKT-004]
+    acceptance: [AC-004]
+    tests: [TC-005, TC-009]
+  REQ-005:
+    artifacts: [BLK-001, STA-003, SEQ-003, PKT-006]
+    acceptance: [AC-005]
+    tests: [TC-006, TC-010]
+  REQ-006:
+    artifacts: [BLK-004, STA-004, SEQ-004, PKT-005]
+    acceptance: [AC-006]
+    tests: [TC-007, TC-008, TC-011]
+
+acceptance:
+  AC-001:
+    requirement: REQ-001
+    feature: RML-FEA-001
+    tests: [TC-001, TC-002]
+  AC-002:
+    requirement: REQ-002
+    feature: RML-FEA-002
+    tests: [TC-003]
+  AC-003:
+    requirement: REQ-003
+    feature: RML-FEA-003
+    tests: [TC-004]
+  AC-004:
+    requirement: REQ-004
+    feature: RML-FEA-004
+    tests: [TC-005, TC-009]
+  AC-005:
+    requirement: REQ-005
+    feature: RML-FEA-003
+    tests: [TC-006, TC-010]
+  AC-006:
+    requirement: REQ-006
+    feature: RML-FEA-002
+    tests: [TC-007, TC-008, TC-011]
+
+tests:
+  TC-001:
+    acceptance: AC-001
+    requirement: REQ-001
+    feature: RML-FEA-001
+    evidence: [app_screenshot, parsed_telemetry_log]
+  TC-002:
+    acceptance: AC-001
+    requirement: REQ-001
+    feature: RML-FEA-001
+    evidence: [sparse_payload_capture, stale_state_screenshot]
+  TC-003:
+    acceptance: AC-002
+    requirement: REQ-002
+    feature: RML-FEA-002
+    evidence: [caps_payload_capture, gated_ui_screenshot]
+  TC-004:
+    acceptance: AC-003
+    requirement: REQ-003
+    feature: RML-FEA-003
+    evidence: [detail_screen_screenshot, metadata_api_log]
+  TC-005:
+    acceptance: AC-004
+    requirement: REQ-004
+    feature: RML-FEA-004
+    evidence: [dual_gateway_screenshot, central_snapshot_fixture]
+  TC-006:
+    acceptance: AC-005
+    requirement: REQ-005
+    feature: RML-FEA-003
+    evidence: [pending_alias_log, conflict_response_fixture]
+  TC-007:
+    acceptance: AC-006
+    requirement: REQ-006
+    feature: RML-FEA-002
+    evidence: [cmd_v2_write_log, cmd_result_capture]
+  TC-008:
+    acceptance: AC-006
+    requirement: REQ-006
+    feature: RML-FEA-002
+    evidence: [timeout_log, retry_success_log]
+  TC-009:
+    acceptance: AC-004
+    requirement: REQ-004
+    feature: RML-FEA-004
+    evidence: [not_compared_screenshot]
+  TC-010:
+    acceptance: AC-005
+    requirement: REQ-005
+    feature: RML-FEA-003
+    evidence: [no_pending_precedence_screenshot]
+  TC-011:
+    acceptance: AC-006
+    requirement: REQ-006
+    feature: RML-FEA-002
+    evidence: [cmd_result_capture, permission_error_log]
+
+states:
+  STA-001:
+    sequences: [SEQ-001]
+  STA-002:
+    sequences: [SEQ-002]
+  STA-003:
+    sequences: [SEQ-003]
+  STA-004:
+    sequences: [SEQ-004]
+
+packets:
+  PKT-001:
+    sequences: [SEQ-001]
+  PKT-002:
+    sequences: [SEQ-001]
+  PKT-003:
+    sequences: [SEQ-001]
+  PKT-004:
+    sequences: [SEQ-002]
+  PKT-005:
+    sequences: [SEQ-004]
+  PKT-006:
+    sequences: [SEQ-002, SEQ-003]
+
+ssot:
+  firmware: /Users/create94520/Projects/ble_qos_demo/ble_qos_demo_V1.2m/ble_api.yaml
+  app_architecture: /Users/create94520/Projects/ble_qos_demo/ble_qos_app/docs/architecture/APP_ARCHITECTURE.md
+  app_boundary: /Users/create94520/Projects/ble_qos_demo/ble_qos_app/docs/handoffs/2026-03-28-app-architecture-brief.md
+  central_identity: /Users/create94520/Projects/ble_qos_demo/central-device-metadata/docs/specs/data-model.md
+  central_alias: /Users/create94520/Projects/ble_qos_demo/central-device-metadata/docs/specs/alias-sync-spec.md

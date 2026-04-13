@@ -1,0 +1,39 @@
+direction: right
+App: {
+  L1: Device List {
+    shape: rectangle
+    tooltip: 一般使用者 / 巡視者
+  }
+  L2: Device Detail {
+    shape: rectangle
+    tooltip: Installer / 維護人員
+  }
+  L3: Engineer Debug {
+    shape: rectangle
+    tooltip: Engineer / 開發者
+  }
+  L1 -> L2: 點擊卡片
+  L2 -> L3: 隱藏入口 (長按/解鎖)
+}
+
+GW: Gateway {
+  Roster: gw_ed_roster {
+    shape: cylinder
+  }
+  State: gw_point_state {
+    shape: cylinder
+  }
+  QoS: gw_qos {
+    shape: cylinder
+  }
+  Ack: gw_ack {
+    shape: cylinder
+  }
+}
+
+App.L1 <- GW.Roster: point_name, connectivity
+App.L1 <- GW.State: operational_state
+App.L2 <- GW.QoS: Zone, RSSI, PHY, TX Power
+App.L2 <- GW.Ack: sync_state
+App.L3 <- GW.Roster: point_uid, logical_slot, conn_slot
+App.L3 <- GW.State: raw enum values

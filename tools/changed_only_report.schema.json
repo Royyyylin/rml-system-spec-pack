@@ -1,0 +1,149 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Changed Only Report V1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1"
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["report-only"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pass", "warn"]
+    },
+    "changed_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rule_hits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rule_id": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["info", "warn"]
+          },
+          "trigger_files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "required_updates": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "missing_updates": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "review_candidates": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "rule_id",
+          "severity",
+          "trigger_files",
+          "required_updates",
+          "missing_updates",
+          "review_candidates",
+          "notes"
+        ]
+      }
+    },
+    "changed_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "changed_states": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "changed_packets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "manual_exceptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rule_id": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "expires_on": {
+            "type": "string"
+          },
+          "path_glob": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "rule_id",
+          "reason",
+          "owner",
+          "expires_on",
+          "path_glob",
+          "source"
+        ]
+      }
+    },
+    "candidate_gate_rules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "version",
+    "mode",
+    "status",
+    "changed_files",
+    "rule_hits",
+    "changed_requirements",
+    "changed_states",
+    "changed_packets",
+    "manual_exceptions",
+    "candidate_gate_rules"
+  ]
+}

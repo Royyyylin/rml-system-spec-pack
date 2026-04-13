@@ -1,0 +1,23 @@
+# AI-DIAGRAM: required
+# primary_message: Display labels may change, but canonical identity layers must stay separate.
+# reader: newcomer, reviewer
+# template_id: ctx-owner-fallback
+# diagram_type: d2-context
+# layout: left-to-right
+# max_nodes: 5
+# max_groups: 3
+# keep: identity layers, alias precedence, owner boundaries
+# avoid: full rename flow, revision detail, every API field
+
+direction: right
+
+central: "Central\ncentral_ref + alias\nmetadata truth"
+firmware: "Firmware hints\nMAC\nDEVICE_ALIAS\nadv_name"
+app: "App\nstableId + pending alias\nmerge display label"
+precedence: "Display order\npending > central > cached > fw > adv"
+rule: "Rules\nAlias != canonical identity\nMAC = transport only"
+
+central -> app: "authoritative label"
+firmware -> app: "fallback names"
+app -> precedence: "display result"
+rule -> app: "boundary"

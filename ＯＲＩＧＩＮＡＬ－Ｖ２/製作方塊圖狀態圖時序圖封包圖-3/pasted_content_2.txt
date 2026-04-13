@@ -1,0 +1,251 @@
+你現在做的是「第二輪補件」，不是重做。
+
+目標：
+把目前的 App Display Contract 規格包，從「骨架/示例包」補成「正式可用包」。
+
+你必須基於現有內容延伸，不要推翻重做。
+尤其不要重畫或重命名我現有的四類工程圖，除非你能指出明確錯誤。
+現有四類圖：
+- block_diagram
+- state_diagram
+- sequence_diagram
+- packet_diagram
+
+====================
+一、這一輪的任務定義
+====================
+
+目前已有：
+- 上游 RML-lite 架構
+- 下游工程圖架構
+- STEP 1~5 分析
+- 文件骨架與示例
+- Change Impact Rules
+- 初步 trace_map.yaml 範本
+
+但目前還缺：
+1. 把規劃中的文件真正落成獨立檔案
+2. 定義單一真相來源（Source of Truth）
+3. 把 trace_map.yaml 補成可機器讀取、可用於腳本/CI 的正式版
+4. 把 acceptance criteria / test cases 從示例補到完整覆蓋
+5. 補上 conflict / reboot recovery / error packet / boundary test / toolchain spec
+6. 讓整包可直接交給 Claude / ChatGPT / Codex / 腳本 繼續維護
+
+你的任務是補這些，不要偏題。
+
+====================
+二、嚴格輸出目標
+====================
+
+請直接產出「正式檔案內容」，不是再產生一份分析報告。
+
+你要交付的正式檔案如下：
+
+docs/
+  rml_lite.md
+  requirements.md
+  architecture.md
+  state_machine.md
+  sequence_flows.md
+  packet_contract.md
+  acceptance_criteria.md
+  test_cases.md
+  README.md
+
+trace/
+  trace_map.yaml
+  change_rules.md
+  source_of_truth.md
+
+tools/
+  trace_lint_spec.md
+  changed_only_report.schema.json
+
+注意：
+- 這次是要產出這些檔案的正式內容
+- 不要只給目錄樹
+- 不要只給骨架標題
+- 不要只給示例兩三條就停
+- 內容要足夠讓下一個 AI 直接接手
+
+====================
+三、最重要的補件要求
+====================
+
+### A. Source of Truth 要寫死
+請建立 trace/source_of_truth.md，明確定義：
+
+1. 哪些檔案是唯一真相來源
+2. 哪些檔案只是 render artifacts
+3. 哪些圖片禁止手動修改
+4. 修改流程順序
+
+必須明確寫出類似這種規則：
+- `.mmd` / `.d2` / `.md` / `.yaml` 才是可編輯真相來源
+- `.png` 只是 render output，不可作為規格真相來源
+- 若 png 與原始碼不一致，以原始碼為準
+- 修改圖時必須先改 `.mmd` / `.d2`，再重新 render png
+
+### B. trace_map.yaml 要變成正式版
+請把目前的 trace_map.yaml 範本補成正式版，至少包含：
+
+- requirement_to_artifacts
+- requirement_to_acceptance
+- requirement_to_tests
+- artifact_to_requirements
+- acceptance_to_tests
+- state_to_sequences
+- packet_to_sequences
+- owners
+- source_of_truth
+- sync_rules
+- evidence_requirements
+
+要求：
+- 不只 REQ-001 / REQ-002
+- 請覆蓋目前這個 App Display Contract 內實際存在的主要需求
+- 若缺資訊，請建立 TODO 欄位而不是跳過
+
+### C. Acceptance / Test 要補齊
+請把 acceptance_criteria.md 與 test_cases.md 從「示例」補到「正式可用初版」。
+
+最低要求：
+1. 每個 REQ / STA / SEQ / PKT 至少對應 1 個 AC
+2. 每個 AC 至少對應 1 個 TC
+3. 每個 AC 必須有：
+   - Preconditions
+   - Trigger
+   - Observable Result
+   - Timing Bound
+   - Pass Condition
+   - Fail Condition
+   - Measurement Method
+4. 每個 TC 必須有：
+   - Setup
+   - Steps
+   - Expected Result
+   - Logs / Evidence
+   - Test Type
+
+### D. 補上缺的風險與異常閉環
+請新增並正式寫入文件：
+
+1. RML-RSK-002：App 與 GW 狀態不一致時的權威來源判定規則
+2. RML-RSK-003：裝置重啟後的恢復路徑
+3. PKT-002：Error Packet 規格
+4. AC / TC：針對 error packet 的驗收與測試
+5. TC-003 以上：至少補一組 boundary test，覆蓋：
+   - RSSI 臨界值
+   - Zone 邊界
+   - sync timeout / retry exhaustion
+6. 若 `needs_review` 有鎖定規則，請補對應 AC / TC
+
+### E. 補上通訊與量測工具鏈規格
+請在適合的文件中補上：
+
+1. BLE 量測工具鏈
+   - 封包模擬器
+   - BLE Sniffer
+   - App log
+   - GW log
+2. 哪些 AC 需要哪種證據
+3. 每個測試案例最少要收哪些 log / screenshot / trace
+
+### F. README 要能當入口
+請新增 docs/README.md，明確寫：
+
+1. 先看哪份文件
+2. PM 要看哪幾份
+3. Firmware 要看哪幾份
+4. QA 要看哪幾份
+5. 改需求時先改哪裡
+6. 改圖時先改哪裡
+7. AI 接手時最少要餵哪些檔案
+
+### G. 補腳本介面規格
+這次不用真的寫 Python 腳本，但要定義腳本接口規格。
+
+請新增：
+1. tools/trace_lint_spec.md
+2. tools/changed_only_report.schema.json
+
+內容要定義未來腳本要檢查什麼：
+- 需求改了但 AC / TC 沒改
+- State 改了但 Sequence 沒改
+- Packet 改了但 parser / test 沒改
+- 缺 trace link
+- 缺 evidence requirement
+
+JSON schema 至少包含：
+- changed_files
+- changed_requirements
+- changed_states
+- changed_packets
+- impacted_artifacts
+- missing_updates
+- evidence_gaps
+- desync_risks
+
+====================
+四、工作方式
+====================
+
+請按照以下順序工作：
+
+Step 1.
+先列出「這次要新增哪些正式檔案、更新哪些既有檔案」
+
+Step 2.
+直接輸出每個正式檔案的完整內容
+格式如下：
+
+=== FILE: docs/rml_lite.md ===
+<內容>
+
+=== FILE: docs/requirements.md ===
+<內容>
+
+...依序輸出全部檔案
+
+Step 3.
+最後輸出一份簡短收尾報告，內容只包含：
+- New files
+- Updated files
+- Remaining TODOs
+- Top 3 residual risks
+
+====================
+五、嚴格限制
+====================
+
+- 不要重做現有四張圖
+- 不要再產生 STEP 1~5 式分析報告
+- 不要只給骨架
+- 不要用「略」「同上」「可自行補充」
+- 不要把 PNG 當 source of truth
+- 不要忽略 timeout / retry / failure / recovery
+- 不要忽略 toolchain / evidence
+- 不要省略 traceability
+- 不要只覆蓋 REQ，還要覆蓋 STA / SEQ / PKT
+- 若資訊不足，請明確標記 TODO 與假設，不可直接跳過
+
+====================
+六、Definition of Done
+====================
+
+只有同時滿足以下條件才算完成：
+
+1. docs/ 與 trace/ 的正式檔案都已產出
+2. source_of_truth.md 已明確定義唯一真相來源
+3. trace_map.yaml 已不是範本，而是正式可用初版
+4. acceptance_criteria.md 與 test_cases.md 已從示例擴展到完整初版
+5. 已加入 RML-RSK-002 / RML-RSK-003
+6. 已加入 PKT-002 Error Packet
+7. 已加入至少一組 boundary test
+8. 已補上 BLE toolchain / evidence 規格
+9. 已提供 README 入口文件
+10. 已提供 trace lint 與 changed_only_report schema 規格
+11. 所有內容都能給後續 AI 或腳本直接接手
+12. 沒有把任務退回給我自行整理
+
+請開始執行。

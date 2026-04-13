@@ -1,0 +1,3 @@
+# Temporary exceptions consumed by tools/changed_only_report.py.
+# Keep entries narrow, time-bounded, and reviewable.
+exceptions: []

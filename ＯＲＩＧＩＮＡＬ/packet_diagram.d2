@@ -1,0 +1,37 @@
+direction: right
+Packet: GATT STATUS Characteristic (0x2A1D) {
+  shape: sql_table
+  Header: {
+    shape: rectangle
+    label: "Header (1 Byte)"
+  }
+  Zone: {
+    shape: rectangle
+    label: "Zone (1 Byte)\n0: NEAR, 1: MID, 2: FAR, 3: EDGE"
+  }
+  RSSI: {
+    shape: rectangle
+    label: "RSSI (1 Byte)\nSigned Integer (dBm)"
+  }
+  PHY: {
+    shape: rectangle
+    label: "PHY (1 Byte)\n0: 1M, 1: 2M, 2: Coded"
+  }
+  TX_Power: {
+    shape: rectangle
+    label: "TX Power (1 Byte)\n-8 to +8 dBm"
+  }
+  Reserved: {
+    shape: rectangle
+    label: "Reserved (N Bytes)"
+  }
+}
+
+Roster_Entry: GW Roster Entry (Phase 2) {
+  shape: sql_table
+  UID: "point_uid (2 Bytes)"
+  Slot: "logical_slot (1 Byte)"
+  OpState: "operational_state (1 Byte)"
+  SyncState: "sync_state (1 Byte)"
+  Identity: "device_identity (6 Bytes)"
+}

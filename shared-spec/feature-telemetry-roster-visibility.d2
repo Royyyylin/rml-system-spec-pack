@@ -1,0 +1,23 @@
+# AI-DIAGRAM: required
+# primary_message: App must show runtime observation and authoritative metadata side by side.
+# reader: newcomer, reviewer
+# template_id: ctx-owner-merge-state
+# diagram_type: d2-context
+# layout: left-to-right
+# max_nodes: 5
+# max_groups: 3
+# keep: truth owners, merge point, 3 boundary rules
+# avoid: packet-level detail, every exception path
+
+direction: right
+
+firmware: "Firmware\nruntime observation\nSTATUS / METRICS / ROSTER"
+central: "Central\nauthoritative metadata\nassignment + sync"
+app: "App\nmerge for people\nshow both layers"
+states: "Value states\npresent\nsparse\nstale\nunknown\nnot_synced"
+rule: "Rules\nruntime != assignment\nROSTER != inventory"
+
+firmware -> app: "runtime"
+central -> app: "authoritative"
+app -> states: "derive display"
+rule -> app: "boundary"

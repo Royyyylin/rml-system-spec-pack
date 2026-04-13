@@ -1,0 +1,157 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="第 1 页" id="fea001-page1">
+    <mxGraphModel dx="2125" dy="450" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-8" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#B8BEC8;strokeWidth=1.5;fontColor=#111827;fontSize=20;align=left;verticalAlign=top;spacingTop=10;spacingLeft=16;" value="Boundary Rules" vertex="1">
+          <mxGeometry height="150" width="1330" x="60" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-7" parent="1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#25272C;strokeColor=#8E949C;strokeWidth=2;fontColor=#F3F4F6;fontSize=24;fontStyle=1;align=left;verticalAlign=top;spacingTop=14;spacingLeft=18;" value="Conflict Detail Page" vertex="1">
+          <mxGeometry height="410" width="260" x="1130" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-6" parent="1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#BFDFF0;strokeColor=#1E6C94;strokeWidth=2;fontColor=#000000;fontSize=24;fontStyle=1;align=left;verticalAlign=top;spacingTop=14;spacingLeft=18;" value="App" vertex="1">
+          <mxGeometry height="390" width="360" x="720" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-5" parent="1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#D4D0E9;strokeColor=#5B5582;strokeWidth=2;fontColor=#000000;fontSize=24;fontStyle=1;align=left;verticalAlign=top;spacingTop=14;spacingLeft=18;" value="Central" vertex="1">
+          <mxGeometry height="390" width="280" x="380" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-4" parent="1" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#CFE4D6;strokeColor=#4A7B5A;strokeWidth=2;fontColor=#000000;fontSize=24;fontStyle=1;align=left;verticalAlign=top;spacingTop=14;spacingLeft=18;" value="Firmware" vertex="1">
+          <mxGeometry height="390" width="280" x="60" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-9" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=16;fontColor=#4B5563;" value="第一手 runtime observation" vertex="1">
+          <mxGeometry height="22" width="210" x="95" y="228" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-10" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=16;fontColor=#4B5563;" value="權威 metadata 與 sync" vertex="1">
+          <mxGeometry height="22" width="210" x="415" y="228" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-11" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=16;fontColor=#4B5563;" value="衝突入口 gate" vertex="1">
+          <mxGeometry height="22" width="270" x="765" y="228" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-12" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=16;fontColor=#D1D5DB;" value="點擊後才看雙方細節" vertex="1">
+          <mxGeometry height="22" width="200" x="1160" y="228" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-13" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#17191D;strokeColor=#8694A5;strokeWidth=1.5;fontColor=#F7FAFC;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="STATUS / METRICS_V2" vertex="1">
+          <mxGeometry height="56" width="220" x="90" y="276" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-14" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#17191D;strokeColor=#8694A5;strokeWidth=1.5;fontColor=#F7FAFC;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="ROSTER_LIST / EVT" vertex="1">
+          <mxGeometry height="56" width="220" x="90" y="354" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-15" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#17191D;strokeColor=#8694A5;strokeWidth=1.5;fontColor=#F7FAFC;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="runtime telemetry / roster" vertex="1">
+          <mxGeometry height="62" width="220" x="90" y="432" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-16" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#17191D;strokeColor=#8694A5;strokeWidth=1.5;fontColor=#F7FAFC;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="metadata / identity" vertex="1">
+          <mxGeometry height="56" width="220" x="410" y="276" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-17" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#17191D;strokeColor=#8694A5;strokeWidth=1.5;fontColor=#F7FAFC;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="assignment + sync" vertex="1">
+          <mxGeometry height="56" width="220" x="410" y="354" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-18" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#17191D;strokeColor=#8694A5;strokeWidth=1.5;fontColor=#F7FAFC;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="alias / role / health" vertex="1">
+          <mxGeometry height="62" width="220" x="410" y="432" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-19" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#17191D;strokeColor=#8694A5;strokeWidth=1.5;fontColor=#F7FAFC;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="Detect mismatch" vertex="1">
+          <mxGeometry height="56" width="260" x="770" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-20" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#17191D;strokeColor=#8694A5;strokeWidth=1.5;fontColor=#F7FAFC;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="Show conflict box on main page" vertex="1">
+          <mxGeometry height="58" width="320" x="740" y="334" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-21" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#17191D;strokeColor=#8694A5;strokeWidth=1.5;fontColor=#F7FAFC;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="No mismatch -&gt; no conflict box" vertex="1">
+          <mxGeometry height="62" width="360" x="720" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-22" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F7E8E8;strokeColor=#D46A6A;strokeWidth=1.5;fontColor=#8A1F1F;fontSize=17;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="Open detail page after tap" vertex="1">
+          <mxGeometry height="62" width="320" x="740" y="492" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-23" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#D4D0E9;strokeColor=#5B5582;strokeWidth=1.5;fontColor=#111827;fontSize=17;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="Firmware state" vertex="1">
+          <mxGeometry height="42" width="180" x="1170" y="276" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-24" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#CFE4D6;strokeColor=#4A7B5A;strokeWidth=1.5;fontColor=#111827;fontSize=17;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="Central state" vertex="1">
+          <mxGeometry height="42" width="180" x="1170" y="336" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-25" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F2D35B;strokeColor=#C7A100;strokeWidth=1.5;fontColor=#111827;fontSize=17;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="Field operator decides" vertex="1">
+          <mxGeometry height="46" width="220" x="1150" y="396" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-26" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#BFDFF0;strokeColor=#1E6C94;strokeWidth=1.5;fontColor=#111827;fontSize=17;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="Follow Firmware" vertex="1">
+          <mxGeometry height="46" width="200" x="1160" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-27" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#6B7280;strokeWidth=1.5;fontColor=#111827;fontSize=17;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="Follow Central" vertex="1">
+          <mxGeometry height="46" width="200" x="1160" y="524" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-28" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=16;fontColor=#4B5563;" value="1. mismatch -&gt; show conflict box" vertex="1">
+          <mxGeometry height="24" width="360" x="96" y="686" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-29" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=16;fontColor=#4B5563;" value="2. no mismatch -&gt; no conflict box" vertex="1">
+          <mxGeometry height="24" width="360" x="96" y="722" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-30" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=16;fontColor=#4B5563;" value="3. detail page shows both sides before human decision" vertex="1">
+          <mxGeometry height="24" width="420" x="96" y="758" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-31" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=18;fontColor=#374151;" value="衝突入口只在不一致時出現。主頁不直接攤開雙方細節，點入 detail page 才比較 Firmware 與 Central。" vertex="1">
+          <mxGeometry height="64" width="700" x="640" y="688" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-32" edge="1" parent="1" source="XD3rxm2rLfgqVbCXmS1k-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;strokeColor=#4A7B5A;endArrow=blockThin;endFill=1;fontColor=#4B5563;labelBackgroundColor=#FFFFFF;fontSize=16;" target="XD3rxm2rLfgqVbCXmS1k-20" value="runtime">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="360" y="382" />
+              <mxPoint x="360" y="600" />
+              <mxPoint x="700" y="600" />
+              <mxPoint x="700" y="369" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-33" edge="1" parent="1" source="XD3rxm2rLfgqVbCXmS1k-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;strokeColor=#4A7B5A;endArrow=blockThin;endFill=1;fontColor=#4B5563;labelBackgroundColor=#FFFFFF;fontSize=16;" target="XD3rxm2rLfgqVbCXmS1k-19" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="360" y="304" />
+              <mxPoint x="360" y="180" />
+              <mxPoint x="690" y="180" />
+              <mxPoint x="690" y="293" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-34" edge="1" parent="1" source="XD3rxm2rLfgqVbCXmS1k-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;strokeColor=#5B5582;endArrow=blockThin;endFill=1;fontColor=#4B5563;labelBackgroundColor=#FFFFFF;fontSize=16;" target="XD3rxm2rLfgqVbCXmS1k-20" value="authoritative">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="690" y="304" />
+              <mxPoint x="690" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-35" edge="1" parent="1" source="XD3rxm2rLfgqVbCXmS1k-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;strokeColor=#5B5582;endArrow=blockThin;endFill=1;fontColor=#4B5563;labelBackgroundColor=#FFFFFF;fontSize=16;" target="XD3rxm2rLfgqVbCXmS1k-22" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="690" y="382" />
+              <mxPoint x="690" y="531" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-36" edge="1" parent="1" source="XD3rxm2rLfgqVbCXmS1k-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;dashed=1;dashPattern=6 4;strokeWidth=1.5;strokeColor=#B06D00;endArrow=blockThin;endFill=1;fontColor=#8A5A00;labelBackgroundColor=#FFFFFF;fontSize=16;" target="XD3rxm2rLfgqVbCXmS1k-21" value="boundary">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="620" />
+              <mxPoint x="900" y="449" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-37" edge="1" parent="1" source="XD3rxm2rLfgqVbCXmS1k-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;strokeColor=#8A9099;endArrow=blockThin;endFill=1;fontColor=#4B5563;labelBackgroundColor=#FFFFFF;fontSize=16;" target="XD3rxm2rLfgqVbCXmS1k-25" value="open detail">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1100" y="449" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=34;fontStyle=1;fontColor=#EEF2F7;" value="RML-FEA-001 Telemetry 與 Roster 可見性" vertex="1">
+          <mxGeometry height="42" width="1160" x="220" y="18" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontColor=#D5DBE3;" value="App 只在 Firmware 與 Central 不一致時顯示衝突入口" vertex="1">
+          <mxGeometry height="28" width="1160" x="220" y="56" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-3" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#5C4207;strokeColor=#D4AF65;strokeWidth=2;fontColor=#F6E7B0;fontSize=17;fontStyle=1;align=center;verticalAlign=middle;spacing=10;" value="主頁不直接攤開雙方細節。只有 mismatch 時顯示 conflict box；點擊後才進 detail page 比較 Firmware 與 Central。" vertex="1">
+          <mxGeometry height="54" width="1160" x="220" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="XD3rxm2rLfgqVbCXmS1k-38" parent="1" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F9FAFB;strokeColor=#B8BEC8;strokeWidth=1.5;fontColor=#374151;fontSize=11;align=left;verticalAlign=top;spacingTop=8;spacingLeft=10;" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;b style=&quot;&quot;&gt;中英對照 / Bilingual Glossary&lt;/b&gt;&lt;span style=&quot;line-height: 1.22;&quot;&gt;Telemetry 與 Roster 可見性&lt;br&gt;Telemetry &amp;amp; Roster Visibility&lt;br&gt;&lt;br&gt;App 只在 Firmware 與 Central 不一致時顯示衝突入口&lt;br&gt;App only shows a conflict entry when Firmware and Central disagree&lt;br&gt;&lt;br&gt;主頁不直接攤開雙方細節。只有 mismatch 時顯示 conflict box；點擊後才進 detail page 比較 Firmware 與 Central。&lt;br&gt;The main page does not expand both sides directly. It only shows a conflict box on mismatch; tapping it opens a detail page to compare Firmware and Central.&lt;br&gt;&lt;br&gt;第一手 runtime observation&lt;br&gt;First-hand runtime observation&lt;br&gt;&lt;br&gt;權威 metadata 與 sync&lt;br&gt;Authoritative metadata and sync&lt;br&gt;&lt;br&gt;衝突入口 gate&lt;br&gt;Conflict-entry gate&lt;br&gt;&lt;br&gt;點擊後才看雙方細節&lt;br&gt;Only view both sides after tapping&lt;br&gt;&lt;br&gt;衝突入口只在不一致時出現。主頁不直接攤開雙方細節，點入 detail page 才比較 Firmware 與 Central。&lt;br&gt;The conflict entry only appears on mismatch. The main page does not expand both sides directly; users compare Firmware and Central only in the detail page.&lt;br&gt;&lt;br&gt;實際狀態 != 指派預期&lt;br&gt;runtime != assignment&lt;br&gt;&lt;br&gt;現場名單 != 中央名冊&lt;br&gt;ROSTER != inventory&lt;br&gt;&lt;br&gt;欄位稀疏 != 錯誤 / 資料遺失&lt;br&gt;sparse != error / data loss&lt;/span&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="760" width="700" x="1450" y="98" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+      </diagram>
+</mxfile>

@@ -1,0 +1,48 @@
+%% AI-DIAGRAM: required
+%% primary_message: Assignment reconciliation and command execution are separate top-level state machines.
+%% reader: engineer, reviewer
+%% template_id: state-dual-fsm
+%% diagram_type: stateDiagram-v2
+%% layout: top-to-bottom
+%% max_nodes: 10
+%% max_groups: 2
+%% keep: main reconciliation states, command retry path
+%% avoid: API payload detail, rare edge cases
+
+stateDiagram-v2
+  state "Assignment Sync" as Assign {
+    state "Pending" as pending_reconciliation
+    state "Central Only" as central_only
+    [*] --> confirmed
+    confirmed --> pending_reconciliation : runtime changed first
+    confirmed --> central_only : Central changed first
+    confirmed --> orphaned : neither source
+    pending_reconciliation --> confirmed : sources converge
+    pending_reconciliation --> conflict : both sides active, differ
+    orphaned --> confirmed : recovered assignment
+    orphaned --> pending_reconciliation : runtime appears first
+    central_only --> confirmed : runtime catches up
+    conflict --> confirmed : sources converge
+  }
+
+  %% separate top-level composite states
+
+  state "Command Feedback" as Cmd {
+    state "In Flight" as in_flight
+    state "Accepted" as accepted
+    state "Retrying" as retrying
+    state "Timed Out" as timed_out
+    [*] --> idle
+    idle --> in_flight : send command
+    in_flight --> accepted : Central path accepted
+    accepted --> succeeded : metadata / sync confirmed
+    in_flight --> succeeded : Firmware path CMD_RESULT success
+    in_flight --> failed : error / rejected / denied
+    accepted --> failed : authoritative failure
+    in_flight --> timed_out : no result in time
+    accepted --> timed_out : no sync in time
+    failed --> retrying : retry same intent
+    timed_out --> retrying : retry same intent
+    retrying --> in_flight : resend
+    succeeded --> idle : settle
+  }

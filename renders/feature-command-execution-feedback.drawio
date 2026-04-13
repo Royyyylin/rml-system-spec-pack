@@ -1,0 +1,262 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="第 1 页" id="fea002-page1">
+    <mxGraphModel dx="6427" dy="1022" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="2100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="RML-FEA-002 Command Execution and Feedback" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=light-dark(#1f2933,#f3f4f6);whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="1180" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Current connected peer decides the legal command path; feedback then explains progress." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontColor=light-dark(#4b5563,#d1d5db);whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="20" y="58" width="1450" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="banner" value="Reality-first read: App sends one command inside the current active session. That session decides whether the live path is Central-side or Firmware-side." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1f3b5b;strokeColor=#16324f;strokeWidth=2;fontColor=#f4f8ff;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="20" y="96" width="1810" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="session-container" value="Current Active Session" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d9e8fb;strokeColor=#6c8ebf;strokeWidth=2;fontColor=#1f3b5b;fontSize=24;fontStyle=1;align=left;verticalAlign=top;spacingTop=16;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="-10" y="170" width="310" height="760" as="geometry" />
+        </mxCell>
+        <mxCell id="session-note" value="App can operate on only one connected peer at a time." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=1.5;fontColor=#1f2933;fontSize=15;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="45" y="225" width="230" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="peer-central" value="CC bridge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;fontColor=#1f2933;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="55" y="345" width="210" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="peer-gateway" value="Gateway" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;fontColor=#1f2933;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="55" y="450" width="210" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="peer-end-device" value="End Device" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;fontColor=#1f2933;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="55" y="555" width="210" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="session-rule" value="Connect to one peer only.&#xa;That peer decides which live command path is legal." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=1.5;fontColor=#1f2933;fontSize=15;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="45" y="680" width="230" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="app-container" value="App Command Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#8a8a8a;strokeWidth=2;fontColor=#333333;fontSize=24;fontStyle=1;align=left;verticalAlign=top;spacingTop=16;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="330" y="170" width="280" height="760" as="geometry" />
+        </mxCell>
+        <mxCell id="app-note" value="User action becomes one command intent inside the current active session." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b3b3b3;strokeWidth=1.5;fontColor=#1f2933;fontSize=15;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="355" y="225" width="230" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="user-action" value="User action" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#8a8a8a;strokeWidth=2;fontColor=#1f2933;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="365" y="355" width="200" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="command-intent" value="Command intent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#8a8a8a;strokeWidth=2;fontColor=#1f2933;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="365" y="460" width="200" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="pending-ui" value="Pending / retry UI&#xa;App local feedback" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="365" y="565" width="200" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="gate-container" value="Path Decision" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7d6;strokeColor=#c9a227;strokeWidth=2;fontColor=#3b2f16;fontSize=24;fontStyle=1;align=left;verticalAlign=top;spacingTop=16;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="640" y="170" width="260" height="760" as="geometry" />
+        </mxCell>
+        <mxCell id="gate-note" value="Current connected peer decides which live command path is legal." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#c9a227;strokeWidth=1.5;fontColor=#3b2f16;fontSize=15;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="665" y="225" width="210" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="gate-box" value="Current connected peer&#xa;decides the legal path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#1f2933;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="665" y="355" width="210" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="gate-rule" value="CC bridge -&gt; Central-side path&#xa;Gateway / End Device -&gt; Firmware-side path&#xa;&#xa;Do not send one live command down both paths at once." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#c9a227;strokeWidth=1.5;fontColor=#3b2f16;fontSize=15;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="665" y="560" width="210" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="central-container" value="Central-side Path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontColor=#1f3b5b;fontSize=24;fontStyle=1;align=left;verticalAlign=top;spacingTop=16;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="930" y="170" width="400" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="central-note" value="Used when current session is CC bridge;&#xa;Central stays the authority owner." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=1.5;fontColor=#1f2933;fontSize=15;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="955" y="225" width="350" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="central-accepted" value="Command API accepted" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="965" y="325" width="150" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="central-mutation" value="Authoritative mutation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1145" y="325" width="150" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="central-confirm" value="Metadata / sync&#xa;confirmation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1055" y="415" width="170" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="firmware-container" value="Firmware-side Path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;fontColor=#274e13;fontSize=24;fontStyle=1;align=left;verticalAlign=top;spacingTop=16;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="930" y="520" width="400" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="firmware-note" value="Used when current session is Gateway / End Device." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=1.5;fontColor=#1f2933;fontSize=15;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="955" y="575" width="350" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cmd-v2" value="CMD_V2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="965" y="675" width="140" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="cmd-result" value="CMD_RESULT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="675" width="140" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="runtime-observation" value="Runtime&#xa;observation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1045" y="765" width="180" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="feedback-container" value="Feedback Semantics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7d6;strokeColor=#c9a227;strokeWidth=2;fontColor=#3b2f16;fontSize=24;fontStyle=1;align=left;verticalAlign=top;spacingTop=16;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="1360" y="170" width="470" height="760" as="geometry" />
+        </mxCell>
+        <mxCell id="feedback-note" value="UI feedback explains where the command is in the lifecycle." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#c9a227;strokeWidth=1.5;fontColor=#3b2f16;fontSize=15;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1385" y="225" width="420" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="accepted-state" value="accepted" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#c9a227;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1395" y="325" width="170" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="succeeded-state" value="succeeded" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1590" y="325" width="170" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="failed-state" value="failed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1395" y="405" width="170" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="timed-out-state" value="timed_out" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1590" y="405" width="170" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="retrying-state" value="retrying" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1490" y="485" width="170" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="final-applied-state" value="final state applied" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1470" y="575" width="210" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="warn-accepted" value="accepted !=&#xa;final state applied" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1395" y="685" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="warn-cmd-result" value="CMD_RESULT !=&#xa;Central truth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1600" y="685" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="warn-retry" value="retry keeps the same&#xa;command intent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontColor=#1f2933;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1490" y="805" width="200" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="glossary-left" value="中英對照 / Bilingual Glossary&#xa;&#xa;Command Execution and Feedback = 指令執行與回饋&#xa;Current connected peer decides the legal command path; feedback then explains progress. = 當前連線對象決定合法的指令路徑；回饋再解釋進度&#xa;Reality-first read: App sends one command inside the current active session. That session decides whether the live path is Central-side or Firmware-side. = 以現實為先的讀法：應用程式在當前工作階段內送出一個指令；該工作階段決定走中央側還是韌體側路徑&#xa;Current Active Session = 當前工作階段&#xa;App can operate on only one connected peer at a time. = 應用程式一次只能操作一個已連線對象&#xa;CC bridge = CC 橋接韌體&#xa;Gateway = 閘道&#xa;End Device = 終端裝置&#xa;Connect to one peer only. = 一次只連一個對象&#xa;That peer decides which live command path is legal. = 由該對象決定哪條即時指令路徑合法&#xa;App Command Layer = 應用程式指令層&#xa;User action becomes one command intent inside the current active session. = 使用者操作會在當前工作階段內形成一個指令意圖&#xa;User action = 使用者操作&#xa;Command intent = 指令意圖&#xa;Pending / retry UI = 等待中 / 重試介面&#xa;App local feedback = 應用程式本地回饋&#xa;Path Decision = 路徑判斷&#xa;Current connected peer decides which live command path is legal. = 當前連線對象決定哪條即時指令路徑合法&#xa;Current connected peer = 當前連線對象&#xa;decides the legal path = 決定合法路徑&#xa;selected peer = 已選對象&#xa;current command = 當前指令&#xa;if CC bridge = 若為 CC 橋接韌體&#xa;if Gateway / End Device = 若為閘道 / 終端裝置" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7d6;strokeColor=#c9a227;strokeWidth=2;fontColor=#3b2f16;fontSize=13;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="20" y="1040" width="890" height="830" as="geometry" />
+        </mxCell>
+        <mxCell id="glossary-right" value="中英對照 / Bilingual Glossary&#xa;&#xa;CC bridge -&gt; Central-side path = 連到 CC 橋接韌體 -&gt; 走中央側路徑&#xa;Gateway / End Device -&gt; Firmware-side path = 連到閘道 / 終端裝置 -&gt; 走韌體側路徑&#xa;Do not send one live command down both paths at once. = 不要讓單一即時指令同時走兩條路徑&#xa;Central-side Path = 中央側路徑&#xa;Used when current session is CC bridge; Central stays the authority owner. = 當前工作階段為 CC 橋接韌體時使用；Central 仍是權威真相擁有者&#xa;Command API accepted = 指令 API 已接受&#xa;Authoritative mutation = 權威狀態變更&#xa;Metadata / sync confirmation = 主資料 / 同步確認&#xa;Metadata / sync = 主資料 / 同步&#xa;confirmation = 確認&#xa;Firmware-side Path = 韌體側路徑&#xa;Used when current session is Gateway / End Device. = 當前工作階段為閘道 / 終端裝置時使用&#xa;CMD_V2 = 指令通道 V2&#xa;CMD_RESULT = 指令結果&#xa;Runtime observation = 執行期觀測&#xa;Feedback Semantics = 回饋語意&#xa;UI feedback explains where the command is in the lifecycle. = UI 回饋說明指令目前位於哪個生命週期階段&#xa;accepted = 已接受&#xa;succeeded = 已成功&#xa;failed = 已失敗&#xa;timed_out = 已逾時&#xa;retrying = 重試中&#xa;final state applied = 最終狀態已套用&#xa;accepted != final state applied = 已接受 不等於 最終狀態已套用&#xa;CMD_RESULT != Central truth = CMD_RESULT 不等於中央真值&#xa;retry keeps the same command intent = 重試保留同一個指令意圖&#xa;show pending = 顯示等待中" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7d6;strokeColor=#c9a227;strokeWidth=2;fontColor=#3b2f16;fontSize=13;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="940" y="1040" width="890" height="830" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#8a8a8a;" edge="1" parent="1" source="user-action" target="command-intent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="show pending" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#8a8a8a;fontColor=#4b5563;labelBackgroundColor=#ffffff;fontSize=14;" edge="1" parent="1" source="command-intent" target="pending-ui">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="selected peer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#6c8ebf;fontColor=#4b5563;labelBackgroundColor=#ffffff;fontSize=14;" edge="1" parent="1" source="session-note" target="gate-box">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="310" y="267" />
+              <mxPoint x="310" y="330" />
+              <mxPoint x="770" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" value="current command" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#8a8a8a;fontColor=#4b5563;labelBackgroundColor=#ffffff;fontSize=14;" edge="1" parent="1" source="command-intent" target="gate-box">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="492" />
+              <mxPoint x="620" y="415" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" value="if CC bridge" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#6c8ebf;fontColor=#4b5563;labelBackgroundColor=#ffffff;fontSize=14;" edge="1" parent="1" source="gate-box" target="central-accepted">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="910" y="385" />
+              <mxPoint x="910" y="357" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" value="if Gateway / End Device" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#82b366;fontColor=#4b5563;labelBackgroundColor=#ffffff;fontSize=14;" edge="1" parent="1" source="gate-box" target="cmd-v2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="910" y="445" />
+              <mxPoint x="910" y="710" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="central-accepted" target="central-mutation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="central-mutation" target="central-confirm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#c9a227;" edge="1" parent="1" source="central-accepted" target="accepted-state">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1040" y="300" />
+              <mxPoint x="1480" y="300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="central-confirm" target="final-applied-state">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1140" y="500" />
+              <mxPoint x="1410" y="500" />
+              <mxPoint x="1410" y="607" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#82b366;" edge="1" parent="1" source="cmd-v2" target="cmd-result">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#82b366;" edge="1" parent="1" source="cmd-result" target="runtime-observation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#82b366;" edge="1" parent="1" source="runtime-observation" target="succeeded-state">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1340" y="801" />
+              <mxPoint x="1340" y="390" />
+              <mxPoint x="1675" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#b85450;" edge="1" parent="1" source="cmd-result" target="failed-state">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1350" y="707" />
+              <mxPoint x="1350" y="433" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#d6b656;" edge="1" parent="1" source="pending-ui" target="retrying-state">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="630" y="603" />
+              <mxPoint x="630" y="513" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#b85450;" edge="1" parent="1" source="pending-ui" target="timed-out-state">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="465" y="980" />
+              <mxPoint x="1850" y="980" />
+              <mxPoint x="1850" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#d6b656;" edge="1" parent="1" source="accepted-state" target="warn-accepted">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1370" y="353" />
+              <mxPoint x="1370" y="730" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#b85450;" edge="1" parent="1" source="cmd-result" target="warn-cmd-result">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1350" y="720" />
+              <mxPoint x="1350" y="790" />
+              <mxPoint x="1690" y="790" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=12;html=1;strokeWidth=1.5;endArrow=blockThin;endFill=1;strokeColor=#d6b656;" edge="1" parent="1" source="retrying-state" target="warn-retry">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1710" y="513" />
+              <mxPoint x="1710" y="668" />
+              <mxPoint x="1800" y="668" />
+              <mxPoint x="1800" y="842" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

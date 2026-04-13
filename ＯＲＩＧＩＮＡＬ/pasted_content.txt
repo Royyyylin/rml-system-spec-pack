@@ -1,0 +1,330 @@
+你現在扮演「資深需求工程師 + 韌體系統架構師 + 驗收/測試規格工程師 + 文件治理設計者」。
+
+# 任務目標
+建立一套混合式規格系統：
+
+- 上游：RML-lite（管理目標、角色、範圍、功能分解、流程、約束）
+- 下游：工程圖（Block / State / Sequence / Packet）
+- 橫向：Traceability（需求 → 圖 → 驗收 → 測試 → 實作）
+- 維運：Change Impact Rules（需求變更時的同步更新規則）
+
+最終用途：
+1. 可交給 AI 生成韌體模組與程式碼骨架
+2. 可交給 AI 生成驗收標準與測試案例
+3. 可用於後續 impact-based update
+4. 可版本控制、可 diff、可持續維護
+
+# 重要前提
+我已經有現成的四類工程圖：
+- 方塊圖
+- 狀態圖
+- 時序圖
+- 封包圖 / GATT 結構
+
+你的任務不是推翻重做，而是：
+1. 補上上游 RML-lite
+2. 把上下游串成可追蹤系統
+3. 補齊驗收標準、測試案例、同步更新規則
+4. 找出缺口與風險
+5. 產出可直接落地的文件骨架
+
+除非你能明確指出現有結構有嚴重缺陷，否則不要重做現有工程圖。
+
+# 輸出原則
+- 不要只講方法論
+- 不要只做簡報式整理
+- 不要寫空泛需求
+- 所有驗收條件必須可量測、可測試、可判定 pass/fail
+- 所有文件必須適合後續 Claude / ChatGPT / Codex 接手
+- 優先使用 Markdown / YAML / Mermaid / 結構化表格
+- 嚴格區分上游需求層與下游實作層
+- 必須包含 normal path + timeout + retry + failure + recovery
+- 必須建立穩定 ID 體系，不得混亂命名
+
+# ID 規則
+請使用以下 ID 體系：
+
+上游：
+- RML-OBJ-001 目標
+- RML-ROL-001 角色
+- RML-SCP-001 範圍
+- RML-FEA-001 功能
+- RML-FLW-001 流程
+- RML-CST-001 約束
+- RML-RSK-001 風險
+
+下游：
+- REQ-001 功能需求
+- BLK-001 方塊圖節點/模組需求
+- STA-001 狀態需求
+- SEQ-001 時序需求
+- PKT-001 封包需求
+
+驗收與測試：
+- AC-001 驗收標準
+- TC-001 測試案例
+
+Traceability：
+- 每個 REQ / STA / SEQ / PKT 至少要對應 1 個 AC 與 1 個 TC
+- 若無法對應，必須明確列出缺口
+
+# 必做工作
+請依序完成以下 5 個步驟。
+
+==================================================
+STEP 1 — 現況分析
+==================================================
+
+請分析現有四類工程圖各自負責什麼，並輸出：
+
+1. Block Diagram 負責的資訊範圍
+2. State Diagram 負責的資訊範圍
+3. Sequence Diagram 負責的資訊範圍
+4. Packet Diagram 負責的資訊範圍
+5. 它們目前缺少哪些「上游需求資訊」
+6. 為什麼需要 RML-lite 來補足
+7. 哪些資訊最容易失同步
+
+輸出格式要求：
+- 用表格
+- 每列包含：Artifact / Purpose / Strength / Missing Upstream / Risk
+
+==================================================
+STEP 2 — 建立完整資訊架構
+==================================================
+
+請設計一個最小但完整的文件架構，輸出成樹狀目錄，例如：
+
+docs/
+  rml_lite.md
+  requirements.md
+  architecture.md
+  state_machine.md
+  sequence_flows.md
+  packet_contract.md
+  acceptance_criteria.md
+  test_cases.md
+trace/
+  trace_map.yaml
+  change_rules.md
+
+對每一份文件，請輸出：
+1. Purpose
+2. Why it exists
+3. Required sections
+4. Input dependencies
+5. Output dependencies
+6. Owner role（例如 PM / Firmware / QA / Cross-functional）
+7. Sync trigger（什麼變更會導致它要更新）
+
+==================================================
+STEP 3 — 產出可直接使用的文件骨架
+==================================================
+
+請直接產出以下檔案的 Markdown / YAML 範本內容：
+
+1. docs/rml_lite.md
+2. docs/requirements.md
+3. docs/architecture.md
+4. docs/state_machine.md
+5. docs/sequence_flows.md
+6. docs/packet_contract.md
+7. docs/acceptance_criteria.md
+8. docs/test_cases.md
+9. trace/trace_map.yaml
+10. trace/change_rules.md
+
+要求：
+- 每份文件都要有章節骨架
+- 每份文件都要有至少 2~5 個示例條目
+- 示例條目要互相能 trace
+- 不要用 lorem ipsum
+- 要像真實專案骨架
+- state / packet / acceptance / test 的示例要夠嚴謹
+
+## 特別要求：各文件最低內容
+
+### rml_lite.md
+至少包含：
+- System Goals
+- Stakeholders / Roles
+- Scope / Out of Scope
+- Feature Tree
+- Key Scenarios
+- Constraints
+- Assumptions
+- Risks
+- Open Questions
+
+### requirements.md
+至少包含：
+- Requirement ID
+- Description
+- Rationale
+- Priority
+- Source
+- Related artifacts
+- Acceptance linkage
+- Test linkage
+
+### architecture.md
+至少包含：
+- 模組列表
+- 模組責任
+- 輸入/輸出
+- 外部依賴
+- 與方塊圖對應
+
+### state_machine.md
+至少包含：
+- State list
+- Entry/Exit condition
+- Events
+- Transitions
+- Timeout
+- Retry
+- Failure handling
+- Recovery path
+
+### sequence_flows.md
+至少包含：
+- Actors
+- Trigger
+- Main flow
+- Alternate flow
+- Timeout path
+- Retry path
+- Failure response
+- Related state / packet
+
+### packet_contract.md
+至少包含：
+- Packet ID / Name
+- Direction
+- Field table
+- Byte offset
+- Bit range
+- Type
+- Meaning
+- Valid range
+- Reserved behavior
+- CRC / integrity notes
+- Error handling notes
+
+### acceptance_criteria.md
+至少包含：
+- AC ID
+- Related requirement(s)
+- Preconditions
+- Trigger
+- Observable result
+- Timing bound
+- Pass condition
+- Fail condition
+- Measurement method
+
+### test_cases.md
+至少包含：
+- TC ID
+- Related AC / REQ
+- Test type（normal / boundary / fault injection / timeout / retry / recovery）
+- Setup
+- Steps
+- Expected result
+- Logs / evidence required
+
+### trace_map.yaml
+至少包含以下映射：
+- requirement_to_artifacts
+- requirement_to_acceptance
+- requirement_to_tests
+- state_to_sequences
+- packet_to_sequences
+- change_impact_rules_reference
+
+==================================================
+STEP 4 — 建立同步更新規則
+==================================================
+
+請建立一個「Change Impact Rules」章節，明確定義：
+
+1. 哪種需求變更會影響哪些文件
+2. 哪種圖表變更會回頭影響哪些需求或驗收
+3. 哪種封包變更一定要連動哪些測試
+4. 哪種狀態變更一定要連動哪些時序與驗收
+5. 哪種功能刪除會導致哪些 trace 關係失效
+
+請輸出成明確規則表，欄位至少包含：
+- Rule ID
+- Trigger
+- Must Update
+- Should Review
+- Risk if skipped
+
+至少建立以下類型規則：
+- Requirement text changed
+- New state added
+- State transition changed
+- Sequence timeout changed
+- Packet field added/removed
+- Role / scope changed
+- Acceptance changed
+- Test changed without requirement change
+- Architecture module added/removed
+
+==================================================
+STEP 5 — 一致性檢查與缺口分析
+==================================================
+
+請最後做一致性檢查，輸出：
+
+1. 哪些資訊目前可追蹤
+2. 哪些資訊還缺
+3. 哪些驗收標準目前無法成立
+4. 哪些測試案例需要更多輸入
+5. 哪些地方最容易發生「圖改了但需求沒改」或「需求改了但測試沒改」
+6. 建議優先補強的前三個缺口
+
+輸出格式：
+- Consistency Check Summary
+- Missing Inputs
+- Suggested Additions
+- Impacted Artifacts
+- Top 3 Desync Risks
+
+# DoD（Definition of Done）
+只有同時滿足以下條件才算完成：
+
+1. 已建立上游 RML-lite 層與下游工程圖層的清楚分工
+2. 已給出完整文件架構
+3. 已提供所有必要文件骨架
+4. 已建立 ID 規則且示例一致
+5. 已建立 trace_map.yaml 範本
+6. 已建立變更同步規則
+7. 已建立可測試、可量測的驗收標準示例
+8. 已建立對應測試案例示例
+9. 已做一致性檢查
+10. 已列出缺口與 desync 風險
+11. 所有輸出都適合後續 AI 持續維護
+12. 沒有只停留在抽象方法論
+
+# 禁止事項
+- 不要只給概念解釋
+- 不要只給漂亮章節名沒有內容
+- 不要把驗收寫成模糊句子
+- 不要忽略 failure / retry / recovery
+- 不要把上游與下游混在一起
+- 不要省略 traceability
+- 不要要求我再自行補完整個框架
+
+# 最終交付格式
+請依以下順序輸出：
+
+A. 現況分析表  
+B. 建議文件目錄樹  
+C. 每份文件的角色說明  
+D. 全部文件骨架內容  
+E. trace_map.yaml 範本  
+F. Change Impact Rules  
+G. Consistency Check Summary  
+H. Missing Inputs / Suggested Additions / Top 3 Desync Risks

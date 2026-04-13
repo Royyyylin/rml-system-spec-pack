@@ -1,0 +1,46 @@
+# AI-DIAGRAM: required
+# primary_message: Packet families map from the firmware service to app-facing use cases.
+# reader: engineer, reviewer
+# template_id: map-service-use
+# diagram_type: d2-map
+# layout: top-to-bottom
+# max_nodes: 8
+# max_groups: 3
+# keep: service, packet families, app-facing uses
+# avoid: byte layout, opcode detail, timing detail
+
+direction: down
+
+service: "QoS Monitor Service\n0x1820"
+
+packets: {
+  p1: "PKT-001\nSTATUS\n0x2A1D"
+  p2: "PKT-002\nMETRICS_V2\n0x2A23"
+  p3: "PKT-003\nCAPS_V2 / CAP"
+  p4: "PKT-004\nROSTER_LIST"
+  p5: "PKT-005\nCMD_V2 / CMD_RESULT"
+  p6: "PKT-006\nDEVICE_ALIAS / FW_VERSION / DEVICE_INFO"
+}
+
+uses: {
+  telemetry: "Telemetry display"
+  gate: "Capability / role gate"
+  recon: "Assignment reconciliation"
+  action: "Action feedback"
+  meta: "Identity / alias / diagnostics"
+}
+
+service -> packets.p1
+service -> packets.p2
+service -> packets.p3
+service -> packets.p4
+service -> packets.p5
+service -> packets.p6
+
+packets.p1 -> uses.telemetry
+packets.p2 -> uses.telemetry
+packets.p3 -> uses.gate
+packets.p4 -> uses.recon
+packets.p4 -> uses.meta
+packets.p5 -> uses.action
+packets.p6 -> uses.meta
