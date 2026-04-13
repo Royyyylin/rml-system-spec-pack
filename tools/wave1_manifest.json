@@ -1,0 +1,35 @@
+[
+  {
+    "id": "01",
+    "source": "shared-spec/system-actors-and-authority.d2",
+    "svg": "renders/system-actors-and-authority.svg",
+    "png": "renders/system-actors-and-authority.png",
+    "drawio": "docs/handoffs/2026-04-13-wave-1-diagram-review/01-actors-authority-zones.drawio",
+    "title": "角色全景與權責邊界",
+    "focus": "先看誰是 authority owner，誰只能轉述或顯示。",
+    "source_name": "shared-spec/system-actors-and-authority.d2",
+    "render_name": "renders/system-actors-and-authority.svg"
+  },
+  {
+    "id": "02",
+    "source": "shared-spec/session-topology.d2",
+    "svg": "renders/session-topology.svg",
+    "png": "renders/session-topology.png",
+    "drawio": "docs/handoffs/2026-04-13-wave-1-diagram-review/02-session-path-topology.drawio",
+    "title": "Session 路徑拓撲",
+    "focus": "先看 App 連到不同 peer 時，資料路徑怎麼分叉。",
+    "source_name": "shared-spec/session-topology.d2",
+    "render_name": "renders/session-topology.svg"
+  },
+  {
+    "id": "03",
+    "source": "shared-spec/fea-004-reconciliation-states.d2",
+    "svg": "renders/fea-004-reconciliation-states.svg",
+    "png": "renders/fea-004-reconciliation-states.png",
+    "drawio": "docs/handoffs/2026-04-13-wave-1-diagram-review/03-reconciliation-state-transitions.drawio",
+    "title": "Reconciliation 狀態轉移",
+    "focus": "先看 pending_reconciliation 與 confirmed/conflict/orphaned/central_only 的轉移。",
+    "source_name": "shared-spec/fea-004-reconciliation-states.d2",
+    "render_name": "renders/fea-004-reconciliation-states.svg"
+  }
+]

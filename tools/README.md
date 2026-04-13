@@ -68,6 +68,22 @@ python3 rml-system-spec-pack/tools/check_diagram_contract.py \
 - 確保後續 AI 續改 diagram source 時，不是只靠臨場 prompt
 - 預設只掃 `shared-spec/`、`app-spec/`、`firmware-spec/`
 
+Wave 1 review package 同步：
+
+```bash
+# Build: 重新生成 SVG/PNG render + drawio review 檔 + README
+python3 rml-system-spec-pack/tools/sync_wave1_review_package.py
+
+# Check: 驗證所有 target 是否和 source 一致（不寫檔）
+python3 rml-system-spec-pack/tools/sync_wave1_review_package.py --check
+```
+
+用途：
+- 當 Wave 1 的 3 張 d2 source 被修改後，一個指令同步所有 render + review 檔
+- manifest 在 `tools/wave1_manifest.json`
+- review 檔產出到 `docs/handoffs/2026-04-13-wave-1-diagram-review/`
+- `--check` 適合 CI 驗證，不寫檔，drift 時 exit non-zero
+
 workspace wrapper 範例：
 
 ```bash
