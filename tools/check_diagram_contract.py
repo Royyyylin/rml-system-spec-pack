@@ -58,6 +58,21 @@ TEMPLATES = {
         "max_nodes": 8,
         "max_groups": 3,
     },
+    "ctx-actor-authority": {
+        "diagram_types": {"d2-context"},
+        "max_nodes": 8,
+        "max_groups": 4,
+    },
+    "ctx-topology-path": {
+        "diagram_types": {"d2-context"},
+        "max_nodes": 6,
+        "max_groups": 2,
+    },
+    "state-single-fsm": {
+        "diagram_types": {"d2-state"},
+        "max_nodes": 7,
+        "max_groups": 1,
+    },
 }
 COMMENT_PREFIXES = {
     ".d2": ("#", "//"),

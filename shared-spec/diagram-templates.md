@@ -24,6 +24,9 @@ Status: formal
 | `map-service-use` | `d2-map` | 1 個 service / source + 1 個 packet / element cluster + 1 個 use cluster | 8 | 3 | packet / service 圖要表達規格元素與用途對應 |
 | `state-dual-fsm` | `stateDiagram-v2` | 1 到 2 個 top-level FSM | 10 | 2 | state 圖只需表達少數核心狀態機 |
 | `sequence-main-branch` | `sequenceDiagram` | 3 到 4 個 actors + 1 條主流程 + 1 個重要 branch | 8 | 3 | sequence 圖重點在主流程，不是完整協定追蹤 |
+| `ctx-actor-authority` | `d2-context` | N 個 actor zones + authority boundary annotations | 8 | 4 | 系統級角色全景：誰是誰、誰擁有什麼 truth、誰不能碰什麼 |
+| `ctx-topology-path` | `d2-context` | 1 個 App + N 個 BLE peers + 路徑分支標注 | 6 | 2 | 連線拓撲：App 連到不同 peer 時資料路徑怎麼變 |
+| `state-single-fsm` | `d2-state` | 1 個 FSM，3-7 個 states + transition labels | 7 | 1 | 單一狀態機，需要比 context 圖更完整的轉移條件 |
 
 ## Selection Guide
 

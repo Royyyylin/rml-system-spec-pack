@@ -1,0 +1,40 @@
+# AI-DIAGRAM: required
+# primary_message: App connects to one BLE peer at a time; the peer type determines the data path and what counts as first-hand observation.
+# reader: newcomer
+# template_id: ctx-topology-path
+# diagram_type: d2-context
+# layout: left-to-right
+# max_nodes: 6
+# max_groups: 2
+# keep: App single-session, CC bridge relay vs GW/ED direct, first-hand vs relayed distinction
+# avoid: telemetry details, state machines, command lifecycle, packet formats
+
+direction: right
+
+app: "App\nsingle active session\none BLE peer at a time"
+
+# --- Central-side path ---
+central_path: "Central-side path" {
+  style.fill: "#e8f4fd"
+  cc: "CC bridge\nrelay only\nnot authority owner"
+  central: "Central\ncanonical truth"
+  cc -> central: "relay"
+}
+
+# --- Firmware-side path ---
+firmware_path: "Firmware-side path" {
+  style.fill: "#fef3e2"
+  gw: "Gateway (GW)\nruntime QoS\nfirst-hand observation"
+  ed: "End Device (ED)\nruntime measurement\nfirst-hand observation"
+}
+
+# --- App connects to one or the other ---
+app -> central_path.cc: "BLE connect\ndata = relayed / cached view"
+app -> firmware_path.gw: "BLE connect\ndata = first-hand BLE observation"
+app -> firmware_path.ed: "BLE connect\ndata = first-hand BLE observation"
+
+# --- Key distinction ---
+rule: "Session Scope Rules\n1. Connected to CC bridge = Central-side session\n2. Connected to GW / ED = Firmware-side session\n3. GW/ED names via CC bridge are relayed, not first-hand\n4. Never walk both paths for one live command" {
+  style.fill: "#fff8e1"
+  style.stroke: "#c9a227"
+}

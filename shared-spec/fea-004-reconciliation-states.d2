@@ -1,0 +1,50 @@
+# AI-DIAGRAM: required
+# primary_message: Central assignment and firmware runtime attach are compared into 5 reconciliation states with explicit transitions.
+# reader: newcomer
+# template_id: state-single-fsm
+# diagram_type: d2-state
+# layout: top-to-bottom
+# max_nodes: 5
+# max_groups: 1
+# keep: 5 canonical state names, transition triggers, pending_reconciliation full name
+# avoid: session scope gate (separate diagram), failover algorithm, UI layout details
+
+direction: down
+
+# --- States ---
+confirmed: "confirmed\nCentral and runtime\npoint to same Gateway" {
+  style.fill: "#d4edda"
+}
+
+pending_reconciliation: "pending_reconciliation\nruntime switched first\nCentral has not caught up" {
+  style.fill: "#fff3cd"
+}
+
+conflict: "conflict\nboth sides have active Gateway\nbut they differ" {
+  style.fill: "#f8d7da"
+}
+
+central_only: "central_only\nCentral has assignment\nruntime not yet visible" {
+  style.fill: "#cce5ff"
+}
+
+orphaned: "orphaned\nno authoritative assignment\nno runtime attach" {
+  style.fill: "#e2e3e5"
+}
+
+# --- Transitions ---
+confirmed -> pending_reconciliation: "runtime changed first"
+confirmed -> central_only: "Central changed first"
+confirmed -> orphaned: "neither source"
+pending_reconciliation -> confirmed: "sources converge"
+pending_reconciliation -> conflict: "both active, differ"
+central_only -> confirmed: "runtime catches up"
+orphaned -> confirmed: "recovered assignment"
+orphaned -> pending_reconciliation: "runtime appears first"
+conflict -> confirmed: "sources converge"
+
+# --- Rules callout ---
+rule: "Rules\n1. pending_reconciliation is normal migration (failover lag)\n2. conflict requires BOTH sides comparable\n3. If Central not reachable, show not compared — not conflict\n4. orphaned is abnormal, never display as idle" {
+  style.fill: "#fff8e1"
+  style.stroke: "#c9a227"
+}

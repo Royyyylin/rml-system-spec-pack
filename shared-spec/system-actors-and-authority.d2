@@ -1,0 +1,55 @@
+# AI-DIAGRAM: required
+# primary_message: The system has 5 actors; each owns exactly one kind of truth and must not cross into another's domain.
+# reader: newcomer
+# template_id: ctx-actor-authority
+# diagram_type: d2-context
+# layout: top-to-bottom
+# max_nodes: 8
+# max_groups: 4
+# keep: 5 actors, 3 firmware sub-roles, authority boundary per actor
+# avoid: individual feature details, packet names, API fields, state machines
+
+direction: down
+
+# --- Human roles ---
+humans: "Human Roles" {
+  operator: "Operator\nview fleet status\nlow-risk ops only"
+  engineer: "Engineer\ndiagnostics + advanced commands\ncannot bypass Central authority"
+}
+
+# --- Runtime system ---
+central: "Central (PC software)\nOWNS: canonical identity\nassignment, metadata, auth, audit\nglobal truth" {
+  style.fill: "#e8f4fd"
+}
+
+firmware: "Firmware (nRF52833)" {
+  style.fill: "#fef3e2"
+  gw: "Gateway (GW)\nFirmware-side path\nruntime QoS, local failover"
+  ed: "End Device (ED)\nFirmware-side path\nruntime measurement"
+  cc: "CC bridge\nCentral-side path\nBLE-to-Central relay ONLY\nnot an authority owner"
+}
+
+app: "App (mobile)\nOWNS: human-facing display\npending/error UX, local view state\ncannot elevate local cache to system truth" {
+  style.fill: "#f0fde8"
+}
+
+conductor: "Conductor\nOWNS: cross-repo governance\nplanning, dispatch, handoff\ncannot intervene in runtime control" {
+  style.fill: "#f5f0ff"
+}
+
+# --- Relationships ---
+firmware.gw -> app: "runtime telemetry"
+firmware.ed -> app: "runtime telemetry"
+firmware.cc -> central: "relay to Central"
+central -> app: "authoritative metadata"
+humans.operator -> app: "interact via App"
+humans.engineer -> app: "advanced ops via App"
+conductor -> central: "governance only"
+conductor -> firmware: "governance only"
+conductor -> app: "governance only"
+
+# --- Authority boundary callout ---
+boundary: "Authority Boundaries\n1. Each actor owns exactly one truth\n2. Non-owners consume but never redefine\n3. CC bridge relays — does not own" {
+  style.fill: "#fff8e1"
+  style.stroke: "#c9a227"
+}
