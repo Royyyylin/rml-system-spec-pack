@@ -43,6 +43,7 @@ Diagram render: [feature-telemetry-roster-visibility.svg](/Users/create94520/Pro
 | `FEA-001-BND-004` | roster 代表 runtime / discovery-side observation，不等同 Central authoritative inventory 或 assignment truth。 |
 | `FEA-001-BND-005` | App 採 `single active session` 模式；若當前 session 只連到 Gateway / End Device，則 Central 不屬於當前即時 observation scope。 |
 | `FEA-001-BND-006` | 經 `CC bridge`、`Gateway` 或 `Central` 轉述的其他節點資料屬 relayed / cached view，不等於 App 自己對該節點的第一手 BLE observation。 |
+| `FEA-001-BND-007` | `stale` 與 `not_synced` 的 freshness 判定必須可追溯到 owner repo 提供的 `source_timestamp` 或等價 age evidence（例如 `updated_at` / `revision` / `observed_at` / `failover_generation` / `uptime_s`）；App 不得僅以 local clock 推測 freshness。freshness window 數值以 owner repo SSOT 或 app contract 定義為準，spec-pack 本身不拍秒數；若尚未定義，標為 migration dependency。 |
 
 ## Visibility Scope
 

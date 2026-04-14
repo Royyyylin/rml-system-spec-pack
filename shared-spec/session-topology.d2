@@ -11,30 +11,34 @@
 
 direction: right
 
-app: "App\nsingle active session\none BLE peer at a time"
+style: {
+  font-size: 70
+}
+
+app: "App 手機端\n同時只連一台 peer"
 
 # --- Central-side path ---
-central_path: "Central-side path" {
+central_path: "Central 側路徑" {
   style.fill: "#e8f4fd"
-  cc: "CC bridge\nrelay only\nnot authority owner"
-  central: "Central\ncanonical truth"
-  cc -> central: "relay"
+  cc: "CC bridge 橋接器\n僅轉發"
+  central: "Central 中央系統"
+  cc -> central: "轉發"
 }
 
 # --- Firmware-side path ---
-firmware_path: "Firmware-side path" {
+firmware_path: "Firmware 側路徑" {
   style.fill: "#fef3e2"
-  gw: "Gateway (GW)\nruntime QoS\nfirst-hand observation"
-  ed: "End Device (ED)\nruntime measurement\nfirst-hand observation"
+  gw: "GW 閘道器\n第一手觀測"
+  ed: "ED 終端裝置\n第一手觀測"
 }
 
 # --- App connects to one or the other ---
-app -> central_path.cc: "BLE connect\ndata = relayed / cached view"
-app -> firmware_path.gw: "BLE connect\ndata = first-hand BLE observation"
-app -> firmware_path.ed: "BLE connect\ndata = first-hand BLE observation"
+app -> central_path.cc: "轉發視圖 relayed"
+app -> firmware_path.gw: "第一手 first-hand"
+app -> firmware_path.ed: "第一手 first-hand"
 
 # --- Key distinction ---
-rule: "Session Scope Rules\n1. Connected to CC bridge = Central-side session\n2. Connected to GW / ED = Firmware-side session\n3. GW/ED names via CC bridge are relayed, not first-hand\n4. Never walk both paths for one live command" {
+rule: "連線規則\n1. CC bridge = Central 側\n2. GW/ED = Firmware 側\n3. 經 CC 看到的名稱是轉發\n4. 不可同時走兩條路徑" {
   style.fill: "#fff8e1"
   style.stroke: "#c9a227"
 }

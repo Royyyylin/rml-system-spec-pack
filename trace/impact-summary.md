@@ -78,6 +78,46 @@
 ### Deferred
 - `feature-assignment-reconciliation.d2` line 17: `pending` → `pending_reconciliation` (Low severity, deferred to vocabulary consistency pass)
 
+## Evidence Basis & Compare Gate (2026-04-15)
+
+P0 bundle — 補 evidence basis、compare gate、trace links；不發明 upstream field、不定新的 runtime policy。
+
+### shared-spec/feature-telemetry-roster-visibility.md
+- 新增 `FEA-001-BND-007`：freshness 判定必須追溯 owner repo 的 `source_timestamp` 或等價 age evidence；window 數值以 owner contract 為準，未定義則標 migration dependency
+
+### shared-spec/feature-assignment-reconciliation.md
+- 新增 `FEA-004-BND-006`：conflict 判斷需 `can_compare == true`
+- 新增 Comparison Evidence 段：列出 Central / Firmware 側可用的 age evidence 候選欄位
+- 新增 Comparison Flow 段：明文化判斷順序（source state → freshness → can_compare → FSM）
+- 明確：`stale` 是 source-level annotation（可與 FSM 並存）；`not compared` 是 gate result（阻止進入 FSM）
+
+### shared-spec/requirements.md
+- 新增 `REQ-007`（evidence/freshness basis，stage migration）
+- 新增 `REQ-008`（compare gate，stage target）
+- REQ-006 tests 清單補 TC-011（前輪漏登）
+
+### app-spec/acceptance_criteria.md
+- AC-001 補 stale 判定必須依 owner repo age evidence
+- AC-004 Requirement 欄位補 REQ-008；補 `can_compare == true` gate 條件
+- 新增 AC-007：evidence visibility（detail / debug surface 可檢視 freshness hint 與 last-synced reference，不鎖 UI layout）
+
+### app-spec/test_cases.md
+- TC-009 擴充 timestamp 過期場景；Requirement 欄位補 REQ-008
+- 新增 TC-012：can_compare gate 驗證（Central 過期時不得顯示 conflict）
+- Coverage Check 新增 can-compare-gate 分類
+
+### trace/trace_map.yaml
+- requirements 段新增 REQ-007 / REQ-008
+- REQ-004 tests 清單補 TC-012
+- AC-004 tests 清單補 TC-012；新增 AC-007 entry
+- tests 段新增 TC-012 完整 entry
+
+### Deferred
+- P1-2 `feature-assignment-reconciliation.d2` 的 `pending` → `pending_reconciliation`（語意定稿後再處理）
+- P1-3 CMD_V2 timeout 常數（待 app timeout matrix 回寫）
+- P2-1 Quality data flow diagram（等語意落地）
+- freshness window 數值（等 owner repo / app contract 定義）
+
 ## Render Updates
 
 - `d2` 已安裝，本輪開始允許由 source diagram 產生衍生 SVG render

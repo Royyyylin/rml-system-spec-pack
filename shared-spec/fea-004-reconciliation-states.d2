@@ -11,40 +11,50 @@
 
 direction: down
 
-# --- States ---
-confirmed: "confirmed\nCentral and runtime\npoint to same Gateway" {
+style: {
+  font-size: 70
+}
+
+# ===== 正常態 =====
+confirmed: "confirmed 已確認\nCentral = runtime\n指向同一台 Gateway" {
   style.fill: "#d4edda"
 }
 
-pending_reconciliation: "pending_reconciliation\nruntime switched first\nCentral has not caught up" {
+# ===== 過渡態 =====
+pending_reconciliation: "pending_reconciliation\n待調和\nruntime 先切換" {
   style.fill: "#fff3cd"
 }
 
-conflict: "conflict\nboth sides have active Gateway\nbut they differ" {
-  style.fill: "#f8d7da"
-}
-
-central_only: "central_only\nCentral has assignment\nruntime not yet visible" {
+central_only: "central_only\n僅 Central 可見\nCentral 先變更" {
   style.fill: "#cce5ff"
 }
 
-orphaned: "orphaned\nno authoritative assignment\nno runtime attach" {
+conflict: "conflict 衝突\n雙方皆活躍\n但指向不同台" {
+  style.fill: "#f8d7da"
+}
+
+# ===== 異常態 =====
+orphaned: "orphaned 孤立\n無分配、無連接\n異常狀態" {
   style.fill: "#e2e3e5"
 }
 
-# --- Transitions ---
-confirmed -> pending_reconciliation: "runtime changed first"
-confirmed -> central_only: "Central changed first"
-confirmed -> orphaned: "neither source"
-pending_reconciliation -> confirmed: "sources converge"
-pending_reconciliation -> conflict: "both active, differ"
-central_only -> confirmed: "runtime catches up"
-orphaned -> confirmed: "recovered assignment"
-orphaned -> pending_reconciliation: "runtime appears first"
-conflict -> confirmed: "sources converge"
+# ===== 轉移 =====
+confirmed -> pending_reconciliation: "runtime 先切換"
+confirmed -> central_only: "Central 先變更"
+confirmed -> orphaned: "兩邊皆無"
 
-# --- Rules callout ---
-rule: "Rules\n1. pending_reconciliation is normal migration (failover lag)\n2. conflict requires BOTH sides comparable\n3. If Central not reachable, show not compared — not conflict\n4. orphaned is abnormal, never display as idle" {
+pending_reconciliation -> confirmed: "雙方匯合"
+pending_reconciliation -> conflict: "雙方不同"
+
+central_only -> confirmed: "runtime 跟上"
+
+conflict -> confirmed: "雙方匯合"
+
+orphaned -> confirmed: "恢復分配"
+orphaned -> pending_reconciliation: "runtime 先出現"
+
+# ===== 規則 =====
+rule: "規則\n1. 待調和 = 正常 failover 延遲\n2. 衝突需雙方都可比較\n3. Central 不可達 → 無法比較\n4. 孤立 = 異常，非閒置" {
   style.fill: "#fff8e1"
   style.stroke: "#c9a227"
 }

@@ -32,7 +32,7 @@ requirements:
   REQ-004:
     artifacts: [BLK-003, STA-002, SEQ-002, PKT-004]
     acceptance: [AC-004]
-    tests: [TC-005, TC-009]
+    tests: [TC-005, TC-009, TC-012]
   REQ-005:
     artifacts: [BLK-001, STA-003, SEQ-003, PKT-006]
     acceptance: [AC-005]
@@ -41,6 +41,14 @@ requirements:
     artifacts: [BLK-004, STA-004, SEQ-004, PKT-005]
     acceptance: [AC-006]
     tests: [TC-007, TC-008, TC-011]
+  REQ-007:
+    artifacts: [BLK-002, BLK-003]
+    acceptance: [AC-007]
+    tests: []
+  REQ-008:
+    artifacts: [BLK-003, STA-002]
+    acceptance: [AC-004, AC-007]
+    tests: [TC-012]
 
 acceptance:
   AC-001:
@@ -58,7 +66,7 @@ acceptance:
   AC-004:
     requirement: REQ-004
     feature: RML-FEA-004
-    tests: [TC-005, TC-009]
+    tests: [TC-005, TC-009, TC-012]
   AC-005:
     requirement: REQ-005
     feature: RML-FEA-003
@@ -67,6 +75,10 @@ acceptance:
     requirement: REQ-006
     feature: RML-FEA-002
     tests: [TC-007, TC-008, TC-011]
+  AC-007:
+    requirement: REQ-007
+    feature: RML-FEA-004
+    tests: []
 
 tests:
   TC-001:
@@ -124,6 +136,11 @@ tests:
     requirement: REQ-006
     feature: RML-FEA-002
     evidence: [cmd_result_capture, permission_error_log]
+  TC-012:
+    acceptance: AC-004
+    requirement: REQ-008
+    feature: RML-FEA-004
+    evidence: [not_compared_screenshot, stale_reference_fixture]
 
 states:
   STA-001:

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>Wave 1 Diagram Review</title>
+<style>
+  body { font-family: -apple-system, "Noto Sans TC", sans-serif; margin: 0; padding: 24px 48px; background: #f8f9fa; }
+  nav { position: sticky; top: 0; background: #fff; border-bottom: 1px solid #ddd; padding: 12px 48px; margin: -24px -48px 28px; z-index: 10; }
+  nav a { margin-right: 28px; text-decoration: none; color: #0066cc; font-size: 16px; font-weight: 600; }
+  nav a:hover { text-decoration: underline; }
+  .card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 28px 32px; margin-bottom: 40px; }
+  h1 { font-size: 26px; margin: 0 0 6px; }
+  .focus { color: #555; font-style: italic; font-size: 16px; margin-bottom: 20px; }
+  .card img { max-width: 100%; height: auto; display: block; margin: 16px 0; }
+  .source { font-size: 13px; color: #999; margin-top: 8px; }
+
+  /* 術語對照表 */
+  .glossary { margin-top: 20px; border-top: 1px solid #eee; padding-top: 16px; }
+  .glossary h2 { font-size: 18px; margin: 0 0 12px; color: #333; }
+  .glossary table { border-collapse: collapse; width: 100%; font-size: 16px; }
+  .glossary th { text-align: left; background: #f5f5f5; padding: 8px 14px; border: 1px solid #ddd; font-size: 15px; color: #666; }
+  .glossary td { padding: 8px 14px; border: 1px solid #eee; line-height: 1.5; }
+  .glossary td:first-child { font-weight: 600; white-space: nowrap; width: 30%; }
+  .glossary td:nth-child(2) { width: 35%; }
+  .glossary td:nth-child(3) { color: #555; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#d01">01 角色全景</a>
+  <a href="#d02">02 Session 拓撲</a>
+  <a href="#d03">03 Reconciliation 狀態</a>
+</nav>
+
+<!-- ==================== 01 ==================== -->
+<div class="card" id="d01">
+  <h1>01 — 角色全景與權責邊界</h1>
+  <p class="focus">先看誰是 authority owner，誰只能轉述或顯示。</p>
+  <img src="../../../renders/system-actors-and-authority.svg" alt="system-actors-and-authority">
+  <p class="source">Source: shared-spec/system-actors-and-authority.d2</p>
+
+  <div class="glossary">
+    <h2>中英術語對照</h2>
+    <table>
+      <tr><th>圖上術語</th><th>中文</th><th>說明</th></tr>
+      <tr><td>Central (PC software)</td><td>電腦端中央系統</td><td>擁有裝置身分、分配、metadata、認證、稽核的唯一權威</td></tr>
+      <tr><td>Firmware (nRF52833)</td><td>韌體</td><td>跑在 nRF52833 DK 上的三種角色總稱</td></tr>
+      <tr><td>Gateway (GW)</td><td>閘道器</td><td>韌體角色之一，負責 runtime QoS 和 local failover</td></tr>
+      <tr><td>End Device (ED)</td><td>終端裝置</td><td>韌體角色之一，負責 runtime 量測</td></tr>
+      <tr><td>CC bridge</td><td>CC 橋接器</td><td>韌體角色之一，只負責 BLE-to-Central 轉發，不擁有任何 truth</td></tr>
+      <tr><td>App (mobile)</td><td>手機 App</td><td>擁有人類可見的顯示、pending/error UX、local view state</td></tr>
+      <tr><td>Operator</td><td>操作員</td><td>查看狀態、執行低風險操作的人類角色</td></tr>
+      <tr><td>Engineer</td><td>工程師</td><td>執行進階診斷和維護的人類角色，仍不可繞過 Central 權威</td></tr>
+      <tr><td>authority owner</td><td>權威擁有者</td><td>每種 truth 只有一個 owner，其他角色只能消費不能重定義</td></tr>
+      <tr><td>runtime telemetry</td><td>即時遙測資料</td><td>Firmware 直接量測的數據（訊號強度、傳輸品質等）</td></tr>
+      <tr><td>authoritative metadata</td><td>權威 metadata</td><td>Central 發布的官方裝置資訊（alias、assignment 等）</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== 02 ==================== -->
+<div class="card" id="d02">
+  <h1>02 — Session 路徑拓撲</h1>
+  <p class="focus">先看 App 連到不同 peer 時，資料路徑怎麼分叉。</p>
+  <img src="../../../renders/session-topology.svg" alt="session-topology">
+  <p class="source">Source: shared-spec/session-topology.d2</p>
+
+  <div class="glossary">
+    <h2>中英術語對照</h2>
+    <table>
+      <tr><th>圖上術語</th><th>中文</th><th>說明</th></tr>
+      <tr><td>single active session</td><td>單一活躍連線</td><td>App 同時只連一台 BLE peer</td></tr>
+      <tr><td>Central-side path</td><td>Central 側路徑</td><td>App 連到 CC bridge 時走的路徑，資料經轉發到達 Central</td></tr>
+      <tr><td>Firmware-side path</td><td>Firmware 側路徑</td><td>App 直連 GW 或 ED 時走的路徑，資料是第一手觀測</td></tr>
+      <tr><td>relay only</td><td>僅轉發</td><td>CC bridge 只做 BLE-to-Central 的橋接，不是 authority owner</td></tr>
+      <tr><td>canonical truth</td><td>權威真相</td><td>Central 維護的官方系統記錄</td></tr>
+      <tr><td>first-hand BLE observation</td><td>第一手 BLE 觀測</td><td>App 直接從 GW/ED 收到的 BLE 數據，不經轉發</td></tr>
+      <tr><td>relayed / cached view</td><td>轉發/快取的視圖</td><td>經 CC bridge 取得的數據，不是 App 自己直接 BLE 觀測到的</td></tr>
+      <tr><td>BLE connect</td><td>BLE 連線</td><td>App 和某台韌體裝置建立的藍牙低功耗連線</td></tr>
+      <tr><td>Session Scope Rules</td><td>連線範圍規則</td><td>決定 App 目前能看到什麼、能走哪條路徑的規則</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== 03 ==================== -->
+<div class="card" id="d03">
+  <h1>03 — Reconciliation 狀態轉移</h1>
+  <p class="focus">先看 pending_reconciliation 與 confirmed/conflict/orphaned/central_only 的轉移。</p>
+  <img src="../../../renders/fea-004-reconciliation-states.svg" alt="fea-004-reconciliation-states">
+  <p class="source">Source: shared-spec/fea-004-reconciliation-states.d2</p>
+
+  <div class="glossary">
+    <h2>中英術語對照</h2>
+    <table>
+      <tr><th>圖上術語</th><th>中文</th><th>說明</th></tr>
+      <tr><td>confirmed</td><td>已確認</td><td>Central 分配和 runtime 實際連接指向同一台 Gateway</td></tr>
+      <tr><td>pending_reconciliation</td><td>待調和</td><td>runtime 已切換但 Central 還沒跟上，屬正常 failover 延遲</td></tr>
+      <tr><td>conflict</td><td>衝突</td><td>兩邊都有 active Gateway 但指向不同台，必須同時顯示雙來源</td></tr>
+      <tr><td>central_only</td><td>僅 Central 可見</td><td>Central 有分配記錄但 runtime 還沒觀測到連接</td></tr>
+      <tr><td>orphaned</td><td>孤立</td><td>既沒有權威分配，也沒有 runtime 連接，是異常狀態</td></tr>
+      <tr><td>runtime changed first</td><td>runtime 先切換</td><td>韌體端先發生 failover，Central 尚未同步</td></tr>
+      <tr><td>Central changed first</td><td>Central 先變更</td><td>Central 先更新分配，韌體端尚未觀測到</td></tr>
+      <tr><td>sources converge</td><td>雙方匯合</td><td>Central 和 runtime 最終指向同一台，回到 confirmed</td></tr>
+      <tr><td>both active, differ</td><td>雙方皆活躍但不同</td><td>兩邊都有 Gateway 但不一致，進入 conflict</td></tr>
+      <tr><td>neither source</td><td>兩邊皆無</td><td>完全沒有分配也沒有連接，進入 orphaned</td></tr>
+      <tr><td>not compared</td><td>無法比較</td><td>Central 不在可達範圍時，不能判定 conflict，只能標示此狀態</td></tr>
+      <tr><td>failover lag</td><td>故障切換延遲</td><td>failover 發生後的短暫不一致是正常的 migration reality</td></tr>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>

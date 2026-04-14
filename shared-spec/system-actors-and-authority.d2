@@ -1,55 +1,52 @@
 # AI-DIAGRAM: required
-# primary_message: The system has 5 actors; each owns exactly one kind of truth and must not cross into another's domain.
+# primary_message: This diagram shows runtime truth ownership across Central, Firmware, and App; humans act through App, and CC bridge relays without owning truth.
 # reader: newcomer
 # template_id: ctx-actor-authority
 # diagram_type: d2-context
 # layout: top-to-bottom
 # max_nodes: 8
 # max_groups: 4
-# keep: 5 actors, 3 firmware sub-roles, authority boundary per actor
+# keep: Central/App/Firmware authority boundaries, human roles, 3 firmware sub-roles, authority boundary callout
 # avoid: individual feature details, packet names, API fields, state machines
 
 direction: down
 
-# --- Human roles ---
-humans: "Human Roles" {
-  operator: "Operator\nview fleet status\nlow-risk ops only"
-  engineer: "Engineer\ndiagnostics + advanced commands\ncannot bypass Central authority"
+style: {
+  font-size: 70
 }
 
-# --- Runtime system ---
-central: "Central (PC software)\nOWNS: canonical identity\nassignment, metadata, auth, audit\nglobal truth" {
+# --- Human roles ---
+humans: "人類角色 Human Roles" {
+  operator: "Operator 操作員"
+  engineer: "Engineer 工程師"
+}
+
+# --- Runtime authority surface ---
+central: "Central 電腦端\n擁有：身分、分配、metadata" {
   style.fill: "#e8f4fd"
 }
 
-firmware: "Firmware (nRF52833)" {
+firmware: "Firmware 韌體" {
   style.fill: "#fef3e2"
-  gw: "Gateway (GW)\nFirmware-side path\nruntime QoS, local failover"
-  ed: "End Device (ED)\nFirmware-side path\nruntime measurement"
-  cc: "CC bridge\nCentral-side path\nBLE-to-Central relay ONLY\nnot an authority owner"
+  gw: "GW 閘道器\n即時 QoS"
+  ed: "ED 終端裝置\n即時量測"
+  cc: "CC bridge 橋接器\n僅轉發，不擁有 truth"
 }
 
-app: "App (mobile)\nOWNS: human-facing display\npending/error UX, local view state\ncannot elevate local cache to system truth" {
+app: "App 手機端\n擁有：人類可見的顯示" {
   style.fill: "#f0fde8"
 }
 
-conductor: "Conductor\nOWNS: cross-repo governance\nplanning, dispatch, handoff\ncannot intervene in runtime control" {
-  style.fill: "#f5f0ff"
-}
-
 # --- Relationships ---
-firmware.gw -> app: "runtime telemetry"
-firmware.ed -> app: "runtime telemetry"
-firmware.cc -> central: "relay to Central"
-central -> app: "authoritative metadata"
-humans.operator -> app: "interact via App"
-humans.engineer -> app: "advanced ops via App"
-conductor -> central: "governance only"
-conductor -> firmware: "governance only"
-conductor -> app: "governance only"
+firmware.gw -> app: "即時遙測"
+firmware.ed -> app: "即時遙測"
+firmware.cc -> central: "轉發"
+central -> app: "權威 metadata"
+humans.operator -> app: "操作"
+humans.engineer -> app: "進階操作"
 
 # --- Authority boundary callout ---
-boundary: "Authority Boundaries\n1. Each actor owns exactly one truth\n2. Non-owners consume but never redefine\n3. CC bridge relays — does not own" {
+boundary: "權責邊界\n1. 每種 truth 只有一個 owner\n2. 非 owner 不可重定義\n3. CC bridge 只轉發" {
   style.fill: "#fff8e1"
   style.stroke: "#c9a227"
 }

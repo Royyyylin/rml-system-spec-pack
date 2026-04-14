@@ -42,6 +42,31 @@ Diagram render: [feature-assignment-reconciliation.svg](/Users/create94520/Proje
 | `FEA-004-BND-003` | `App` 負責把 authoritative 與 runtime 並列顯示，並導出 `assignmentSyncState`；不得只留一個 gateway 欄位掩蓋差異。 |
 | `FEA-004-BND-004` | `Conductor` 可追蹤 evidence 與 gate，但不得在 cross-repo 文件重定 assignment truth。 |
 | `FEA-004-BND-005` | `App` 採 `single active session` 模式。若當前連接 `CC bridge`，視為 Central-side session，CC bridge 只負責 relay，不擁有 assignment authority。若連接 `Gateway` / `End Device`，視為 Firmware-side session，`Central` 只可作為 last-synced reference，不視為即時 observation。 |
+| `FEA-004-BND-006` | `conflict` 只在 `can_compare == true` 時才可導出；若任一側資料不存在、不新鮮或來自 last-synced reference，App 必須顯示 `not compared` / `last synced`，不得升格為 `conflict`。 |
+
+## Comparison Evidence
+
+Reconciliation 依賴 owner repo 提供的 `source_timestamp` 或等價 age evidence。spec-pack 本身不發明 wire field。
+
+| Side | Evidence Candidates（來自 owner repo SSOT） |
+| :--- | :--- |
+| Central | `updated_at`、`revision`、`assignment_version`、`last_failover_at`（見 `central-device-metadata/docs/specs/data-model.md`）|
+| Firmware | `failover_generation`、`uptime_s`、`EVT.seq`、`GW_CFG_VERSION`、`boot_id`（見 `ble_qos_demo_V1.2m/docs/specs/data-model.md`；Phase 2 `ts_device / ts_gateway / ts_central` 尚未實作）|
+
+若 owner repo 尚未提供任何 age evidence → App 僅能做保守判定（`can_compare = false`），不得偽裝成可精確 freshness 判定。
+
+## Comparison Flow
+
+```
+(1) 判 source state：unknown / not_synced / stale / fresh
+(2) 算 can_compare（兩邊都 fresh 才能 true）
+(3) can_compare == false：UI 顯示 not compared / last synced，不進 FSM
+(4) can_compare == true：落到 5-state FSM（confirmed / pending_reconciliation / conflict / central_only / orphaned）
+```
+
+- `stale` 是 source-level annotation，可與 FSM 狀態並存（例：FSM 處於 `central_only` 且 Central reference 為 stale）
+- `not compared` 是 comparison gate result，直接阻止進入 FSM
+- 5-state FSM 只描述 reconciliation relationship，不取代 source freshness label
 
 ## Reconciliation States
 
