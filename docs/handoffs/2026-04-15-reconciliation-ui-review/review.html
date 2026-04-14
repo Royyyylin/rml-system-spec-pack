@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>Reconciliation UI Review Mock</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Noto Sans TC", sans-serif;
+    background: #eef1f5;
+    padding: 24px;
+    min-height: 100vh;
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .controls {
+    width: 280px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 24px;
+  }
+  .controls h2 {
+    font-size: 14px; color: #666;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 12px; font-weight: 600;
+  }
+  .scenario-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+  .scenario-btn {
+    padding: 10px 14px; background: #f5f6f8;
+    border: 2px solid transparent; border-radius: 8px;
+    cursor: pointer; text-align: left; font-size: 14px;
+    font-family: inherit; color: #333; transition: all 0.15s;
+  }
+  .scenario-btn:hover { background: #e8eaed; }
+  .scenario-btn.active {
+    background: #e3f2fd; border-color: #1976d2;
+    color: #0d47a1; font-weight: 600;
+  }
+  .scenario-btn code { font-size: 12px; color: #666; display: block; margin-top: 2px; }
+  .scenario-btn.active code { color: #1976d2; }
+  .toggles { border-top: 1px solid #eee; padding-top: 16px; }
+  .toggle-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0; font-size: 14px;
+  }
+  .toggle-row label { color: #333; cursor: pointer; }
+  .toggle-row input[type="checkbox"] {
+    width: 40px; height: 22px; appearance: none;
+    background: #ccc; border-radius: 12px;
+    position: relative; cursor: pointer; transition: 0.2s;
+  }
+  .toggle-row input[type="checkbox"]::before {
+    content: ""; position: absolute;
+    width: 18px; height: 18px; background: white;
+    border-radius: 50%; top: 2px; left: 2px; transition: 0.2s;
+  }
+  .toggle-row input[type="checkbox"]:checked { background: #4caf50; }
+  .toggle-row input[type="checkbox"]:checked::before { left: 20px; }
+
+  .phone {
+    width: 380px; background: #fff;
+    border-radius: 24px; overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12); min-height: 720px;
+  }
+  .phone-header {
+    background: linear-gradient(135deg, #1976d2, #1565c0);
+    color: white; padding: 20px;
+  }
+  .phone-header .back { font-size: 13px; opacity: 0.8; margin-bottom: 12px; }
+  .phone-header .device-name { font-size: 22px; font-weight: 600; }
+  .phone-header .device-meta { font-size: 12px; opacity: 0.8; margin-top: 4px; font-family: ui-monospace, monospace; }
+
+  .section { padding: 16px 20px; border-bottom: 1px solid #f0f0f0; }
+  .section-title {
+    font-size: 11px; color: #888;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 10px; font-weight: 600;
+  }
+
+  .recon-summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .recon-state { font-family: ui-monospace, Menlo, monospace; font-size: 15px; font-weight: 600; }
+  .recon-label { font-size: 13px; color: #666; margin-top: 2px; }
+  .badge { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge.hidden { display: none; }
+  .badge.info { background: #e3f2fd; color: #1565c0; }
+  .badge.warn { background: #fff3cd; color: #8a6d00; }
+  .badge.danger { background: #f8d7da; color: #a02020; }
+  .badge.muted { background: #e2e3e5; color: #555; }
+
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .compare .col { background: #f7f8fa; border-radius: 10px; padding: 12px; }
+  .compare .col.central { background: #e8f4fd; }
+  .compare .col.runtime { background: #fef3e2; }
+  .compare .col.stale-bg { background: #fff3cd; }
+  .compare .col.missing { background: #f0f0f0; opacity: 0.7; }
+  .col-title { font-size: 11px; font-weight: 600; color: #555; margin-bottom: 6px; }
+  .col-title .tag { font-size: 10px; opacity: 0.6; margin-left: 4px; }
+  .col-gw {
+    font-family: ui-monospace, monospace; font-size: 18px;
+    font-weight: 600; color: #222; margin-bottom: 6px;
+  }
+  .col-gw.empty { color: #999; font-size: 13px; font-weight: normal; }
+  .col-state {
+    font-size: 12px; padding: 2px 8px; border-radius: 10px;
+    display: inline-block; font-weight: 600;
+  }
+  .col-state.fresh { background: #d4edda; color: #155724; }
+  .col-state.stale { background: #ffe5a0; color: #8a6d00; }
+  .col-state.unknown { background: #e2e3e5; color: #555; }
+  .col-state.not_synced { background: #f8d7da; color: #a02020; }
+  .col-state.last_synced { background: #d1ecf1; color: #0c5460; }
+
+  .gate {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px; background: #f7f8fa;
+    border-radius: 8px; font-size: 13px; flex-wrap: wrap;
+  }
+  .gate code {
+    font-family: ui-monospace, monospace; padding: 2px 6px;
+    border-radius: 4px; font-weight: 600;
+  }
+  .gate.true code { background: #d4edda; color: #155724; }
+  .gate.false code { background: #f8d7da; color: #a02020; }
+  .gate-hint { color: #666; font-size: 12px; }
+
+  .explain {
+    padding: 14px 16px; border-radius: 10px;
+    font-size: 14px; line-height: 1.6; color: #333;
+  }
+  .explain.info { background: #e3f2fd; }
+  .explain.warn { background: #fff8e1; }
+  .explain.danger { background: #fde9e9; }
+  .explain.muted { background: #f0f0f0; }
+
+  .evidence { font-family: ui-monospace, monospace; font-size: 11px; color: #555; }
+  .evidence-row {
+    display: flex; justify-content: space-between;
+    padding: 4px 0; border-bottom: 1px dotted #e0e0e0;
+  }
+  .evidence-row:last-child { border-bottom: none; }
+  .evidence-row .key { color: #888; }
+  .evidence-row .val { color: #222; }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <h2>Scenario</h2>
+  <div class="scenario-list" id="scenarios">
+    <button class="scenario-btn active" data-scn="confirmed">已確認<code>confirmed</code></button>
+    <button class="scenario-btn" data-scn="pending">等同步中<code>pending_reconciliation</code></button>
+    <button class="scenario-btn" data-scn="not_compared">無法比較<code>not compared / last synced</code></button>
+    <button class="scenario-btn" data-scn="conflict">衝突<code>conflict</code></button>
+    <button class="scenario-btn" data-scn="central_only">僅 Central 有<code>central_only</code></button>
+  </div>
+
+  <div class="toggles">
+    <h2>Overrides</h2>
+    <div class="toggle-row">
+      <label for="t1">Live Central available</label>
+      <input type="checkbox" id="t1" checked>
+    </div>
+    <div class="toggle-row">
+      <label for="t2">Central reference fresh</label>
+      <input type="checkbox" id="t2" checked>
+    </div>
+  </div>
+</div>
+
+<div class="phone">
+  <div class="phone-header">
+    <div class="back">← Devices</div>
+    <div class="device-name">ED-007</div>
+    <div class="device-meta">stableId: ed-7a3f · role: End Device</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Reconciliation</div>
+    <div class="recon-summary">
+      <div>
+        <div class="recon-state" id="recon-state">confirmed</div>
+        <div class="recon-label" id="recon-label">已確認</div>
+      </div>
+      <div class="badge" id="recon-badge">OK</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Gateway 比對</div>
+    <div class="compare">
+      <div class="col central" id="col-central">
+        <div class="col-title">Central <span class="tag">authoritative</span></div>
+        <div class="col-gw" id="central-gw">GW-A</div>
+        <span class="col-state fresh" id="central-state">fresh</span>
+      </div>
+      <div class="col runtime" id="col-runtime">
+        <div class="col-title">Runtime <span class="tag">observed</span></div>
+        <div class="col-gw" id="runtime-gw">GW-A</div>
+        <span class="col-state fresh" id="runtime-state">fresh</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Compare Gate</div>
+    <div class="gate" id="gate-box">
+      <span>can_compare = <code id="gate-val">true</code></span>
+      <span class="gate-hint" id="gate-hint">兩側皆 fresh，可進入比較</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">白話解釋</div>
+    <div class="explain info" id="explain">Central 的分配和 runtime 觀測到的連接一致，沒有問題。</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Evidence（debug）</div>
+    <div class="evidence" id="evidence"></div>
+  </div>
+</div>
+
+<script>
+  const scenarios = {
+    confirmed: {
+      reconState: "confirmed",
+      reconLabel: "已確認",
+      badge: { text: "OK", cls: "info" },
+      central: { gw: "GW-A", state: "fresh", missing: false },
+      runtime: { gw: "GW-A", state: "fresh", missing: false },
+      can_compare: true,
+      gateHint: "兩側皆 fresh，可進入比較",
+      explain: { cls: "info", text: "Central 的分配和 runtime 觀測到的連接一致，沒有問題。" },
+      evidence: [
+        ["central.updated_at", "2s ago"],
+        ["central.revision", "42"],
+        ["runtime.observed_at", "1s ago"],
+        ["runtime.failover_generation", "3"]
+      ]
+    },
+    pending: {
+      reconState: "pending_reconciliation",
+      reconLabel: "等同步中",
+      badge: { text: "SYNCING", cls: "warn" },
+      central: { gw: "GW-A", state: "fresh", missing: false },
+      runtime: { gw: "GW-B", state: "fresh", missing: false },
+      can_compare: true,
+      gateHint: "兩側皆 fresh，可進入比較",
+      explain: { cls: "warn", text: "Runtime 剛切換到 GW-B（failover 發生），Central 還沒同步。這是正常延遲，不是隨機錯誤；幾秒後應自動收斂成 confirmed。" },
+      evidence: [
+        ["central.updated_at", "12s ago"],
+        ["central.revision", "42"],
+        ["runtime.observed_at", "just now"],
+        ["runtime.failover_generation", "4 (+1)"]
+      ]
+    },
+    not_compared: {
+      reconState: "—",
+      reconLabel: "無法比較 / 顯示 last synced",
+      badge: { text: "NOT COMPARED", cls: "muted" },
+      central: { gw: "GW-A", state: "last_synced", missing: false },
+      runtime: { gw: "GW-B", state: "fresh", missing: false },
+      can_compare: false,
+      gateHint: "Central 不在當前 session 可達範圍，只能看快取參考",
+      explain: { cls: "muted", text: "你目前只連到 runtime 端（GW/ED），沒有 live Central 資料可比對。畫面顯示的 Central Gateway 是上次同步的快取，不能判定是否為 conflict。" },
+      evidence: [
+        ["central.last_synced", "45s ago (cached)"],
+        ["central.revision", "42 (cached)"],
+        ["runtime.observed_at", "just now"],
+        ["runtime.failover_generation", "4"]
+      ]
+    },
+    conflict: {
+      reconState: "conflict",
+      reconLabel: "衝突",
+      badge: { text: "CONFLICT", cls: "danger" },
+      central: { gw: "GW-A", state: "fresh", missing: false },
+      runtime: { gw: "GW-B", state: "fresh", missing: false },
+      can_compare: true,
+      gateHint: "兩側皆 fresh 且值不同，符合 conflict 條件",
+      explain: { cls: "danger", text: "Central 分配為 GW-A，但 runtime 實際連到 GW-B，且兩側資料皆新鮮，這是真正的 conflict。必須同時顯示雙來源，不得只顯示其中一個。" },
+      evidence: [
+        ["central.updated_at", "3s ago"],
+        ["central.revision", "43"],
+        ["runtime.observed_at", "2s ago"],
+        ["runtime.failover_generation", "5"]
+      ]
+    },
+    central_only: {
+      reconState: "central_only",
+      reconLabel: "僅 Central 有",
+      badge: { text: "CENTRAL ONLY", cls: "info" },
+      central: { gw: "GW-A", state: "fresh", missing: false },
+      runtime: { gw: "—", state: "unknown", missing: true },
+      can_compare: true,
+      gateHint: "Central fresh，但 runtime attach 尚不可見",
+      explain: { cls: "info", text: "Central 已經分配了 GW-A，但 runtime 還沒回報任何 attach。常見於剛建立分配或 ED 尚未連到 GW 時。" },
+      evidence: [
+        ["central.updated_at", "5s ago"],
+        ["central.revision", "43"],
+        ["runtime.observed_at", "—"],
+        ["runtime.failover_generation", "—"]
+      ]
+    }
+  };
+
+  const $ = (id) => document.getElementById(id);
+  let activeScn = "confirmed";
+
+  function applyOverrides(scn) {
+    const liveCentral = $("t1").checked;
+    const centralFresh = $("t2").checked;
+    const s = JSON.parse(JSON.stringify(scn));
+
+    if (!liveCentral && s.central.state !== "last_synced") {
+      s.reconState = "—";
+      s.reconLabel = "無法比較（Live Central 關閉）";
+      s.badge = { text: "NOT COMPARED", cls: "muted" };
+      s.central.state = "last_synced";
+      s.can_compare = false;
+      s.gateHint = "Live Central 關閉，Central 只剩 last synced 快取";
+      s.explain = { cls: "muted", text: "Live Central 被關閉。任何 Central 資料只能視為 last synced reference；無論 runtime 顯示什麼，都不得升格為 conflict。" };
+    }
+    else if (liveCentral && !centralFresh && s.central.state === "fresh") {
+      s.reconState = "—";
+      s.reconLabel = "無法比較（Central 過期）";
+      s.badge = { text: "NOT COMPARED", cls: "muted" };
+      s.central.state = "stale";
+      s.can_compare = false;
+      s.gateHint = "Central 超過 freshness window，不可作為比較依據";
+      s.explain = { cls: "muted", text: "Central reference 超過 freshness window，視為 stale。即使當前仍可連線到 Central，這筆資料也不夠新鮮來判定 conflict。" };
+    }
+    return s;
+  }
+
+  function render() {
+    const s = applyOverrides(scenarios[activeScn]);
+
+    $("recon-state").textContent = s.reconState;
+    $("recon-label").textContent = s.reconLabel;
+
+    const badge = $("recon-badge");
+    badge.textContent = s.badge.text;
+    badge.className = "badge " + s.badge.cls;
+    if (activeScn === "confirmed" && s.badge.cls === "info" && $("t1").checked && $("t2").checked) {
+      badge.classList.add("hidden");
+    }
+
+    $("central-gw").textContent = s.central.gw;
+    $("central-gw").className = "col-gw";
+    const cs = $("central-state");
+    cs.textContent = s.central.state === "last_synced" ? "last synced" : s.central.state;
+    cs.className = "col-state " + s.central.state;
+    $("col-central").className = "col central" + (s.central.state === "stale" ? " stale-bg" : "");
+
+    const rgw = $("runtime-gw");
+    rgw.textContent = s.runtime.gw;
+    rgw.className = "col-gw" + (s.runtime.missing ? " empty" : "");
+    const rs = $("runtime-state");
+    rs.textContent = s.runtime.state;
+    rs.className = "col-state " + s.runtime.state;
+    $("col-runtime").className = "col runtime" + (s.runtime.missing ? " missing" : "");
+
+    $("gate-val").textContent = String(s.can_compare);
+    $("gate-box").className = "gate " + (s.can_compare ? "true" : "false");
+    $("gate-hint").textContent = s.gateHint;
+
+    const ex = $("explain");
+    ex.textContent = s.explain.text;
+    ex.className = "explain " + s.explain.cls;
+
+    const ev = $("evidence");
+    while (ev.firstChild) ev.removeChild(ev.firstChild);
+    s.evidence.forEach(([k, v]) => {
+      const row = document.createElement("div");
+      row.className = "evidence-row";
+      const keyEl = document.createElement("span");
+      keyEl.className = "key";
+      keyEl.textContent = k;
+      const valEl = document.createElement("span");
+      valEl.className = "val";
+      valEl.textContent = v;
+      row.appendChild(keyEl);
+      row.appendChild(valEl);
+      ev.appendChild(row);
+    });
+  }
+
+  document.querySelectorAll(".scenario-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".scenario-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeScn = btn.dataset.scn;
+      render();
+    });
+  });
+
+  $("t1").addEventListener("change", render);
+  $("t2").addEventListener("change", render);
+
+  render();
+</script>
+
+</body>
+</html>
