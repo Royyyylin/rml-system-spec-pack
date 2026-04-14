@@ -17,7 +17,9 @@ Page-by-page review。一次只看一頁，上一頁通過後才做下一頁。
 
 - **主體是 connectable peers**：GW group / CC bridge / orphan ED
 - **不展開 ED 清單**，只顯示成員數量摘要
-- **詳細資料一律在連線後讀取**：can_compare、timestamp、reconciliation 等都不在這層
+- **此頁所有摘要都是 cached / last-synced reference，不是 live truth**
+- 用「上次同步皆正常 / 上次同步顯示有待確認」這類降級語言，避免被誤讀為 live judgement
+- 改名 / 裝置操作 / live reconciliation / can_compare / evidence 都不在這層
 - 每個 peer 都有 `Connect` 按鍵
 
 ## 操作

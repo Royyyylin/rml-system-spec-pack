@@ -177,17 +177,18 @@
 <div class="wrap">
 
   <div class="page-hint">
-    <strong>Page 1 / 4 — 入口：選擇要連線的對象</strong>
+    <strong>Page 1 / 4 — 入口：選擇要連線的對象（pre-connect）</strong>
     <div class="muted">
-      本頁回答：現在可以連誰？哪個對象值得先連？<br>
-      詳細資料（gateway 比對、reconciliation、evidence）一律在連線後才讀取。
+      本頁回答：現在掃到誰？哪個值得先連？<br>
+      此頁所有摘要都來自上次同步的 cached / last-synced reference，<strong>不是 live truth</strong>。<br>
+      ED 清單、telemetry、reconciliation、can_compare、改名 — 全部要等連線後才讀取。
     </div>
   </div>
 
   <div class="phone">
     <div class="phone-header">
       <div class="title">Connect to…</div>
-      <div class="sub">先選一個對象連線，連上後才會讀取詳細資料</div>
+      <div class="sub">以下顯示掃到的對象與上次同步摘要。連線後才讀取 live detail。</div>
     </div>
 
     <!-- ===== Gateway groups ===== -->
@@ -200,8 +201,8 @@
           <span class="peer-name">Group North</span>
           <span class="peer-tag role-gw">Gateway</span>
         </div>
-        <div class="peer-meta">via <span class="members">GW-A</span> · <span class="members">4 個 ED</span></div>
-        <div class="peer-hint"><span class="attn">1 個需注意</span> · <span class="members-link">View members（連線後）</span></div>
+        <div class="peer-meta">via <span class="members">GW-A</span> · 上次同步約 <span class="members">4 個 ED</span></div>
+        <div class="peer-hint">最後同步 12s 前 · <span class="attn">上次同步顯示有待確認項目</span> · 連線後讀取詳情</div>
       </div>
       <button class="connect-btn">Connect</button>
     </div>
@@ -213,8 +214,8 @@
           <span class="peer-name">Group South</span>
           <span class="peer-tag role-gw">Gateway</span>
         </div>
-        <div class="peer-meta">via <span class="members">GW-B</span> · <span class="members">3 個 ED</span></div>
-        <div class="peer-hint"><span class="ok">全部正常</span> · <span class="members-link">View members（連線後）</span></div>
+        <div class="peer-meta">via <span class="members">GW-B</span> · 上次同步約 <span class="members">3 個 ED</span></div>
+        <div class="peer-hint">最後同步 8s 前 · <span class="ok">上次同步皆正常</span> · 連線後讀取詳情</div>
       </div>
       <button class="connect-btn">Connect</button>
     </div>
@@ -226,8 +227,8 @@
           <span class="peer-name">Group West</span>
           <span class="peer-tag role-gw">Gateway</span>
         </div>
-        <div class="peer-meta">via <span class="members">GW-C</span> · <span class="members">2 個 ED</span></div>
-        <div class="peer-hint">最後同步 45s ago · 連線後可比對 Central</div>
+        <div class="peer-meta">via <span class="members">GW-C</span> · 上次同步約 <span class="members">2 個 ED</span></div>
+        <div class="peer-hint">最後同步 45s 前 · 等待連線後讀取最新狀態</div>
       </div>
       <button class="connect-btn">Connect</button>
     </div>
@@ -243,7 +244,7 @@
           <span class="peer-tag role-cc">Bridge</span>
         </div>
         <div class="peer-meta">不屬於任何 group</div>
-        <div class="peer-hint">App 與後台 Central / Gateway 溝通的橋樑。連到 CC 才能取得 authoritative 分配資料。</div>
+        <div class="peer-hint">通往後台 Central 的橋樑。連線後才能取得 live authoritative 分配資料。</div>
       </div>
       <button class="connect-btn cc">Connect</button>
     </div>
@@ -258,14 +259,16 @@
           <span class="peer-name">ED-019</span>
           <span class="peer-tag role-orphan">Orphan</span>
         </div>
-        <div class="peer-meta">stableId: ed-1d4c · 尚未掛到任何 group</div>
-        <div class="peer-hint">直接 BLE 對話，不經 Gateway。常見於剛上線或派工未完成。</div>
+        <div class="peer-meta">stableId: ed-1d4c · 上次同步未掛到任何 group</div>
+        <div class="peer-hint">直接 BLE 對話，不經 Gateway。連線後才能確認目前實際狀態。</div>
       </div>
       <button class="connect-btn orphan">Connect</button>
     </div>
 
     <div class="footer-note">
-      <strong>提醒</strong>：App 同時只能連一個對象。連線後才會讀取 ED 清單、telemetry、reconciliation 等詳細資料。
+      <strong>提醒</strong>：App 同時只能連一個對象。<br>
+      連線後才會讀取：ED 清單、telemetry、reconciliation summary、是否能 compare（can_compare）。<br>
+      改名 / 裝置操作也只能在連線後的 detail 頁進行。
     </div>
 
   </div>
