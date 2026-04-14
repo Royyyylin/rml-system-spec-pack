@@ -48,7 +48,27 @@
   .phone-header .title { font-size: 20px; font-weight: 600; }
   .phone-header .sub { font-size: 12px; opacity: 0.8; margin-top: 2px; }
 
-  .list { padding: 8px 0; }
+  .legend {
+    padding: 10px 20px;
+    background: #f5f8fc;
+    border-bottom: 1px solid #e8ecf2;
+    font-size: 11px;
+    color: #6b7a8a;
+  }
+  .legend strong { color: #1976d2; font-weight: 600; }
+  .legend .legend-arrow { color: #b0b8c0; margin: 0 4px; }
+
+  .section-label {
+    padding: 14px 20px 6px;
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    background: #fafbfc;
+  }
+
+  .list { padding: 0; }
   .item {
     padding: 14px 20px;
     border-bottom: 1px solid #f0f0f0;
@@ -157,38 +177,26 @@
       <div class="sub">5 devices · 最後更新 2s ago</div>
     </div>
 
+    <div class="legend">
+      Gateway 摘要格式：<strong>Central</strong> <span class="legend-arrow">/</span> <strong>Runtime</strong>（左 = 後台分配，右 = 現場觀測）
+    </div>
+
+    <div class="section-label">需注意</div>
     <div class="list">
 
-      <!-- 正常 -->
+      <!-- 來源衝突 -->
       <div class="item">
-        <div class="dot ok"></div>
+        <div class="dot danger"></div>
         <div class="item-body">
           <div class="item-top">
             <div>
-              <span class="item-name">ED-005</span>
-              <span class="item-id">ed-5c1a</span>
+              <span class="item-name">ED-014</span>
+              <span class="item-id">ed-f093</span>
             </div>
-            <span class="badge ok">正常</span>
+            <span class="badge danger">來源衝突</span>
           </div>
-          <div class="item-gw">GW-A</div>
-          <div class="item-hint">一切正常，不需要動作。</div>
-        </div>
-        <div class="chev">›</div>
-      </div>
-
-      <!-- 等待同步 -->
-      <div class="item">
-        <div class="dot warn"></div>
-        <div class="item-body">
-          <div class="item-top">
-            <div>
-              <span class="item-name">ED-007</span>
-              <span class="item-id">ed-7a3f</span>
-            </div>
-            <span class="badge warn">等待同步</span>
-          </div>
-          <div class="item-gw">GW-A <span class="arrow">→</span> <span class="runtime-mismatch">GW-B</span></div>
-          <div class="item-hint">Runtime 剛切到新 Gateway，Central 還沒跟上。通常幾秒內自動收斂。</div>
+          <div class="item-gw">GW-A <span class="arrow">/</span> <span class="runtime-mismatch">GW-D</span></div>
+          <div class="item-hint">Central 與 runtime 都新鮮，但指向不同 Gateway。需要人工確認。</div>
         </div>
         <div class="chev">›</div>
       </div>
@@ -204,30 +212,30 @@
             </div>
             <span class="badge muted">無法比對</span>
           </div>
-          <div class="item-gw"><span class="central-missing">Central 快取 (45s)</span> <span class="arrow">·</span> GW-C</div>
+          <div class="item-gw"><span class="central-missing">Central 快取 (45s)</span> <span class="arrow">/</span> GW-C</div>
           <div class="item-hint">Central 當前不可達，只能看上次同步。不代表有衝突。</div>
         </div>
         <div class="chev">›</div>
       </div>
 
-      <!-- 來源衝突 -->
+      <!-- 等待同步 -->
       <div class="item">
-        <div class="dot danger"></div>
+        <div class="dot warn"></div>
         <div class="item-body">
           <div class="item-top">
             <div>
-              <span class="item-name">ED-014</span>
-              <span class="item-id">ed-f093</span>
+              <span class="item-name">ED-007</span>
+              <span class="item-id">ed-7a3f</span>
             </div>
-            <span class="badge danger">來源衝突</span>
+            <span class="badge warn">等待同步</span>
           </div>
-          <div class="item-gw">GW-A <span class="arrow">≠</span> <span class="runtime-mismatch">GW-D</span></div>
-          <div class="item-hint">Central 與 runtime 都新鮮，但指向不同 Gateway。需要人工確認。</div>
+          <div class="item-gw">GW-A <span class="arrow">/</span> <span class="runtime-mismatch">GW-B</span></div>
+          <div class="item-hint">Runtime 剛切到新 Gateway，Central 還沒跟上。通常幾秒內自動收斂。</div>
         </div>
         <div class="chev">›</div>
       </div>
 
-      <!-- 只有 Central -->
+      <!-- 現場未回報 -->
       <div class="item">
         <div class="dot info"></div>
         <div class="item-body">
@@ -236,10 +244,32 @@
               <span class="item-name">ED-019</span>
               <span class="item-id">ed-1d4c</span>
             </div>
-            <span class="badge info">僅 Central</span>
+            <span class="badge info">現場未回報</span>
           </div>
-          <div class="item-gw">GW-B <span class="arrow">·</span> <span class="central-missing">runtime 尚未可見</span></div>
+          <div class="item-gw">GW-B <span class="arrow">/</span> <span class="central-missing">尚未看到現場</span></div>
           <div class="item-hint">Central 已分配，但 runtime 還沒回報 attach。通常剛派工時會這樣。</div>
+        </div>
+        <div class="chev">›</div>
+      </div>
+
+    </div>
+
+    <div class="section-label">正常</div>
+    <div class="list">
+
+      <!-- 正常 -->
+      <div class="item">
+        <div class="dot ok"></div>
+        <div class="item-body">
+          <div class="item-top">
+            <div>
+              <span class="item-name">ED-005</span>
+              <span class="item-id">ed-5c1a</span>
+            </div>
+            <span class="badge ok">正常</span>
+          </div>
+          <div class="item-gw">GW-A <span class="arrow">/</span> GW-A</div>
+          <div class="item-hint">一切正常，不需要動作。</div>
         </div>
         <div class="chev">›</div>
       </div>
