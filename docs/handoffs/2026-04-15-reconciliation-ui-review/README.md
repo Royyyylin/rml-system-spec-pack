@@ -6,10 +6,19 @@ Page-by-page review。一次只看一頁，上一頁通過後才做下一頁。
 
 | # | 頁面 | 回答什麼 | 狀態 |
 |---|------|---------|------|
-| 1 | [01-entry-list.html](01-entry-list.html) | 使用者第一眼看到什麼？哪些該點？ | **Ready for Roy review** |
-| 2 | 02-detail-summary.html | 點進去後怎麼理解？ | 待第 1 頁通過 |
+| 1 | [01-entry-list.html](01-entry-list.html) | 入口：現在可以連誰？哪個對象值得先連？ | **Ready for Roy review** |
+| 2 | 02-detail-summary.html | 連上後的對象摘要與成員清單 | 待第 1 頁通過 |
 | 3 | 03-central-vs-runtime.html | Central vs Runtime 怎麼並列？ | 待第 2 頁通過 |
 | 4 | 04-evidence-panel.html | 追證據去哪裡看？ | 待第 3 頁通過 |
+
+## 第 1 頁設計原則
+
+入口頁不是狀態展示板，是「選誰連線」的選擇題。
+
+- **主體是 connectable peers**：GW group / CC bridge / orphan ED
+- **不展開 ED 清單**，只顯示成員數量摘要
+- **詳細資料一律在連線後讀取**：can_compare、timestamp、reconciliation 等都不在這層
+- 每個 peer 都有 `Connect` 按鍵
 
 ## 操作
 
