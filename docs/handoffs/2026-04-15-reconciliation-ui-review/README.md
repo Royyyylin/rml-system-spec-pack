@@ -20,6 +20,7 @@ Page-by-page review。一次只看一頁，上一頁通過後才做下一頁。
 - 不顯示成員數量（ED count、members）
 - 不提供任何 rename / edit 入口
 - 所有詳細資料都在連線後才讀取
+- Group / peer 顯示名稱屬於 Central/App 側可見 metadata，不代表 firmware runtime 也持有相同命名
 
 ## 操作
 
