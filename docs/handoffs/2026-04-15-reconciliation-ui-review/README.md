@@ -29,6 +29,7 @@ Page-by-page review。一次只看一頁，上一頁通過後才做下一頁。
 - Reconciliation 仍是 exception flow，只有 conflict 才浮出 banner
 - 此 role switcher 為 mock 閱讀層，參考 app repo 既有 `normal / maintenance / engineer` 概念，本輪先收斂為兩層
 - Page 2 以 Gateway / End Device 為主；`Central Bridge` 僅為 Central-side path 的特殊路徑示意，非一般巡視入口
+- Gateway 視角採 overview + expandable members / bridge 結構（accordion），點開才顯示個別 ED 或 bridge 的短摘要；不展開時保持極簡
 
 ## 操作
 

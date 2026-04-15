@@ -197,6 +197,74 @@
   .log-item .time { color: #999; font-family: ui-monospace, monospace; font-size: 11px; }
   .log-item .ev { color: #444; }
 
+  /* Accordion items (for Gateway members / bridge) */
+  .acc-list {
+    padding: 6px 0;
+  }
+  .acc-item {
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .acc-item:last-child { border-bottom: none; }
+  .acc-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 22px;
+    cursor: pointer;
+    background: #fff;
+    transition: background 0.1s;
+  }
+  .acc-head:hover { background: #fafbfc; }
+  .acc-head.conflict { background: #fff6f6; }
+  .acc-head.conflict:hover { background: #fdecea; }
+  .acc-dot {
+    width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+  }
+  .acc-dot.ok { background: #4caf50; }
+  .acc-dot.warn { background: #ff9800; }
+  .acc-dot.muted { background: #9e9e9e; }
+  .acc-dot.danger { background: #e53935; }
+  .acc-body { flex: 1; min-width: 0; }
+  .acc-name { font-size: 14px; font-weight: 600; color: #222; }
+  .acc-sub { font-size: 11px; color: #777; margin-top: 2px; }
+  .acc-warn-mini {
+    display: inline-block;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 6px;
+    background: #fdecea;
+    color: #c62828;
+    font-weight: 600;
+    margin-left: 6px;
+  }
+  .acc-chev {
+    color: #bbb;
+    font-size: 16px;
+    transition: transform 0.15s;
+  }
+  .acc-item.open .acc-chev { transform: rotate(90deg); color: #1976d2; }
+  .acc-detail {
+    display: none;
+    padding: 4px 22px 14px 42px;
+    background: #fafbfc;
+  }
+  .acc-item.open .acc-detail { display: block; }
+  .acc-detail .info-row { padding: 4px 0; }
+  .acc-detail .mini-log {
+    margin-top: 8px;
+    border-top: 1px dotted #e5e5e5;
+    padding-top: 6px;
+  }
+  .acc-detail .mini-log .log-item { padding: 3px 0; }
+  .acc-warn-row {
+    background: #fff3e0;
+    color: #7a3a00;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
   .next-hint {
     padding: 12px 22px;
     font-size: 12px;
@@ -298,43 +366,119 @@
     gw: {
       name: "North Group",
       sub: "Gateway",
-      inspector: [
-        { kind: "health", id: "health", label: "Gateway health", dot: "ok", text: "Alive", sub: "uptime 2d 04h" },
-        { kind: "info", id: "members", label: "Members", rows: [
-          ["End devices", "4 台"],
-          ["Recent attach", "2s ago"]
-        ]},
-        { kind: "info", id: "connections", label: "Connections", rows: [
-          ["Uplink", "Central Bridge · online"],
-          ["Downlink", "4 EDs · 回報中"]
-        ]}
+      // Gateway 走專用 renderer；下列是 overview + members + bridge 資料
+      overview: {
+        health: { dot: "ok", text: "Alive", sub: "uptime 2d 04h" },
+        summary: [
+          ["End devices", "3 台連線中"],
+          ["Uplink", "Central Bridge · online"]
+        ],
+        conflictPatch: {
+          health: { dot: "warn", text: "Alive（有異常）", sub: "uptime 2d 04h · 有成員與後台紀錄不一致" },
+          summary: [
+            ["End devices", "3 台連線中（1 台有衝突）"],
+            ["Uplink", "Central Bridge · online"]
+          ]
+        }
+      },
+      members: [
+        {
+          id: "ed-007",
+          name: "ED-007",
+          dot: "ok",
+          sub: "alive · last seen 1s ago",
+          inspector: [
+            ["Signal", "良好"],
+            ["PDR", "99%"],
+            ["Latency", "28 ms"]
+          ],
+          engineer: [
+            ["RSSI", "-62 dBm"],
+            ["PHY", "2M"],
+            ["TX Power", "-4 dBm"],
+            ["Jitter", "4.1 ms"],
+            ["can_compare", "true"]
+          ],
+          log: [
+            ["1s ago", "status ok"],
+            ["45s ago", "attach to GW"]
+          ]
+        },
+        {
+          id: "ed-014",
+          name: "ED-014",
+          dot: "ok",
+          sub: "alive · last seen 2s ago",
+          inspector: [
+            ["Signal", "良好"],
+            ["PDR", "97%"],
+            ["Latency", "31 ms"]
+          ],
+          engineer: [
+            ["RSSI", "-68 dBm"],
+            ["PHY", "1M"],
+            ["TX Power", "0 dBm"],
+            ["Jitter", "5.8 ms"],
+            ["can_compare", "true"]
+          ],
+          log: [
+            ["2s ago", "status ok"],
+            ["3m ago", "attach to GW"]
+          ],
+          conflictPatch: {
+            dot: "danger",
+            sub: "alive · 與後台紀錄不一致",
+            warn: "後台紀錄此 ED 應屬 South Group，現場實際附著在此"
+          }
+        },
+        {
+          id: "ed-022",
+          name: "ED-022",
+          dot: "ok",
+          sub: "alive · last seen 5s ago",
+          inspector: [
+            ["Signal", "普通"],
+            ["PDR", "94%"],
+            ["Latency", "42 ms"]
+          ],
+          engineer: [
+            ["RSSI", "-74 dBm"],
+            ["PHY", "1M"],
+            ["TX Power", "+4 dBm"],
+            ["Jitter", "7.2 ms"],
+            ["can_compare", "true"]
+          ],
+          log: [
+            ["5s ago", "status ok"],
+            ["12m ago", "attach to GW"]
+          ]
+        }
       ],
-      engineer: [
-        { kind: "info", label: "Link diagnostics", engineer: true, rows: [
-          ["Uplink PHY", "2M"],
-          ["TX Power", "0 dBm"],
-          ["Avg jitter", "3.2 ms"],
-          ["Throughput", "18 kbps"]
-        ]},
-        { kind: "info", label: "Compare gate", engineer: true, rows: [
-          ["Central side", "fresh（已同步）"],
-          ["Runtime side", "fresh（已回報）"],
-          ["can_compare", "true"]
-        ]}
-      ],
+      bridge: {
+        id: "cc",
+        name: "Central Bridge",
+        dot: "ok",
+        sub: "online · last sync 3s ago",
+        inspector: [
+          ["Central reachable", "是"],
+          ["Last sync", "3s ago"],
+          ["Queue", "清空"]
+        ],
+        engineer: [
+          ["Relay latency", "28 ms"],
+          ["Sync rate", "10 / min"],
+          ["Retries (5m)", "0"]
+        ],
+        log: [
+          ["3s ago", "sync ok"],
+          ["30s ago", "bridge reset (scheduled)"]
+        ]
+      },
       logAll: [
         ["2s ago", "ED-007 attach"],
         ["1m ago", "heartbeat ok"],
         ["3m ago", "cfg version 42 applied"]
-      ],
-      conflictPatch: {
-        health: { dot: "warn", text: "Alive（有異常）", sub: "uptime 2d 04h · 與後台紀錄不一致" },
-        connections: { rows: [
-          ["Uplink", "Central Bridge · online"],
-          ["Downlink", "現場已切換 / 後台未跟上"]
-        ]},
-        extraWarn: "ED-014 目前附著現場 GW-D，但後台紀錄為 GW-A"
-      }
+      ]
     },
     ed: {
       name: "ED-007",
@@ -479,16 +623,113 @@
     return s;
   }
 
-  function render() {
-    const v = views[peer];
-    $("peer-name").textContent = v.name;
-    $("peer-subtype").textContent = v.sub;
-    $("role-tag").textContent = "as " + (role === "inspector" ? "巡視人員" : "Engineer");
+  // Accordion helpers (Gateway 專用：只允許一個展開)
+  let openAccId = null;
 
+  function renderAccordionItem(item, opts) {
+    const isConflict = opts && opts.conflict;
+    const patch = isConflict && item.conflictPatch ? item.conflictPatch : null;
+    const dot = patch ? patch.dot : item.dot;
+    const sub = patch ? patch.sub : item.sub;
+
+    const wrap = el("div", "acc-item" + (openAccId === item.id ? " open" : ""));
+
+    const head = el("div", "acc-head" + (patch ? " conflict" : ""));
+    head.appendChild(el("div", "acc-dot " + dot));
+    const body = el("div", "acc-body");
+    const nameRow = el("div", "acc-name");
+    nameRow.textContent = item.name;
+    if (patch && patch.warn) {
+      const tag = el("span", "acc-warn-mini", "衝突");
+      nameRow.appendChild(tag);
+    }
+    body.appendChild(nameRow);
+    body.appendChild(el("div", "acc-sub", sub));
+    head.appendChild(body);
+    head.appendChild(el("div", "acc-chev", "›"));
+
+    head.addEventListener("click", () => {
+      openAccId = (openAccId === item.id) ? null : item.id;
+      render();
+    });
+
+    wrap.appendChild(head);
+
+    const detail = el("div", "acc-detail");
+    const rows = role === "engineer"
+      ? item.inspector.concat(item.engineer)
+      : item.inspector;
+    rows.forEach(([k, v]) => {
+      const r = el("div", "info-row");
+      r.appendChild(el("span", "k", k));
+      r.appendChild(el("span", "v", v));
+      detail.appendChild(r);
+    });
+    if (patch && patch.warn) {
+      detail.appendChild(el("div", "acc-warn-row", "⚠ " + patch.warn));
+    }
+    // mini log inside accordion
+    if (item.log && item.log.length) {
+      const logWrap = el("div", "mini-log");
+      const logLimit = role === "engineer" ? item.log.length : Math.min(2, item.log.length);
+      item.log.slice(0, logLimit).forEach(([t, ev]) => {
+        const li = el("div", "log-item");
+        li.appendChild(el("span", "ev", ev));
+        li.appendChild(el("span", "time", t));
+        logWrap.appendChild(li);
+      });
+      detail.appendChild(logWrap);
+    }
+    wrap.appendChild(detail);
+
+    return wrap;
+  }
+
+  function renderGatewayView(v) {
     const body = $("body");
-    while (body.firstChild) body.removeChild(body.firstChild);
+    const conflict = state === "conflict";
 
-    // 套 conflictPatch：對帶 id 的 inspector section 進行 override
+    // Overview (fixed)
+    const ov = v.overview;
+    const ovPatch = conflict && ov.conflictPatch ? ov.conflictPatch : null;
+    const health = ovPatch ? ovPatch.health : ov.health;
+    const summary = ovPatch ? ovPatch.summary : ov.summary;
+
+    body.appendChild(renderSection({
+      kind: "health", label: "Gateway overview", dot: health.dot, text: health.text, sub: health.sub
+    }));
+    body.appendChild(renderSection({
+      kind: "info", label: "Summary", rows: summary
+    }));
+
+    // Connected EDs accordion
+    const edsWrap = el("div", "section");
+    edsWrap.appendChild(el("div", "section-label", "Connected EDs"));
+    const edsList = el("div", "acc-list");
+    v.members.forEach(m => {
+      edsList.appendChild(renderAccordionItem(m, { conflict }));
+    });
+    edsWrap.appendChild(edsList);
+    body.appendChild(edsWrap);
+
+    // Central Bridge accordion (separate section)
+    const brWrap = el("div", "section");
+    brWrap.appendChild(el("div", "section-label", "Central Bridge · 特殊路徑"));
+    const brList = el("div", "acc-list");
+    brList.appendChild(renderAccordionItem(v.bridge, { conflict: false }));
+    brWrap.appendChild(brList);
+    body.appendChild(brWrap);
+
+    // Recent log (gateway-level, short)
+    const logLimit = role === "engineer" ? 3 : 2;
+    body.appendChild(renderSection({
+      kind: "log", label: "Gateway recent log",
+      items: v.logAll.slice(0, logLimit)
+    }));
+  }
+
+  function renderSimpleView(v) {
+    const body = $("body");
     const inspectorSecs = v.inspector.map(sec => {
       const clone = deepClone(sec);
       if (state === "conflict" && sec.id && v.conflictPatch && v.conflictPatch[sec.id]) {
@@ -498,23 +739,35 @@
     });
     inspectorSecs.forEach(sec => body.appendChild(renderSection(sec)));
 
-    // conflict 時追加一個 warn row（主體可感知差異，非 banner）
     if (state === "conflict" && v.conflictPatch && v.conflictPatch.extraWarn) {
       body.appendChild(renderWarnRow(v.conflictPatch.extraWarn));
     }
 
-    // Engineer 追加 diagnostics
     if (role === "engineer") {
       v.engineer.forEach(sec => body.appendChild(renderSection(sec)));
     }
 
-    // Log：巡視人員 2 筆、Engineer 3 筆
     const logLimit = role === "engineer" ? 3 : 2;
     body.appendChild(renderSection({
-      kind: "log",
-      label: "Recent log",
+      kind: "log", label: "Recent log",
       items: v.logAll.slice(0, logLimit)
     }));
+  }
+
+  function render() {
+    const v = views[peer];
+    $("peer-name").textContent = v.name;
+    $("peer-subtype").textContent = v.sub;
+    $("role-tag").textContent = "as " + (role === "inspector" ? "巡視人員" : "Engineer");
+
+    const body = $("body");
+    while (body.firstChild) body.removeChild(body.firstChild);
+
+    if (peer === "gw") {
+      renderGatewayView(v);
+    } else {
+      renderSimpleView(v);
+    }
 
     const banner = $("banner");
     if (state === "conflict") banner.classList.remove("hidden");
