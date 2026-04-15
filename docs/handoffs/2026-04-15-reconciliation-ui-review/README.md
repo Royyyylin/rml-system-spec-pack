@@ -7,7 +7,7 @@ Page-by-page review。一次只看一頁，上一頁通過後才做下一頁。
 | # | 頁面 | 回答什麼 | 狀態 |
 |---|------|---------|------|
 | 1 | [01-entry-list.html](01-entry-list.html) | 入口：現在可以連誰？哪個對象值得先連？ | Passed |
-| 2 | [02-detail-summary.html](02-detail-summary.html) | 連線後第一眼摘要：現在是什麼狀態？ | **Ready for Roy review** |
+| 2 | [02-detail-summary.html](02-detail-summary.html) | 連線後 operational overview（reconciliation 僅在衝突時浮出提示） | **Ready for Roy review** |
 | 3 | 03-central-vs-runtime.html | Central vs Runtime 怎麼並列？ | 待第 2 頁通過 |
 | 4 | 04-evidence-panel.html | 追證據去哪裡看？ | 待第 3 頁通過 |
 

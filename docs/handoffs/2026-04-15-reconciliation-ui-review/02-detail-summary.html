@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<title>Page 2 — Detail Summary</title>
+<title>Page 2 — Connected Peer Overview</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -13,7 +13,7 @@
     display: flex;
     justify-content: center;
   }
-  .wrap { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+  .wrap { display: flex; flex-direction: column; align-items: center; gap: 18px; }
 
   .page-hint {
     background: #fff;
@@ -27,6 +27,23 @@
   .page-hint strong { color: #1976d2; }
   .page-hint .muted { color: #888; font-size: 12px; margin-top: 4px; line-height: 1.5; }
 
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 440px;
+    width: 100%;
+    align-items: center;
+  }
+  .row-label {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    align-self: flex-start;
+    padding-left: 8px;
+  }
   .switcher {
     display: flex;
     gap: 6px;
@@ -36,7 +53,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     flex-wrap: wrap;
     justify-content: center;
-    max-width: 440px;
+    width: 100%;
   }
   .switcher button {
     border: none;
@@ -48,6 +65,8 @@
     color: #555;
     cursor: pointer;
     transition: all 0.15s;
+    flex: 1;
+    min-width: 100px;
   }
   .switcher button:hover { background: #f5f6f8; }
   .switcher button.active {
@@ -55,6 +74,7 @@
     color: white;
     font-weight: 600;
   }
+  .switcher.state button.active { background: #e65100; }
 
   .phone {
     width: 440px;
@@ -67,11 +87,11 @@
   .phone-header {
     background: linear-gradient(135deg, #1976d2, #1565c0);
     color: white;
-    padding: 22px 22px 18px;
+    padding: 20px 22px 18px;
   }
-  .phone-header .back { font-size: 13px; opacity: 0.8; margin-bottom: 10px; }
+  .phone-header .back { font-size: 13px; opacity: 0.8; margin-bottom: 8px; }
   .phone-header .peer-name { font-size: 22px; font-weight: 600; }
-  .phone-header .peer-type { font-size: 12px; opacity: 0.85; margin-top: 4px; }
+  .phone-header .peer-type { font-size: 12px; opacity: 0.85; margin-top: 3px; }
   .phone-header .conn-tag {
     display: inline-block;
     font-size: 11px;
@@ -82,65 +102,93 @@
     font-weight: 600;
   }
 
-  .summary-card {
-    padding: 24px 22px;
-    border-bottom: 1px solid #f0f0f0;
-  }
-  .summary-card.ok { background: #f5fbf5; }
-  .summary-card.warn { background: #fff8e1; }
-  .summary-card.muted { background: #f5f7fa; }
-  .summary-card.danger { background: #fef0f0; }
-  .summary-card.info { background: #f0f7fd; }
-
-  .summary-main {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .summary-card.ok .summary-main { color: #2e7d32; }
-  .summary-card.warn .summary-main { color: #e65100; }
-  .summary-card.muted .summary-main { color: #546e7a; }
-  .summary-card.danger .summary-main { color: #c62828; }
-  .summary-card.info .summary-main { color: #0d47a1; }
-
-  .summary-formal {
-    font-size: 11px;
-    font-family: ui-monospace, monospace;
-    color: #888;
-    margin-bottom: 14px;
-    letter-spacing: 0.3px;
-  }
-  .summary-text {
-    font-size: 14px;
-    color: #333;
-    line-height: 1.6;
-  }
-
-  .pills {
-    padding: 16px 22px;
+  .conflict-banner {
+    display: none;
+    padding: 14px 22px;
+    background: #fdecea;
+    border-left: 4px solid #c62828;
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: #7a1a1a;
+  }
+  .conflict-banner.hidden { display: none; }
+  .conflict-banner strong { color: #c62828; display: block; margin-bottom: 2px; font-size: 14px; }
+  .conflict-banner button {
+    border: none;
+    background: #c62828;
+    color: white;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 16px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .conflict-banner button:hover { background: #a42020; }
+
+  .section {
+    padding: 16px 22px;
     border-bottom: 1px solid #f0f0f0;
   }
-  .pill {
+  .section:last-child { border-bottom: none; }
+  .section-label {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .health-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .health-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+  }
+  .health-dot.ok { background: #4caf50; }
+  .health-dot.warn { background: #ff9800; }
+  .health-dot.muted { background: #9e9e9e; }
+  .health-text {
+    font-size: 17px;
+    font-weight: 600;
+    color: #222;
+  }
+  .health-sub {
+    font-size: 12px;
+    color: #777;
+    margin-top: 2px;
+  }
+
+  .info-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 10px 14px;
-    background: #f7f8fa;
-    border-radius: 10px;
+    align-items: baseline;
+    padding: 6px 0;
     font-size: 13px;
   }
-  .pill-label { color: #666; font-weight: 500; }
-  .pill-value { color: #222; font-weight: 600; }
-  .pill-value.ok { color: #2e7d32; }
-  .pill-value.warn { color: #e65100; }
-  .pill-value.muted { color: #888; }
-  .pill-value.danger { color: #c62828; }
+  .info-row .k { color: #666; }
+  .info-row .v { color: #222; font-weight: 500; font-family: ui-monospace, monospace; }
+
+  .log-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 5px 0;
+    border-bottom: 1px dotted #eee;
+  }
+  .log-item:last-child { border-bottom: none; }
+  .log-item .time { color: #999; font-family: ui-monospace, monospace; font-size: 11px; }
+  .log-item .ev { color: #444; }
 
   .next-hint {
-    padding: 14px 22px;
+    padding: 12px 22px;
     font-size: 12px;
     color: #6a7a8a;
     background: #f5f8fc;
@@ -167,147 +215,245 @@
 <div class="wrap">
 
   <div class="page-hint">
-    <strong>Page 2 / 4 — 連線後的第一眼摘要</strong>
+    <strong>Page 2 / 4 — 連線後的 peer overview</strong>
     <div class="muted">
-      用戶連上後，第一眼看到的是這頁；這頁只回答「現在是什麼狀態」，不展開雙欄比對與證據。
+      主體是 operational overview（活著、連線、log）。reconciliation 僅在偵測到衝突時浮出為提示。
     </div>
   </div>
 
-  <div class="switcher" id="switcher">
-    <button data-scn="ok" class="active">正常</button>
-    <button data-scn="pending">等待同步</button>
-    <button data-scn="not_compared">目前無法比對</button>
-    <button data-scn="conflict">來源衝突</button>
-    <button data-scn="central_only">現場未回報</button>
+  <div class="controls">
+    <div class="row-label">Peer type</div>
+    <div class="switcher" id="peer-switcher">
+      <button data-peer="gw" class="active">Gateway</button>
+      <button data-peer="ed">End Device</button>
+      <button data-peer="cc">Central Bridge</button>
+    </div>
+
+    <div class="row-label">State</div>
+    <div class="switcher state" id="state-switcher">
+      <button data-state="normal" class="active">Normal</button>
+      <button data-state="conflict">Conflict</button>
+    </div>
   </div>
 
   <div class="phone">
     <div class="phone-header">
       <div class="back">← Connect to…</div>
-      <div class="peer-name">North Group</div>
-      <div class="peer-type">Gateway group</div>
+      <div class="peer-name" id="peer-name">North Group</div>
+      <div class="peer-type" id="peer-subtype">Gateway</div>
       <div class="conn-tag">● Connected</div>
     </div>
 
-    <div class="summary-card ok" id="card">
-      <div class="summary-main" id="main">正常</div>
-      <div class="summary-formal" id="formal">confirmed</div>
-      <div class="summary-text" id="text">後台分配與現場觀測一致，不用動作。</div>
+    <div class="conflict-banner hidden" id="banner">
+      <div>
+        <strong>偵測到來源衝突</strong>
+        後台與現場指向不同 Gateway，建議查看差異後再決定。
+      </div>
+      <button type="button">查看差異</button>
     </div>
 
-    <div class="pills">
-      <div class="pill">
-        <span class="pill-label">Central（後台）</span>
-        <span class="pill-value ok" id="pill-central">已同步</span>
-      </div>
-      <div class="pill">
-        <span class="pill-label">Runtime（現場）</span>
-        <span class="pill-value ok" id="pill-runtime">已回報</span>
-      </div>
-      <div class="pill">
-        <span class="pill-label">Compare（是否可比對）</span>
-        <span class="pill-value ok" id="pill-compare">可比對</span>
-      </div>
-    </div>
+    <div id="body"></div>
 
     <div class="next-hint">
       <strong>下一步</strong><br>
-      想看 Central vs Runtime 並列細節 → Page 3<br>
-      想看 timestamp / revision / evidence → Page 4
+      想看 Central vs Runtime 並列差異 → Page 3<br>
+      想追 timestamp / revision / evidence → Page 4
     </div>
   </div>
 
   <div class="page-note">
-    <strong>下一頁</strong>：Roy review 通過後再做 <code>03-central-vs-runtime.html</code>（Central 與 Runtime 並列比對）。<br>
-    現在先停在這裡，不預做其他頁。
+    <strong>下一頁</strong>：Roy review 通過後再做 <code>03-central-vs-runtime.html</code>（Central 與 Runtime 並列比對）。
   </div>
 
 </div>
 
 <script>
-  const scenarios = {
-    ok: {
-      cls: "ok",
-      main: "正常",
-      formal: "confirmed",
-      text: "後台分配與現場觀測一致，不用動作。",
-      pills: {
-        central: { text: "已同步", cls: "ok" },
-        runtime: { text: "已回報", cls: "ok" },
-        compare: { text: "可比對", cls: "ok" }
-      }
+  const views = {
+    gw: {
+      name: "North Group",
+      sub: "Gateway",
+      sections: [
+        {
+          label: "Gateway health",
+          kind: "health",
+          dot: "ok",
+          text: "Alive",
+          sub: "uptime 2d 04h · 無異常"
+        },
+        {
+          label: "Members",
+          kind: "info",
+          rows: [
+            ["End devices", "4 台"],
+            ["Recent attach", "2s ago"]
+          ]
+        },
+        {
+          label: "Connections",
+          kind: "info",
+          rows: [
+            ["Uplink", "Central Bridge · online"],
+            ["Downlink", "4 EDs · 全部回報中"]
+          ]
+        },
+        {
+          label: "Recent log",
+          kind: "log",
+          items: [
+            ["2s ago", "ED-007 attach"],
+            ["1m ago", "heartbeat ok"],
+            ["3m ago", "cfg version 42 applied"]
+          ]
+        }
+      ]
     },
-    pending: {
-      cls: "warn",
-      main: "等待同步",
-      formal: "pending_reconciliation",
-      text: "現場剛切換到新 Gateway，後台還沒跟上。屬正常延遲，幾秒內應自動收斂。",
-      pills: {
-        central: { text: "尚未追上", cls: "warn" },
-        runtime: { text: "已切換", cls: "warn" },
-        compare: { text: "可比對", cls: "ok" }
-      }
+    ed: {
+      name: "ED-007",
+      sub: "End Device",
+      sections: [
+        {
+          label: "Device health",
+          kind: "health",
+          dot: "ok",
+          text: "Alive",
+          sub: "uptime 6h 12m · 訊號正常"
+        },
+        {
+          label: "Connection",
+          kind: "info",
+          rows: [
+            ["Via gateway", "North Group"],
+            ["Signal", "RSSI -62 dBm"],
+            ["Last seen", "1s ago"]
+          ]
+        },
+        {
+          label: "Recent log",
+          kind: "log",
+          items: [
+            ["1s ago", "status ok"],
+            ["45s ago", "attach to GW"]
+          ]
+        }
+      ]
     },
-    not_compared: {
-      cls: "muted",
-      main: "目前無法比對",
-      formal: "not compared / last synced",
-      text: "現在沒有 live 後台資料；只能看到上次同步的快取。還不能判定是不是衝突。",
-      pills: {
-        central: { text: "最後同步 45s 前", cls: "muted" },
-        runtime: { text: "已回報", cls: "ok" },
-        compare: { text: "目前無法比對", cls: "muted" }
-      }
-    },
-    conflict: {
-      cls: "danger",
-      main: "來源衝突",
-      formal: "conflict",
-      text: "後台與現場都最新，但兩邊指向不同 Gateway。需要人工確認。",
-      pills: {
-        central: { text: "已同步", cls: "ok" },
-        runtime: { text: "已回報（不同值）", cls: "danger" },
-        compare: { text: "可比對，發現差異", cls: "danger" }
-      }
-    },
-    central_only: {
-      cls: "info",
-      main: "現場未回報",
-      formal: "central_only",
-      text: "後台已經分配，但現場還沒回報 attach。剛派工時常見。",
-      pills: {
-        central: { text: "已同步", cls: "ok" },
-        runtime: { text: "尚未回報", cls: "muted" },
-        compare: { text: "可比對", cls: "ok" }
-      }
+    cc: {
+      name: "Central Bridge",
+      sub: "Bridge to Central",
+      sections: [
+        {
+          label: "Bridge health",
+          kind: "health",
+          dot: "ok",
+          text: "Online",
+          sub: "橋接器在線；本身不是 Central，僅負責轉發"
+        },
+        {
+          label: "Central side",
+          kind: "info",
+          rows: [
+            ["Central reachable", "是"],
+            ["Last sync", "3s ago"]
+          ]
+        },
+        {
+          label: "Gateway side",
+          kind: "info",
+          rows: [
+            ["Linked gateways", "3 組"],
+            ["Queue", "清空"]
+          ]
+        },
+        {
+          label: "Recent log",
+          kind: "log",
+          items: [
+            ["3s ago", "sync ok"],
+            ["30s ago", "bridge restart (scheduled)"]
+          ]
+        }
+      ]
     }
   };
 
+  let peer = "gw";
+  let state = "normal";
+
   const $ = (id) => document.getElementById(id);
 
-  function render(key) {
-    const s = scenarios[key];
-    $("card").className = "summary-card " + s.cls;
-    $("main").textContent = s.main;
-    $("formal").textContent = s.formal;
-    $("text").textContent = s.text;
-
-    ["central", "runtime", "compare"].forEach(k => {
-      const el = $("pill-" + k);
-      el.textContent = s.pills[k].text;
-      el.className = "pill-value " + s.pills[k].cls;
-    });
+  function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
   }
 
-  document.querySelectorAll("#switcher button").forEach(btn => {
+  function renderSection(sec) {
+    const s = el("div", "section");
+    s.appendChild(el("div", "section-label", sec.label));
+
+    if (sec.kind === "health") {
+      const row = el("div", "health-row");
+      row.appendChild(el("div", "health-dot " + sec.dot));
+      const wrap = el("div");
+      wrap.appendChild(el("div", "health-text", sec.text));
+      if (sec.sub) wrap.appendChild(el("div", "health-sub", sec.sub));
+      row.appendChild(wrap);
+      s.appendChild(row);
+    } else if (sec.kind === "info") {
+      sec.rows.forEach(([k, v]) => {
+        const r = el("div", "info-row");
+        r.appendChild(el("span", "k", k));
+        r.appendChild(el("span", "v", v));
+        s.appendChild(r);
+      });
+    } else if (sec.kind === "log") {
+      sec.items.forEach(([t, ev]) => {
+        const item = el("div", "log-item");
+        item.appendChild(el("span", "ev", ev));
+        item.appendChild(el("span", "time", t));
+        s.appendChild(item);
+      });
+    }
+    return s;
+  }
+
+  function render() {
+    const v = views[peer];
+    $("peer-name").textContent = v.name;
+    $("peer-subtype").textContent = v.sub;
+
+    const body = $("body");
+    while (body.firstChild) body.removeChild(body.firstChild);
+    v.sections.forEach(sec => body.appendChild(renderSection(sec)));
+
+    const banner = $("banner");
+    if (state === "conflict") {
+      banner.classList.remove("hidden");
+    } else {
+      banner.classList.add("hidden");
+    }
+  }
+
+  document.querySelectorAll("#peer-switcher button").forEach(btn => {
     btn.addEventListener("click", () => {
-      document.querySelectorAll("#switcher button").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll("#peer-switcher button").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      render(btn.dataset.scn);
+      peer = btn.dataset.peer;
+      render();
     });
   });
 
-  render("ok");
+  document.querySelectorAll("#state-switcher button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#state-switcher button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      state = btn.dataset.state;
+      render();
+    });
+  });
+
+  render();
 </script>
 
 </body>
