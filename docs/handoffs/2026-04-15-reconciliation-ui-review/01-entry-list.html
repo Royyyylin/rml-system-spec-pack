@@ -26,30 +26,29 @@
     border-radius: 4px;
     font-size: 13px;
     color: #444;
-    max-width: 460px;
+    max-width: 440px;
   }
   .page-hint strong { color: #1976d2; }
   .page-hint .muted { color: #888; font-size: 12px; margin-top: 4px; line-height: 1.5; }
 
-  /* 手機 mock */
   .phone {
-    width: 460px;
+    width: 440px;
     background: #fff;
     border-radius: 24px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.12);
     overflow: hidden;
-    min-height: 720px;
+    min-height: 640px;
   }
   .phone-header {
     background: linear-gradient(135deg, #1976d2, #1565c0);
     color: white;
-    padding: 22px 20px 18px;
+    padding: 24px 22px 20px;
   }
-  .phone-header .title { font-size: 20px; font-weight: 600; }
-  .phone-header .sub { font-size: 12px; opacity: 0.85; margin-top: 4px; line-height: 1.5; }
+  .phone-header .title { font-size: 22px; font-weight: 600; }
+  .phone-header .sub { font-size: 13px; opacity: 0.85; margin-top: 4px; }
 
   .section-label {
-    padding: 16px 20px 8px;
+    padding: 18px 22px 8px;
     font-size: 11px;
     color: #888;
     text-transform: uppercase;
@@ -59,7 +58,7 @@
   }
 
   .peer-card {
-    padding: 16px 20px;
+    padding: 18px 22px;
     border-bottom: 1px solid #f0f0f0;
     display: flex;
     align-items: center;
@@ -67,71 +66,25 @@
   }
   .peer-card:last-child { border-bottom: none; }
 
-  .peer-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: 700;
-    color: white;
-  }
-  .peer-icon.gw { background: linear-gradient(135deg, #fb8c00, #ef6c00); }
-  .peer-icon.cc { background: linear-gradient(135deg, #1976d2, #0d47a1); }
-  .peer-icon.orphan { background: linear-gradient(135deg, #757575, #424242); }
-
   .peer-body { flex: 1; min-width: 0; }
-  .peer-top {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    margin-bottom: 4px;
-    flex-wrap: wrap;
-  }
   .peer-name {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
     color: #222;
-  }
-  .peer-tag {
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 8px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-  }
-  .peer-tag.role-gw { background: #fff3e0; color: #e65100; }
-  .peer-tag.role-cc { background: #e3f2fd; color: #0d47a1; }
-  .peer-tag.role-orphan { background: #f5f5f5; color: #616161; }
-
-  .peer-meta {
-    font-size: 13px;
-    color: #555;
     margin-bottom: 4px;
   }
-  .peer-meta .members { font-family: ui-monospace, monospace; color: #333; font-weight: 600; }
-  .peer-hint {
-    font-size: 12px;
-    color: #777;
+  .peer-status {
+    font-size: 13px;
+    color: #666;
     line-height: 1.4;
   }
-  .peer-hint .attn { color: #e65100; font-weight: 600; }
-  .peer-hint .ok { color: #2e7d32; }
-  .members-link {
-    display: inline-block;
-    margin-top: 2px;
-    font-size: 11px;
-    color: #1976d2;
-    opacity: 0.6;
-  }
+  .peer-status.attn { color: #e65100; }
+  .peer-status.ok { color: #2e7d32; }
+  .peer-status.muted { color: #888; }
 
   .connect-btn {
     flex-shrink: 0;
-    padding: 8px 18px;
+    padding: 9px 20px;
     background: #1976d2;
     color: white;
     border: none;
@@ -143,23 +96,18 @@
     transition: background 0.15s;
   }
   .connect-btn:hover { background: #1565c0; }
-  .connect-btn.cc { background: #0d47a1; }
-  .connect-btn.cc:hover { background: #08306b; }
-  .connect-btn.orphan { background: #616161; }
-  .connect-btn.orphan:hover { background: #424242; }
 
   .footer-note {
-    padding: 14px 20px;
+    padding: 16px 22px;
     background: #f5f8fc;
     font-size: 12px;
-    color: #5a6a7a;
+    color: #6a7a8a;
     line-height: 1.6;
     border-top: 1px solid #e8ecf2;
   }
-  .footer-note strong { color: #1976d2; }
 
   .next-note {
-    max-width: 460px;
+    max-width: 440px;
     padding: 14px 18px;
     background: #fff;
     border-radius: 8px;
@@ -177,98 +125,66 @@
 <div class="wrap">
 
   <div class="page-hint">
-    <strong>Page 1 / 4 — 入口：選擇要連線的對象（pre-connect）</strong>
+    <strong>Page 1 / 4 — 選擇要連線的對象</strong>
     <div class="muted">
-      本頁回答：現在掃到誰？哪個值得先連？<br>
-      此頁所有摘要都來自上次同步的 cached / last-synced reference，<strong>不是 live truth</strong>。<br>
-      ED 清單、telemetry、reconciliation、can_compare、改名 — 全部要等連線後才讀取。
+      只顯示可連線對象與極短狀態。所有詳細資料、成員、數值、操作都在連線後才會讀取。
     </div>
   </div>
 
   <div class="phone">
     <div class="phone-header">
       <div class="title">Connect to…</div>
-      <div class="sub">以下顯示掃到的對象與上次同步摘要。連線後才讀取 live detail。</div>
+      <div class="sub">選一個對象連線</div>
     </div>
 
-    <!-- ===== Gateway groups ===== -->
     <div class="section-label">Gateway groups</div>
 
     <div class="peer-card">
-      <div class="peer-icon gw">G1</div>
       <div class="peer-body">
-        <div class="peer-top">
-          <span class="peer-name">Group North</span>
-          <span class="peer-tag role-gw">Gateway</span>
-        </div>
-        <div class="peer-meta">via <span class="members">GW-A</span> · 上次同步約 <span class="members">4 個 ED</span></div>
-        <div class="peer-hint">最後同步 12s 前 · <span class="attn">上次同步顯示有待確認項目</span> · 連線後讀取詳情</div>
+        <div class="peer-name">North Group</div>
+        <div class="peer-status attn">上次同步待確認</div>
       </div>
       <button class="connect-btn">Connect</button>
     </div>
 
     <div class="peer-card">
-      <div class="peer-icon gw">G2</div>
       <div class="peer-body">
-        <div class="peer-top">
-          <span class="peer-name">Group South</span>
-          <span class="peer-tag role-gw">Gateway</span>
-        </div>
-        <div class="peer-meta">via <span class="members">GW-B</span> · 上次同步約 <span class="members">3 個 ED</span></div>
-        <div class="peer-hint">最後同步 8s 前 · <span class="ok">上次同步皆正常</span> · 連線後讀取詳情</div>
+        <div class="peer-name">South Group</div>
+        <div class="peer-status ok">上次同步正常</div>
       </div>
       <button class="connect-btn">Connect</button>
     </div>
 
     <div class="peer-card">
-      <div class="peer-icon gw">G3</div>
       <div class="peer-body">
-        <div class="peer-top">
-          <span class="peer-name">Group West</span>
-          <span class="peer-tag role-gw">Gateway</span>
-        </div>
-        <div class="peer-meta">via <span class="members">GW-C</span> · 上次同步約 <span class="members">2 個 ED</span></div>
-        <div class="peer-hint">最後同步 45s 前 · 等待連線後讀取最新狀態</div>
+        <div class="peer-name">West Group</div>
+        <div class="peer-status muted">尚未取得詳細資料</div>
       </div>
       <button class="connect-btn">Connect</button>
     </div>
 
-    <!-- ===== CC bridge ===== -->
     <div class="section-label">Bridge to Central</div>
 
     <div class="peer-card">
-      <div class="peer-icon cc">CC</div>
       <div class="peer-body">
-        <div class="peer-top">
-          <span class="peer-name">CC bridge</span>
-          <span class="peer-tag role-cc">Bridge</span>
-        </div>
-        <div class="peer-meta">不屬於任何 group</div>
-        <div class="peer-hint">通往後台 Central 的橋樑。連線後才能取得 live authoritative 分配資料。</div>
+        <div class="peer-name">Central Bridge</div>
+        <div class="peer-status muted">可連線查看</div>
       </div>
-      <button class="connect-btn cc">Connect</button>
+      <button class="connect-btn">Connect</button>
     </div>
 
-    <!-- ===== Orphan ED ===== -->
-    <div class="section-label">未掛到 Gateway 的 ED</div>
+    <div class="section-label">未掛到 Gateway 的裝置</div>
 
     <div class="peer-card">
-      <div class="peer-icon orphan">ED</div>
       <div class="peer-body">
-        <div class="peer-top">
-          <span class="peer-name">ED-019</span>
-          <span class="peer-tag role-orphan">Orphan</span>
-        </div>
-        <div class="peer-meta">stableId: ed-1d4c · 上次同步未掛到任何 group</div>
-        <div class="peer-hint">直接 BLE 對話，不經 Gateway。連線後才能確認目前實際狀態。</div>
+        <div class="peer-name">Unassigned device</div>
+        <div class="peer-status muted">可連線查看</div>
       </div>
-      <button class="connect-btn orphan">Connect</button>
+      <button class="connect-btn">Connect</button>
     </div>
 
     <div class="footer-note">
-      <strong>提醒</strong>：App 同時只能連一個對象。<br>
-      連線後才會讀取：ED 清單、telemetry、reconciliation summary、是否能 compare（can_compare）。<br>
-      改名 / 裝置操作也只能在連線後的 detail 頁進行。
+      名稱顯示為上次同步結果；詳細資料與裝置操作在連線後顯示。
     </div>
 
   </div>
