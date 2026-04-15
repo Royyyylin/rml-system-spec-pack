@@ -274,6 +274,43 @@
   }
   .next-hint strong { color: #1976d2; }
 
+  .update-strategy {
+    padding: 12px 22px;
+    background: #fafbfc;
+    font-size: 11px;
+    color: #6a7a8a;
+    line-height: 1.5;
+    border-top: 1px solid #f0f0f0;
+  }
+  .update-strategy .ust-title {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .update-strategy .ust-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 2px 0;
+  }
+  .update-strategy .ust-k { color: #555; }
+  .update-strategy .ust-v {
+    color: #333;
+    font-family: ui-monospace, monospace;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .update-strategy .ust-eng {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dotted #ddd;
+    color: #5e35b1;
+    font-style: italic;
+  }
+
   .page-note {
     max-width: 460px;
     padding: 14px 18px;
@@ -341,6 +378,17 @@
     </div>
 
     <div id="body"></div>
+
+    <div class="update-strategy">
+      <div class="ust-title">Update strategy</div>
+      <div class="ust-row"><span class="ust-k">Gateway overview / 收合 ED 列</span><span class="ust-v">2s（STATUS polling）</span></div>
+      <div class="ust-row"><span class="ust-k">展開中的 ED detail</span><span class="ust-v">notify · ~1s 節流（METRICS_V2）</span></div>
+      <div class="ust-row"><span class="ust-k">Central Bridge 摘要</span><span class="ust-v">3–5s 或 event-driven</span></div>
+      <div class="ust-row"><span class="ust-k">Conflict banner / Recent log</span><span class="ust-v">event-driven（EVT）</span></div>
+      <div class="ust-row"><span class="ust-k">DEVICE_INFO（uptime 等）</span><span class="ust-v">30s（read）</span></div>
+      <div class="ust-row"><span class="ust-k">FW_VERSION / CAPS_V2 / ROSTER / alias</span><span class="ust-v">on open / 手動 refresh</span></div>
+      <div class="ust-eng">更快的細節更新只在「展開中且正在看的項目」上發生。</div>
+    </div>
 
     <div class="next-hint">
       <strong>下一步</strong><br>

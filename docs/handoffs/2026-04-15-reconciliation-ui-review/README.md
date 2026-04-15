@@ -31,6 +31,17 @@ Page-by-page review。一次只看一頁，上一頁通過後才做下一頁。
 - Page 2 以 Gateway / End Device 為主；`Central Bridge` 僅為 Central-side path 的特殊路徑示意，非一般巡視入口
 - Gateway 視角採 overview + expandable members / bridge 結構（accordion），點開才顯示個別 ED 或 bridge 的短摘要；不展開時保持極簡
 
+### Page 2 update strategy（4 層）
+
+mock 假設不是所有區塊同頻率更新，與現有 app contract / firmware SSOT 對齊：
+
+- **overview**：~2s polling（STATUS）—— Gateway overview / 收合 ED 列
+- **expanded detail**：notify-driven，UI ~1s 節流（METRICS_V2）—— 只在「展開中且正在看的項目」發生
+- **event/log/alarm**：event-driven（EVT）—— conflict banner、recent log
+- **static / semi-static**：on open 或 30s（DEVICE_INFO）/ 手動 refresh（FW_VERSION / CAPS_V2 / ROSTER / alias）
+
+不把 50–100ms 級的更新搬進手機主 flow。
+
 ## 操作
 
 用 Chrome 直接打開 `01-entry-list.html`。
