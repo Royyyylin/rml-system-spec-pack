@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<title>Page 2 — Connected Peer Overview</title>
+<title>Page 2 — Peer Overview (Role-layered)</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -13,7 +13,7 @@
     display: flex;
     justify-content: center;
   }
-  .wrap { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+  .wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
 
   .page-hint {
     background: #fff;
@@ -22,7 +22,7 @@
     border-radius: 4px;
     font-size: 13px;
     color: #444;
-    max-width: 440px;
+    max-width: 460px;
   }
   .page-hint strong { color: #1976d2; }
   .page-hint .muted { color: #888; font-size: 12px; margin-top: 4px; line-height: 1.5; }
@@ -30,8 +30,8 @@
   .controls {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    max-width: 440px;
+    gap: 6px;
+    max-width: 460px;
     width: 100%;
     align-items: center;
   }
@@ -43,6 +43,7 @@
     font-weight: 600;
     align-self: flex-start;
     padding-left: 8px;
+    margin-top: 2px;
   }
   .switcher {
     display: flex;
@@ -74,10 +75,11 @@
     color: white;
     font-weight: 600;
   }
+  .switcher.role button.active { background: #5e35b1; }
   .switcher.state button.active { background: #e65100; }
 
   .phone {
-    width: 440px;
+    width: 460px;
     background: #fff;
     border-radius: 24px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.12);
@@ -87,23 +89,29 @@
   .phone-header {
     background: linear-gradient(135deg, #1976d2, #1565c0);
     color: white;
-    padding: 20px 22px 18px;
+    padding: 18px 22px 16px;
   }
-  .phone-header .back { font-size: 13px; opacity: 0.8; margin-bottom: 8px; }
-  .phone-header .peer-name { font-size: 22px; font-weight: 600; }
-  .phone-header .peer-type { font-size: 12px; opacity: 0.85; margin-top: 3px; }
+  .phone-header .back { font-size: 13px; opacity: 0.8; margin-bottom: 6px; }
+  .phone-header .peer-name { font-size: 20px; font-weight: 600; }
+  .phone-header .peer-meta { display: flex; gap: 8px; align-items: center; margin-top: 4px; flex-wrap: wrap; }
+  .phone-header .peer-type { font-size: 12px; opacity: 0.85; }
   .phone-header .conn-tag {
-    display: inline-block;
     font-size: 11px;
     padding: 2px 10px;
     border-radius: 10px;
     background: rgba(255,255,255,0.2);
-    margin-top: 8px;
     font-weight: 600;
+  }
+  .phone-header .role-tag {
+    font-size: 11px;
+    padding: 2px 10px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.15);
+    font-weight: 600;
+    font-style: italic;
   }
 
   .conflict-banner {
-    display: none;
     padding: 14px 22px;
     background: #fdecea;
     border-left: 4px solid #c62828;
@@ -131,46 +139,48 @@
   .conflict-banner button:hover { background: #a42020; }
 
   .section {
-    padding: 16px 22px;
+    padding: 14px 22px;
     border-bottom: 1px solid #f0f0f0;
   }
   .section:last-child { border-bottom: none; }
+  .section.engineer {
+    background: #f9f7fc;
+    border-left: 3px solid #b39ddb;
+  }
   .section-label {
     font-size: 11px;
     color: #888;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-weight: 600;
-    margin-bottom: 10px;
-  }
-
-  .health-row {
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
   }
-  .health-dot {
-    width: 12px; height: 12px; border-radius: 50%;
+  .eng-tag {
+    font-size: 9px;
+    color: #5e35b1;
+    background: #ede7f6;
+    padding: 1px 6px;
+    border-radius: 6px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
   }
+
+  .health-row { display: flex; align-items: center; gap: 12px; }
+  .health-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
   .health-dot.ok { background: #4caf50; }
   .health-dot.warn { background: #ff9800; }
   .health-dot.muted { background: #9e9e9e; }
-  .health-text {
-    font-size: 17px;
-    font-weight: 600;
-    color: #222;
-  }
-  .health-sub {
-    font-size: 12px;
-    color: #777;
-    margin-top: 2px;
-  }
+  .health-text { font-size: 17px; font-weight: 600; color: #222; }
+  .health-sub { font-size: 12px; color: #777; margin-top: 2px; }
 
   .info-row {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 6px 0;
+    padding: 5px 0;
     font-size: 13px;
   }
   .info-row .k { color: #666; }
@@ -180,7 +190,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 12px;
-    padding: 5px 0;
+    padding: 4px 0;
     border-bottom: 1px dotted #eee;
   }
   .log-item:last-child { border-bottom: none; }
@@ -197,7 +207,7 @@
   .next-hint strong { color: #1976d2; }
 
   .page-note {
-    max-width: 440px;
+    max-width: 460px;
     padding: 14px 18px;
     background: #fff;
     border-radius: 8px;
@@ -215,9 +225,10 @@
 <div class="wrap">
 
   <div class="page-hint">
-    <strong>Page 2 / 4 — 連線後的 peer overview</strong>
+    <strong>Page 2 / 4 — 連線後 peer overview（role-layered）</strong>
     <div class="muted">
-      主體是 operational overview（活著、連線、log）。reconciliation 僅在偵測到衝突時浮出為提示。
+      巡視人員看 quick health；Engineer 多看 deeper diagnostics。
+      Reconciliation 仍是 exception flow，只有 conflict 時才浮出。
     </div>
   </div>
 
@@ -227,6 +238,12 @@
       <button data-peer="gw" class="active">Gateway</button>
       <button data-peer="ed">End Device</button>
       <button data-peer="cc">Central Bridge</button>
+    </div>
+
+    <div class="row-label">Role</div>
+    <div class="switcher role" id="role-switcher">
+      <button data-role="inspector" class="active">巡視人員</button>
+      <button data-role="engineer">Engineer</button>
     </div>
 
     <div class="row-label">State</div>
@@ -240,14 +257,17 @@
     <div class="phone-header">
       <div class="back">← Connect to…</div>
       <div class="peer-name" id="peer-name">North Group</div>
-      <div class="peer-type" id="peer-subtype">Gateway</div>
-      <div class="conn-tag">● Connected</div>
+      <div class="peer-meta">
+        <span class="peer-type" id="peer-subtype">Gateway</span>
+        <span class="conn-tag">● Connected</span>
+        <span class="role-tag" id="role-tag">as 巡視人員</span>
+      </div>
     </div>
 
     <div class="conflict-banner hidden" id="banner">
       <div>
         <strong>偵測到來源衝突</strong>
-        後台與現場指向不同 Gateway，建議查看差異後再決定。
+        後台與現場指向不同 Gateway，建議查看差異後再決定（例外流程）。
       </div>
       <button type="button">查看差異</button>
     </div>
@@ -262,121 +282,108 @@
   </div>
 
   <div class="page-note">
-    <strong>下一頁</strong>：Roy review 通過後再做 <code>03-central-vs-runtime.html</code>（Central 與 Runtime 並列比對）。
+    <strong>下一頁</strong>：Roy review 通過後再做 <code>03-central-vs-runtime.html</code>。
   </div>
 
 </div>
 
 <script>
+  // views[peerType].inspector = sections 陣列
+  // views[peerType].engineer  = additional sections（會加在 inspector 之後）
   const views = {
     gw: {
       name: "North Group",
       sub: "Gateway",
-      sections: [
-        {
-          label: "Gateway health",
-          kind: "health",
-          dot: "ok",
-          text: "Alive",
-          sub: "uptime 2d 04h · 無異常"
-        },
-        {
-          label: "Members",
-          kind: "info",
-          rows: [
-            ["End devices", "4 台"],
-            ["Recent attach", "2s ago"]
-          ]
-        },
-        {
-          label: "Connections",
-          kind: "info",
-          rows: [
-            ["Uplink", "Central Bridge · online"],
-            ["Downlink", "4 EDs · 全部回報中"]
-          ]
-        },
-        {
-          label: "Recent log",
-          kind: "log",
-          items: [
-            ["2s ago", "ED-007 attach"],
-            ["1m ago", "heartbeat ok"],
-            ["3m ago", "cfg version 42 applied"]
-          ]
-        }
+      inspector: [
+        { kind: "health", label: "Gateway health", dot: "ok", text: "Alive", sub: "uptime 2d 04h" },
+        { kind: "info", label: "Members", rows: [
+          ["End devices", "4 台"],
+          ["Recent attach", "2s ago"]
+        ]},
+        { kind: "info", label: "Connections", rows: [
+          ["Uplink", "Central Bridge · online"],
+          ["Downlink", "4 EDs · 回報中"]
+        ]},
+        { kind: "log", label: "Recent log", items: [
+          ["2s ago", "ED-007 attach"],
+          ["1m ago", "heartbeat ok"]
+        ]}
+      ],
+      engineer: [
+        { kind: "info", label: "Link diagnostics", engineer: true, rows: [
+          ["Uplink PHY", "2M"],
+          ["TX Power", "0 dBm"],
+          ["Avg jitter", "3.2 ms"],
+          ["Throughput", "18 kbps"]
+        ]},
+        { kind: "info", label: "Compare gate", engineer: true, rows: [
+          ["Central side", "fresh（已同步）"],
+          ["Runtime side", "fresh（已回報）"],
+          ["can_compare", "true"]
+        ]}
       ]
     },
     ed: {
       name: "ED-007",
       sub: "End Device",
-      sections: [
-        {
-          label: "Device health",
-          kind: "health",
-          dot: "ok",
-          text: "Alive",
-          sub: "uptime 6h 12m · 訊號正常"
-        },
-        {
-          label: "Connection",
-          kind: "info",
-          rows: [
-            ["Via gateway", "North Group"],
-            ["Signal", "RSSI -62 dBm"],
-            ["Last seen", "1s ago"]
-          ]
-        },
-        {
-          label: "Recent log",
-          kind: "log",
-          items: [
-            ["1s ago", "status ok"],
-            ["45s ago", "attach to GW"]
-          ]
-        }
+      inspector: [
+        { kind: "health", label: "Device health", dot: "ok", text: "Alive", sub: "uptime 6h 12m · 訊號正常" },
+        { kind: "info", label: "Connection", rows: [
+          ["Via gateway", "North Group"],
+          ["Signal", "良好"],
+          ["Last seen", "1s ago"]
+        ]},
+        { kind: "log", label: "Recent log", items: [
+          ["1s ago", "status ok"],
+          ["45s ago", "attach to GW"]
+        ]}
+      ],
+      engineer: [
+        { kind: "info", label: "Link diagnostics", engineer: true, rows: [
+          ["RSSI", "-62 dBm"],
+          ["PHY", "2M"],
+          ["TX Power", "-4 dBm"],
+          ["Jitter", "4.1 ms"],
+          ["Throughput", "6 kbps"]
+        ]},
+        { kind: "info", label: "Compare gate", engineer: true, rows: [
+          ["Central side", "fresh"],
+          ["Runtime side", "fresh"],
+          ["can_compare", "true"]
+        ]}
       ]
     },
     cc: {
       name: "Central Bridge",
       sub: "Bridge to Central",
-      sections: [
-        {
-          label: "Bridge health",
-          kind: "health",
-          dot: "ok",
-          text: "Online",
-          sub: "橋接器在線；本身不是 Central，僅負責轉發"
-        },
-        {
-          label: "Central side",
-          kind: "info",
-          rows: [
-            ["Central reachable", "是"],
-            ["Last sync", "3s ago"]
-          ]
-        },
-        {
-          label: "Gateway side",
-          kind: "info",
-          rows: [
-            ["Linked gateways", "3 組"],
-            ["Queue", "清空"]
-          ]
-        },
-        {
-          label: "Recent log",
-          kind: "log",
-          items: [
-            ["3s ago", "sync ok"],
-            ["30s ago", "bridge restart (scheduled)"]
-          ]
-        }
+      inspector: [
+        { kind: "health", label: "Bridge health", dot: "ok", text: "Online", sub: "僅負責轉發，不是 Central 本體" },
+        { kind: "info", label: "Central side", rows: [
+          ["Central reachable", "是"],
+          ["Last sync", "3s ago"]
+        ]},
+        { kind: "info", label: "Gateway side", rows: [
+          ["Linked gateways", "3 組"],
+          ["Queue", "清空"]
+        ]},
+        { kind: "log", label: "Recent log", items: [
+          ["3s ago", "sync ok"],
+          ["30s ago", "bridge reset (scheduled)"]
+        ]}
+      ],
+      engineer: [
+        { kind: "info", label: "Relay diagnostics", engineer: true, rows: [
+          ["Relay latency", "28 ms"],
+          ["Sync rate", "10 / min"],
+          ["Queue depth", "0"],
+          ["Retries (5m)", "0"]
+        ]}
       ]
     }
   };
 
   let peer = "gw";
+  let role = "inspector";
   let state = "normal";
 
   const $ = (id) => document.getElementById(id);
@@ -389,8 +396,11 @@
   }
 
   function renderSection(sec) {
-    const s = el("div", "section");
-    s.appendChild(el("div", "section-label", sec.label));
+    const s = el("div", "section" + (sec.engineer ? " engineer" : ""));
+    const lbl = el("div", "section-label");
+    lbl.appendChild(document.createTextNode(sec.label));
+    if (sec.engineer) lbl.appendChild(el("span", "eng-tag", "ENG"));
+    s.appendChild(lbl);
 
     if (sec.kind === "health") {
       const row = el("div", "health-row");
@@ -422,17 +432,29 @@
     const v = views[peer];
     $("peer-name").textContent = v.name;
     $("peer-subtype").textContent = v.sub;
+    $("role-tag").textContent = "as " + (role === "inspector" ? "巡視人員" : "Engineer");
 
     const body = $("body");
     while (body.firstChild) body.removeChild(body.firstChild);
-    v.sections.forEach(sec => body.appendChild(renderSection(sec)));
+
+    // Inspector 視角先放；Engineer 模式下，log 擴充到 3 筆
+    let inspectorSecs = v.inspector.map(sec => {
+      if (role === "engineer" && sec.kind === "log") {
+        // 多顯示一筆（如果 data 裡有第三筆）
+        return sec; // data 層不強塞，engineer 下改在 engineer sections 處理
+      }
+      return sec;
+    });
+
+    inspectorSecs.forEach(sec => body.appendChild(renderSection(sec)));
+
+    if (role === "engineer") {
+      v.engineer.forEach(sec => body.appendChild(renderSection(sec)));
+    }
 
     const banner = $("banner");
-    if (state === "conflict") {
-      banner.classList.remove("hidden");
-    } else {
-      banner.classList.add("hidden");
-    }
+    if (state === "conflict") banner.classList.remove("hidden");
+    else banner.classList.add("hidden");
   }
 
   document.querySelectorAll("#peer-switcher button").forEach(btn => {
@@ -443,7 +465,14 @@
       render();
     });
   });
-
+  document.querySelectorAll("#role-switcher button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#role-switcher button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      role = btn.dataset.role;
+      render();
+    });
+  });
   document.querySelectorAll("#state-switcher button").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll("#state-switcher button").forEach(b => b.classList.remove("active"));
