@@ -290,23 +290,23 @@
 <script>
   // views[peerType].inspector = sections 陣列
   // views[peerType].engineer  = additional sections（會加在 inspector 之後）
+  // inspector = 巡視人員看到的 sections
+  // engineer  = 額外追加的 diagnostics sections
+  // logAll    = 完整 log（最多 3 筆，巡視人員只顯示前 2 筆，engineer 看全部）
+  // conflictPatch = conflict state 下對主體內容的覆寫（非 banner）
   const views = {
     gw: {
       name: "North Group",
       sub: "Gateway",
       inspector: [
-        { kind: "health", label: "Gateway health", dot: "ok", text: "Alive", sub: "uptime 2d 04h" },
-        { kind: "info", label: "Members", rows: [
+        { kind: "health", id: "health", label: "Gateway health", dot: "ok", text: "Alive", sub: "uptime 2d 04h" },
+        { kind: "info", id: "members", label: "Members", rows: [
           ["End devices", "4 台"],
           ["Recent attach", "2s ago"]
         ]},
-        { kind: "info", label: "Connections", rows: [
+        { kind: "info", id: "connections", label: "Connections", rows: [
           ["Uplink", "Central Bridge · online"],
           ["Downlink", "4 EDs · 回報中"]
-        ]},
-        { kind: "log", label: "Recent log", items: [
-          ["2s ago", "ED-007 attach"],
-          ["1m ago", "heartbeat ok"]
         ]}
       ],
       engineer: [
@@ -321,21 +321,30 @@
           ["Runtime side", "fresh（已回報）"],
           ["can_compare", "true"]
         ]}
-      ]
+      ],
+      logAll: [
+        ["2s ago", "ED-007 attach"],
+        ["1m ago", "heartbeat ok"],
+        ["3m ago", "cfg version 42 applied"]
+      ],
+      conflictPatch: {
+        health: { dot: "warn", text: "Alive（有異常）", sub: "uptime 2d 04h · 與後台紀錄不一致" },
+        connections: { rows: [
+          ["Uplink", "Central Bridge · online"],
+          ["Downlink", "現場已切換 / 後台未跟上"]
+        ]},
+        extraWarn: "ED-014 目前附著現場 GW-D，但後台紀錄為 GW-A"
+      }
     },
     ed: {
       name: "ED-007",
       sub: "End Device",
       inspector: [
-        { kind: "health", label: "Device health", dot: "ok", text: "Alive", sub: "uptime 6h 12m · 訊號正常" },
-        { kind: "info", label: "Connection", rows: [
+        { kind: "health", id: "health", label: "Device health", dot: "ok", text: "Alive", sub: "uptime 6h 12m · 訊號正常" },
+        { kind: "info", id: "connection", label: "Connection", rows: [
           ["Via gateway", "North Group"],
           ["Signal", "良好"],
           ["Last seen", "1s ago"]
-        ]},
-        { kind: "log", label: "Recent log", items: [
-          ["1s ago", "status ok"],
-          ["45s ago", "attach to GW"]
         ]}
       ],
       engineer: [
@@ -351,24 +360,34 @@
           ["Runtime side", "fresh"],
           ["can_compare", "true"]
         ]}
-      ]
+      ],
+      logAll: [
+        ["1s ago", "status ok"],
+        ["45s ago", "attach to GW"],
+        ["2m ago", "roster refresh"]
+      ],
+      conflictPatch: {
+        health: { dot: "warn", text: "Alive（有異常）", sub: "目前附著與後台紀錄不一致" },
+        connection: { rows: [
+          ["Via gateway", "現場：North Group"],
+          ["Signal", "良好"],
+          ["Last seen", "1s ago"]
+        ]},
+        extraWarn: "後台記錄此裝置應屬 South Group；建議查看差異"
+      }
     },
     cc: {
       name: "Central Bridge",
-      sub: "Bridge to Central",
+      sub: "Central-side path · 特殊路徑",
       inspector: [
-        { kind: "health", label: "Bridge health", dot: "ok", text: "Online", sub: "僅負責轉發，不是 Central 本體" },
-        { kind: "info", label: "Central side", rows: [
+        { kind: "health", id: "health", label: "Bridge health", dot: "ok", text: "Online", sub: "僅負責轉發，不是 Central 本體；非一般巡視入口" },
+        { kind: "info", id: "central", label: "Central side", rows: [
           ["Central reachable", "是"],
           ["Last sync", "3s ago"]
         ]},
-        { kind: "info", label: "Gateway side", rows: [
+        { kind: "info", id: "gwside", label: "Gateway side", rows: [
           ["Linked gateways", "3 組"],
           ["Queue", "清空"]
-        ]},
-        { kind: "log", label: "Recent log", items: [
-          ["3s ago", "sync ok"],
-          ["30s ago", "bridge reset (scheduled)"]
         ]}
       ],
       engineer: [
@@ -378,7 +397,20 @@
           ["Queue depth", "0"],
           ["Retries (5m)", "0"]
         ]}
-      ]
+      ],
+      logAll: [
+        ["3s ago", "sync ok"],
+        ["30s ago", "bridge reset (scheduled)"],
+        ["2m ago", "gateway linked"]
+      ],
+      conflictPatch: {
+        health: { dot: "warn", text: "Online（有衝突路徑）", sub: "某條 relay 路徑上，後台與現場指向不同 Gateway" },
+        central: { rows: [
+          ["Central reachable", "是"],
+          ["Last sync", "3s ago（存在衝突項目）"]
+        ]},
+        extraWarn: "1 個 ED 的 bridge relay 與現場觀測不一致"
+      }
     }
   };
 
@@ -428,6 +460,25 @@
     return s;
   }
 
+  function deepClone(obj) { return JSON.parse(JSON.stringify(obj)); }
+
+  function renderWarnRow(text) {
+    const s = document.createElement("div");
+    s.className = "section";
+    s.style.background = "#fff3e0";
+    s.style.borderLeft = "3px solid #e65100";
+    const lbl = el("div", "section-label", "注意");
+    lbl.style.color = "#e65100";
+    s.appendChild(lbl);
+    const p = document.createElement("div");
+    p.style.fontSize = "13px";
+    p.style.color = "#7a3a00";
+    p.style.lineHeight = "1.5";
+    p.textContent = text;
+    s.appendChild(p);
+    return s;
+  }
+
   function render() {
     const v = views[peer];
     $("peer-name").textContent = v.name;
@@ -437,20 +488,33 @@
     const body = $("body");
     while (body.firstChild) body.removeChild(body.firstChild);
 
-    // Inspector 視角先放；Engineer 模式下，log 擴充到 3 筆
-    let inspectorSecs = v.inspector.map(sec => {
-      if (role === "engineer" && sec.kind === "log") {
-        // 多顯示一筆（如果 data 裡有第三筆）
-        return sec; // data 層不強塞，engineer 下改在 engineer sections 處理
+    // 套 conflictPatch：對帶 id 的 inspector section 進行 override
+    const inspectorSecs = v.inspector.map(sec => {
+      const clone = deepClone(sec);
+      if (state === "conflict" && sec.id && v.conflictPatch && v.conflictPatch[sec.id]) {
+        Object.assign(clone, v.conflictPatch[sec.id]);
       }
-      return sec;
+      return clone;
     });
-
     inspectorSecs.forEach(sec => body.appendChild(renderSection(sec)));
 
+    // conflict 時追加一個 warn row（主體可感知差異，非 banner）
+    if (state === "conflict" && v.conflictPatch && v.conflictPatch.extraWarn) {
+      body.appendChild(renderWarnRow(v.conflictPatch.extraWarn));
+    }
+
+    // Engineer 追加 diagnostics
     if (role === "engineer") {
       v.engineer.forEach(sec => body.appendChild(renderSection(sec)));
     }
+
+    // Log：巡視人員 2 筆、Engineer 3 筆
+    const logLimit = role === "engineer" ? 3 : 2;
+    body.appendChild(renderSection({
+      kind: "log",
+      label: "Recent log",
+      items: v.logAll.slice(0, logLimit)
+    }));
 
     const banner = $("banner");
     if (state === "conflict") banner.classList.remove("hidden");

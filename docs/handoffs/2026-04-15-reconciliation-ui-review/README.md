@@ -28,6 +28,7 @@ Page-by-page review。一次只看一頁，上一頁通過後才做下一頁。
 - 巡視人員看 quick health；Engineer 多看 deeper diagnostics（jitter / throughput / PHY / TX Power / compare gate 摘要）
 - Reconciliation 仍是 exception flow，只有 conflict 才浮出 banner
 - 此 role switcher 為 mock 閱讀層，參考 app repo 既有 `normal / maintenance / engineer` 概念，本輪先收斂為兩層
+- Page 2 以 Gateway / End Device 為主；`Central Bridge` 僅為 Central-side path 的特殊路徑示意，非一般巡視入口
 
 ## 操作
 
