@@ -384,7 +384,7 @@
       <div class="ust-row"><span class="ust-k">Gateway overview / 收合 ED 列</span><span class="ust-v">2s（STATUS polling）</span></div>
       <div class="ust-row"><span class="ust-k">展開中的 ED detail</span><span class="ust-v">notify · ~1s 節流（METRICS_V2）</span></div>
       <div class="ust-row"><span class="ust-k">Central Bridge 摘要</span><span class="ust-v">3–5s 或 event-driven</span></div>
-      <div class="ust-row"><span class="ust-k">Conflict banner / Recent log</span><span class="ust-v">event-driven（EVT）</span></div>
+      <div class="ust-row"><span class="ust-k">Conflict banner / Recent events</span><span class="ust-v">event-driven（EVT）</span></div>
       <div class="ust-row"><span class="ust-k">DEVICE_INFO（uptime 等）</span><span class="ust-v">30s（read）</span></div>
       <div class="ust-row"><span class="ust-k">FW_VERSION / CAPS_V2 / ROSTER / alias</span><span class="ust-v">on open / 手動 refresh</span></div>
       <div class="ust-eng">更快的細節更新只在「展開中且正在看的項目」上發生。</div>
@@ -733,6 +733,67 @@
     return wrap;
   }
 
+  function renderRecentEvents(v) {
+    // Collapsible recent-events block; collapsed shows latest 1 + count
+    const logLimit = role === "engineer" ? 3 : 2;
+    const items = v.logAll.slice(0, logLimit);
+    const latest = items[0];
+    const accId = "recent-events";
+
+    const wrap = el("div", "section");
+    wrap.style.padding = "0";
+    wrap.appendChild(el("div", "section-label", "Recent events"));
+    wrap.firstChild.style.padding = "14px 22px 6px";
+
+    const list = el("div", "acc-list");
+    const item = el("div", "acc-item" + (openAccId === accId ? " open" : ""));
+
+    const head = el("div", "acc-head");
+    head.style.background = "#fafbfc";
+    head.appendChild(el("div", "acc-dot muted"));
+    const body = el("div", "acc-body");
+    body.appendChild(el("div", "acc-name", latest ? latest[1] : "（無）"));
+    body.appendChild(el("div", "acc-sub",
+      `最新事件 · ${latest ? latest[0] : ""} · 共 ${items.length} 筆`));
+    head.appendChild(body);
+    head.appendChild(el("div", "acc-chev", "›"));
+    head.addEventListener("click", () => {
+      openAccId = (openAccId === accId) ? null : accId;
+      render();
+    });
+    item.appendChild(head);
+
+    const detail = el("div", "acc-detail");
+    detail.style.padding = "8px 22px 14px 42px";
+    items.forEach(([t, ev]) => {
+      const li = el("div", "log-item");
+      li.appendChild(el("span", "ev", ev));
+      li.appendChild(el("span", "time", t));
+      detail.appendChild(li);
+    });
+    item.appendChild(detail);
+
+    list.appendChild(item);
+    wrap.appendChild(list);
+    return wrap;
+  }
+
+  function renderConflictEventHint(v) {
+    // 在 conflict 時，主畫面上不要求展開 recent events 才看得到關鍵事件
+    const hint = el("div");
+    hint.style.padding = "8px 22px 12px";
+    hint.style.fontSize = "12px";
+    hint.style.color = "#7a3a00";
+    hint.style.background = "#fff8e1";
+    hint.style.borderLeft = "3px solid #ff9800";
+    const ico = el("span");
+    ico.textContent = "● ";
+    ico.style.color = "#e65100";
+    hint.appendChild(ico);
+    hint.appendChild(document.createTextNode("2s ago · ED-014 switched gateway"));
+    return hint;
+  }
+
   function renderGatewayView(v) {
     const body = $("body");
     const conflict = state === "conflict";
@@ -749,6 +810,11 @@
     body.appendChild(renderSection({
       kind: "info", label: "Summary", rows: summary
     }));
+
+    // Conflict 時，先在 overview 下方露一條關鍵事件摘要
+    if (conflict) {
+      body.appendChild(renderConflictEventHint(v));
+    }
 
     // Connected EDs accordion
     const edsWrap = el("div", "section");
@@ -768,12 +834,8 @@
     brWrap.appendChild(brList);
     body.appendChild(brWrap);
 
-    // Recent log (gateway-level, short)
-    const logLimit = role === "engineer" ? 3 : 2;
-    body.appendChild(renderSection({
-      kind: "log", label: "Gateway recent log",
-      items: v.logAll.slice(0, logLimit)
-    }));
+    // Recent events (collapsible, weakened)
+    body.appendChild(renderRecentEvents(v));
   }
 
   function renderSimpleView(v) {

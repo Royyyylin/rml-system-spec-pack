@@ -37,7 +37,7 @@ mock 假設不是所有區塊同頻率更新，與現有 app contract / firmware
 
 - **overview**：~2s polling（STATUS）—— Gateway overview / 收合 ED 列
 - **expanded detail**：notify-driven，UI ~1s 節流（METRICS_V2）—— 只在「展開中且正在看的項目」發生
-- **event/log/alarm**：event-driven（EVT）—— conflict banner、recent log
+- **event/log/alarm**：event-driven（EVT）—— conflict banner、recent events（弱化的 collapsible 區塊；conflict 時關鍵事件會在 overview 下方先露一條）
 - **static / semi-static**：on open 或 30s（DEVICE_INFO）/ 手動 refresh（FW_VERSION / CAPS_V2 / ROSTER / alias）
 
 不把 50–100ms 級的更新搬進手機主 flow。
