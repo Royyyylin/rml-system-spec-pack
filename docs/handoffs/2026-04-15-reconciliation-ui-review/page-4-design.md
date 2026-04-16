@@ -34,9 +34,9 @@
 |------|-------------|--------|----------------|
 | Conflict | true | both sides fresh | gateway |
 | Not compared | false | stale Central reference | — |
-| Central only | **false** | missing runtime evidence | — |
+| Central only | true | both sides fresh; runtime attach not visible | — |
 
-修正：Central only 缺 Runtime 證據，**沒有兩側可比，所以 cannot compare**；之前 mock 寫成 Can compare 是錯的。
+對齊正式 spec `feature-assignment-reconciliation.md` 的 Comparison Flow：`can_compare = false` → UI 顯示 `Not compared / last synced`，**不進 FSM**；`can_compare = true` → 才落到 5-state FSM（含 `central_only`）。`central_only` 屬 FSM state，故 `can_compare` 必為 true，差別在 `mismatch_field = —`（Runtime 觀測到 attach 尚未可見，不是 Runtime source 缺失）。
 
 ## 不在本頁做
 

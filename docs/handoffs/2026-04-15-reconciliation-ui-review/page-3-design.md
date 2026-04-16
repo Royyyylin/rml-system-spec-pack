@@ -13,6 +13,20 @@
 - 用詞延用 Page 2 freshness 分層（最後更新 = runtime / 上次同步 = central），不引入新 vocabulary
 - 不在本頁攤開 raw timestamp / revision / observed_at；證據細節屬 Page 4
 
+## UI scenario ↔ formal FSM mapping
+
+UI 顯示的 5 個 scenario ≠ spec FSM 的 5 個 state。對照：
+
+| UI scenario | 對應 spec | 說明 |
+|------------|----------|------|
+| Converged | FSM `confirmed` | |
+| Conflict | FSM `conflict` | |
+| Pending sync | FSM `pending_reconciliation` | |
+| Central only | FSM `central_only` | `can_compare = true`，Runtime fresh 但 attach not visible |
+| Not compared | **pre-FSM gate** result（非 FSM state） | `can_compare = false`，Central stale / source 缺，不進 FSM |
+
+正式 FSM 的 `orphaned` state 不在本輪 Page 3 / Page 4 mock 顯示。
+
 ## Resolution action
 
 Conflict 不只是顯示狀態；Page 3 在 diff hint 下方加一條 resolution action strip，明示 reviewer 下一步：

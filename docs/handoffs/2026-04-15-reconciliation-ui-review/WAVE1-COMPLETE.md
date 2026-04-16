@@ -29,7 +29,7 @@
 - raw / internal 欄位（`updated_at` / `observed_at` / `revision` / `can_compare` / `mismatch_field` / event source）收在 `Engineering details` 折疊區
 - **Page 1–3 完全不顯示 raw timestamp / revision / observed_at / can_compare**；Page 4 才允許露 internal key
 - Freshness 用詞分層鎖定：**最後更新**（runtime live）/ **上次同步**（Central / sync ref）/ **最後看到**（member item）；時間中文 `X 前`
-- **Compare gate 真值表**：Conflict → can_compare = true；Not compared → false（stale Central reference）；Central only → false（missing runtime evidence）
+- **Compare gate 真值表**（對齊正式 spec FSM）：Conflict → true；Not compared → false（stale Central reference，pre-FSM gate）；Central only → true（both sides fresh; runtime attach not visible）
 - Reconciliation 在 Page 2 是 exception flow（只在 conflict 才浮 banner）
 
 ## Remaining risks / deferred
@@ -42,7 +42,7 @@
 
 ## Diagrams（review / communication）
 
-- Source：[central-vs-runtime-evidence-flow.mmd](central-vs-runtime-evidence-flow.mmd)（Mermaid，含 AI Diagram Contract）
+- Source：[central-vs-runtime-evidence-flow.d2](central-vs-runtime-evidence-flow.d2)（D2，對齊 Wave 1 既有圖風格、含 AI Diagram Contract）
 - Render：[central-vs-runtime-evidence-flow.svg](central-vs-runtime-evidence-flow.svg)
 - 用途：在 evidence field contract alignment 開始前，先讓 cross-repo reviewer 一眼看懂 Central canonical / Runtime observed / App compare gate / Page 3 / Page 4 的責任分層；屬 handoff review artifact，不在 shared-spec lint 範圍
 

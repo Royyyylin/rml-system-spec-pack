@@ -1,0 +1,95 @@
+# AI-DIAGRAM: required
+# primary_message: App keeps Central canonical assignment and Runtime observed attach as two separate sources, runs a compare gate, and never merges them into a single truth.
+# reader: newcomer / cross-repo reviewer
+# template_id: flow-evidence-compare
+# diagram_type: d2-flow
+# layout: top-to-bottom
+# max_nodes: 14
+# max_groups: 3
+# keep: source asymmetry, App compare gate, 5 outcomes, asymmetric Conflict action, Page 3 / Page 4 surface, Not compared = pre-FSM gate
+# avoid: raw protocol / opcode / GATT, equal-weight vote, CC bridge as authority, full implementation sequence
+# scope: handoff review artifact (not under shared-spec lint)
+
+direction: down
+
+style: {
+  font-size: 70
+}
+
+# === Truth sources（角色不對等）===
+sources: "Truth sources 角色不對等" {
+  central: "Central 中央系統\ncanonical · authoritative\nassignment" {
+    style.fill: "#e8f4fd"
+  }
+  runtime: "Runtime 現場觀測\nobserved · actual attach\nevidence" {
+    style.fill: "#fef3e2"
+  }
+}
+
+# === App compare gate ===
+gate: "App compare gate\n不把兩源合併成單一 truth" {
+  style.fill: "#f0fde8"
+}
+
+sources.central -> gate: "canonical assignment"
+sources.runtime -> gate: "observed attach"
+
+# === Outcomes ===
+o_converged: "Converged 已確認\nno action" {
+  style.fill: "#d4edda"
+}
+o_pending: "Pending sync 等待同步\nruntime 先切換" {
+  style.fill: "#fff3cd"
+}
+o_central_only: "Central only 僅 Central 可見\n兩側 fresh、attach 尚未可見" {
+  style.fill: "#cce5ff"
+}
+o_conflict: "Conflict 衝突\n兩側 fresh、值不同" {
+  style.fill: "#f8d7da"
+}
+o_not_compared: "Not compared 無法比較\npre-FSM gate · Central stale" {
+  style.fill: "#e2e3e5"
+}
+
+gate -> o_converged
+gate -> o_pending
+gate -> o_central_only
+gate -> o_conflict
+gate -> o_not_compared
+
+# === Conflict action（不等權）===
+conflict_action: "Conflict action 不等權" {
+  default_act: "default\nRecover runtime 恢復現場\n回到 Central 分配" {
+    style.fill: "#f0fde8"
+  }
+  high_risk: "high-risk\nAccept runtime as new assignment\n升 Runtime 為新分配" {
+    style.fill: "#fdecea"
+  }
+}
+audit: "Engineer confirmation\n+ reason + audit" {
+  style.fill: "#f3edff"
+}
+o_conflict -> conflict_action.default_act
+o_conflict -> conflict_action.high_risk
+conflict_action.high_risk -> audit: "required"
+
+# === Page 3 / Page 4 review surface ===
+p3: "Page 3\nCentral vs Runtime\n+ resolution action" {
+  style.fill: "#f0fde8"
+}
+p4: "Page 4\nEvidence panel\nhuman first；raw 收進 Engineering details" {
+  style.fill: "#f0fde8"
+}
+
+o_converged -> p3
+o_pending -> p3
+o_central_only -> p3
+o_conflict -> p3
+o_not_compared -> p3
+p3 -> p4: "View evidence"
+
+# === Rule callout ===
+rule: "規則\n1. Central 是 canonical owner\n2. Runtime 是 observed evidence\n3. Not compared 是 pre-FSM gate（非 FSM state）\n4. Conflict 不是兩邊等權選正確" {
+  style.fill: "#fff8e1"
+  style.stroke: "#c9a227"
+}

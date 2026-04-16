@@ -408,12 +408,12 @@
     central_only: {
       cls: "central_only",
       state: "Central only",
-      conclusion: "Central 已分配，但現場還沒回報 attach。",
+      conclusion: "Central 已分配，但現場還沒看到 attach；兩側皆 fresh，可比對。",
       reco: "等 Runtime 回報，或主動發送檢查指令。",
       why: {
         central: "5 秒前確認 ED 應在 GW-A",
-        runtime: "尚未回報 attach",
-        compare: "不可比對，缺 Runtime 證據"
+        runtime: "5 秒前回報 roster，未觀測到 attach",
+        compare: "可比對，Runtime 目前未看到 attach"
       },
       central: {
         summary: "5 秒前確認 ED 應在 GW-A。",
@@ -421,16 +421,16 @@
         age: "5s 前", rev: "143", updated: "2026-04-16 22:14:51Z"
       },
       runtime: {
-        summary: "現場尚未回報 attach。",
-        gw: "—", srcpath: "—",
-        age: "—", observed: "—",
-        evtsrc: "—", gwClass: "muted"
+        summary: "Runtime 5 秒前回報 roster，目前未觀測到 attach。",
+        gw: "—（attach not visible）", srcpath: "Firmware-side · roster",
+        age: "5s 前", observed: "2026-04-16 22:14:51Z",
+        evtsrc: "ROSTER_LIST", gwClass: "muted"
       },
-      gate: { can: "false", canCls: "no", reason: "missing runtime evidence", mismatch: "—" },
+      gate: { can: "true", canCls: "ok", reason: "both sides fresh; runtime attach not visible", mismatch: "—" },
       timeline: [
         ["5s 前", "Central 確認 ED 應在 GW-A"],
-        ["—",     "Runtime 尚未回報 attach"],
-        ["5s 前", "系統判定缺 Runtime 證據，無法比對；建議等候或主動檢查"]
+        ["5s 前", "Runtime 回報 roster，但未觀測到 attach"],
+        ["5s 前", "兩側皆 fresh；判定 Central only，建議等候或主動檢查"]
       ]
     }
   };
