@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>Advanced wireless settings — BLE connection interval</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Noto Sans TC", sans-serif;
+    background: #eef1f5;
+    min-height: 100vh;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .wrap { display: flex; flex-direction: column; align-items: center; gap: 18px; max-width: 460px; }
+
+  .page-hint {
+    background: #fff;
+    border-left: 4px solid #5e35b1;
+    padding: 12px 18px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #444;
+  }
+  .page-hint strong { color: #5e35b1; }
+  .page-hint .muted { color: #888; font-size: 12px; margin-top: 4px; line-height: 1.5; }
+
+  .phone {
+    width: 460px;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    overflow: hidden;
+  }
+  .phone-header {
+    background: linear-gradient(135deg, #5e35b1, #4527a0);
+    color: white;
+    padding: 18px 22px 16px;
+  }
+  .phone-header .back { font-size: 13px; opacity: 0.8; margin-bottom: 6px; }
+  .phone-header .title { font-size: 19px; font-weight: 600; }
+  .phone-header .meta { display: flex; gap: 8px; align-items: center; margin-top: 6px; flex-wrap: wrap; }
+  .phone-header .role-tag {
+    font-size: 11px;
+    padding: 2px 10px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.22);
+    font-weight: 600;
+  }
+
+  .warn-banner {
+    padding: 12px 22px;
+    background: #fff8e1;
+    border-left: 4px solid #ff9800;
+    color: #7a4a00;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .warn-banner strong { color: #e65100; }
+
+  .section { padding: 16px 22px; border-bottom: 1px solid #f0f0f0; }
+  .section:last-child { border-bottom: none; }
+  .section-label {
+    font-size: 11px; color: #888;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    font-weight: 600; margin-bottom: 10px;
+  }
+
+  .preset {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px; border: 1px solid #e0e0e0;
+    border-radius: 10px; margin-bottom: 8px;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .preset:hover { border-color: #5e35b1; background: #faf7ff; }
+  .preset.active { border-color: #5e35b1; background: #f3edff; }
+  .preset .pre-radio {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid #bbb; flex-shrink: 0;
+    position: relative;
+  }
+  .preset.active .pre-radio { border-color: #5e35b1; }
+  .preset.active .pre-radio::after {
+    content: ""; position: absolute;
+    top: 2px; left: 2px; width: 8px; height: 8px;
+    border-radius: 50%; background: #5e35b1;
+  }
+  .preset .pre-body { flex: 1; }
+  .preset .pre-name { font-size: 14px; font-weight: 600; color: #222; }
+  .preset .pre-desc { font-size: 12px; color: #666; margin-top: 2px; }
+
+  .adv-acc { background: #fafbfc; border-radius: 10px; }
+  .adv-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 14px; cursor: pointer;
+    font-size: 13px; color: #555; font-weight: 600;
+  }
+  .adv-head:hover { color: #5e35b1; }
+  .adv-chev { color: #bbb; transition: transform 0.15s; }
+  .adv-acc.open .adv-chev { transform: rotate(90deg); color: #5e35b1; }
+  .adv-body { display: none; padding: 4px 14px 14px; }
+  .adv-acc.open .adv-body { display: block; }
+
+  .field { margin-bottom: 10px; }
+  .field label { display: block; font-size: 12px; color: #666; margin-bottom: 4px; }
+  .field input {
+    width: 100px; padding: 6px 8px;
+    border: 1px solid #ccc; border-radius: 6px;
+    font-family: ui-monospace, monospace; font-size: 13px;
+  }
+  .field .unit { color: #888; font-size: 12px; margin-left: 6px; }
+  .field .conv { color: #5e35b1; font-size: 12px; margin-left: 8px; font-family: ui-monospace, monospace; }
+
+  .guard {
+    margin-top: 10px;
+    padding: 10px;
+    background: #fff3e0;
+    border-radius: 6px;
+    font-size: 11px;
+    color: #7a3a00;
+    line-height: 1.5;
+  }
+  .guard strong { color: #e65100; }
+
+  .apply-flow {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px; background: #f3edff; border-radius: 8px;
+    font-size: 12px; color: #4527a0; font-family: ui-monospace, monospace;
+    flex-wrap: wrap;
+  }
+  .apply-flow .arr { color: #9575cd; }
+  .apply-flow .target {
+    background: #5e35b1; color: white;
+    padding: 1px 8px; border-radius: 4px; font-weight: 600;
+  }
+
+  .apply-note {
+    margin-top: 8px; font-size: 11px; color: #777; line-height: 1.5;
+  }
+
+  .actions {
+    padding: 14px 22px;
+    display: flex; gap: 8px; justify-content: flex-end;
+    background: #fafbfc;
+  }
+  .btn {
+    padding: 8px 18px; border: none; border-radius: 18px;
+    font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .btn-secondary { background: #e0e0e0; color: #555; }
+  .btn-primary { background: #5e35b1; color: white; }
+  .btn-primary:hover { background: #4527a0; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="page-hint">
+    <strong>Advanced wireless settings — BLE connection interval</strong>
+    <div class="muted">
+      Engineer-only 進階設定。<strong>不屬於</strong> pre-connect entry 或 Page 2 operational overview，僅供工程 / 安裝層調校 GW ↔ ED 的 BLE link 行為。
+    </div>
+  </div>
+
+  <div class="phone">
+    <div class="phone-header">
+      <div class="back">← Settings</div>
+      <div class="title">Advanced wireless settings</div>
+      <div class="meta">
+        <span class="role-tag">Engineer only</span>
+      </div>
+    </div>
+
+    <div class="warn-banner">
+      <strong>調校提醒</strong>　影響 GW 與 ED 的 BLE link 行為，可能改變延遲、穩定度與耗電。建議優先使用 Preset；不建議在巡視模式調整。
+    </div>
+
+    <div class="section">
+      <div class="section-label">Preset（建議先用）</div>
+
+      <div class="preset">
+        <div class="pre-radio"></div>
+        <div class="pre-body">
+          <div class="pre-name">Responsive</div>
+          <div class="pre-desc">偏低延遲，適合單裝置或近距離調校</div>
+        </div>
+      </div>
+
+      <div class="preset active">
+        <div class="pre-radio"></div>
+        <div class="pre-body">
+          <div class="pre-name">Balanced</div>
+          <div class="pre-desc">預設折衷，適合多數情境</div>
+        </div>
+      </div>
+
+      <div class="preset">
+        <div class="pre-radio"></div>
+        <div class="pre-body">
+          <div class="pre-name">Conservative</div>
+          <div class="pre-desc">偏穩定，多裝置或干擾環境較佳</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Advanced override</div>
+      <div class="adv-acc" id="adv">
+        <div class="adv-head" id="adv-head">
+          <span>展開以手動指定 interval（不建議）</span>
+          <span class="adv-chev">›</span>
+        </div>
+        <div class="adv-body">
+          <div class="field">
+            <label>Min interval</label>
+            <input type="number" value="24"><span class="unit">BLE units</span>
+            <span class="conv">≈ 30.0 ms</span>
+          </div>
+          <div class="field">
+            <label>Max interval</label>
+            <input type="number" value="40"><span class="unit">BLE units</span>
+            <span class="conv">≈ 50.0 ms</span>
+          </div>
+          <div class="field" style="font-size:11px;color:#888;">
+            1 BLE unit = 1.25 ms（Bluetooth Core spec）
+          </div>
+          <div class="guard">
+            <strong>進階設定</strong>　覆寫 preset 後將直接寫入裝置；建議測試後再套用到生產。本頁僅處理 BLE connection interval，不處理 packet / throughput interval。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Apply path</div>
+      <div class="apply-flow">
+        <span>App (Engineer)</span>
+        <span class="arr">→</span>
+        <span class="target">CTRL.interval</span>
+        <span class="arr">→</span>
+        <span>GW</span>
+        <span class="arr">→</span>
+        <span>ED link param update</span>
+      </div>
+      <div class="apply-note">
+        寫入目標為 <code>CTRL.interval</code>；<strong>不是 <code>GW_CFG</code></strong>。GW_CFG 不持有 BLE connection interval 欄位。
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary">Cancel</button>
+      <button class="btn btn-primary">Apply</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll(".preset").forEach(p => {
+    p.addEventListener("click", () => {
+      document.querySelectorAll(".preset").forEach(x => x.classList.remove("active"));
+      p.classList.add("active");
+    });
+  });
+  document.getElementById("adv-head").addEventListener("click", () => {
+    document.getElementById("adv").classList.toggle("open");
+  });
+</script>
+
+</body>
+</html>
