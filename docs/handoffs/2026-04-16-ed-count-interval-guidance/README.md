@@ -75,6 +75,12 @@ Recommendation matrix 內部把欄位拆兩層，避免 UI 自打架：
 - 無 error 但有 warning：`Ready to apply · N warnings`
 - 都沒有：`Ready to apply`
 
+## Responsive / mobile
+
+- review.html 帶 `viewport` meta，phone mock 改成 `width: 100% / max-width: 460px`，會跟著容器伸縮
+- `@media (max-width: 420px)` 收斂 padding、按鈕、count input、override 欄位寬度，避免 360–390 CSS px 螢幕橫向捲動或字疊字
+- UI 文案維持 app-surface 簡短風格，不在 phone 內塞 tutorial；流程說明留在本 README
+
 ## 不在本輪範圍
 
 - Mixed conservative 與 validation 都是 UI recommendation 邏輯，不是新 protocol
