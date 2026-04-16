@@ -327,16 +327,35 @@
 
 <script>
   // === Recommendation matrix ===
+  // 拆兩層：
+  //   *_compare_*  → 純 internal use，給 Mixed conservative 比較
+  //   *_apply_*    → 給人看 / 寫回 override 的值，必須落在 UI 支援範圍內
+  // ci_disp / pi_disp / st_disp 直接顯示人類可讀字串
   const POWERED = [
-    { max: 3,  ci_ms: 100,  ci_disp: "100 ms",  pi_ms_lo: 100,  pi_disp: "100–200 ms",  st_s_hi: 6,  st_disp: "4–6 s" },
-    { max: 5,  ci_ms: 200,  ci_disp: "200 ms",  pi_ms_lo: 200,  pi_disp: "200–500 ms",  st_s_hi: 8,  st_disp: "6–8 s" },
-    { max: 8,  ci_ms: 500,  ci_disp: "500 ms",  pi_ms_lo: 500,  pi_disp: "500–1000 ms", st_s_hi: 12, st_disp: "8–12 s" },
-    { max: 99, ci_ms: 1000, ci_disp: "1000 ms", pi_ms_lo: 1000, pi_disp: "1–2 s",       st_s_hi: 20, st_disp: "12–20 s" }
+    { max: 3,  ci_compare_ms: 100,  ci_apply_ms: 100,  ci_disp: "100 ms",
+      pi_compare_ms: 100,  pi_apply_ms: 100,   pi_disp: "100–200 ms",
+      st_compare_s: 6,  st_apply_s: 6,  st_disp: "4–6 s" },
+    { max: 5,  ci_compare_ms: 200,  ci_apply_ms: 200,  ci_disp: "200 ms",
+      pi_compare_ms: 200,  pi_apply_ms: 200,   pi_disp: "200–500 ms",
+      st_compare_s: 8,  st_apply_s: 8,  st_disp: "6–8 s" },
+    { max: 8,  ci_compare_ms: 500,  ci_apply_ms: 500,  ci_disp: "500 ms",
+      pi_compare_ms: 500,  pi_apply_ms: 500,   pi_disp: "500–1000 ms",
+      st_compare_s: 12, st_apply_s: 12, st_disp: "8–12 s" },
+    { max: 99, ci_compare_ms: 1000, ci_apply_ms: 1000, ci_disp: "1000 ms",
+      pi_compare_ms: 1000, pi_apply_ms: 1000,  pi_disp: "1–2 s",
+      st_compare_s: 20, st_apply_s: 20, st_disp: "12–20 s" }
   ];
+  // Battery：compare 可保守，apply 收斂到 1000 ms（Battery 在 UI 支援範圍內最保守的合法上限）
   const BATTERY = [
-    { max: 3,  ci_ms: 1000, ci_disp: "較保守",  pi_ms_lo: 1000,  pi_disp: "1–5 s",   st_s_hi: 20, st_disp: "10–20 s" },
-    { max: 5,  ci_ms: 1500, ci_disp: "較保守",  pi_ms_lo: 5000,  pi_disp: "5–10 s",  st_s_hi: 20, st_disp: "15–20 s" },
-    { max: 99, ci_ms: 2000, ci_disp: "較保守",  pi_ms_lo: 10000, pi_disp: "10–30 s", st_s_hi: 20, st_disp: "20 s 左右" }
+    { max: 3,  ci_compare_ms: 1000, ci_apply_ms: 1000, ci_disp: "1000 ms",
+      pi_compare_ms: 1000,  pi_apply_ms: 1000,  pi_disp: "1–5 s",
+      st_compare_s: 20, st_apply_s: 20, st_disp: "10–20 s" },
+    { max: 5,  ci_compare_ms: 1500, ci_apply_ms: 1000, ci_disp: "1000 ms",
+      pi_compare_ms: 5000,  pi_apply_ms: 5000,  pi_disp: "5–10 s",
+      st_compare_s: 20, st_apply_s: 20, st_disp: "15–20 s" },
+    { max: 99, ci_compare_ms: 2000, ci_apply_ms: 1000, ci_disp: "1000 ms",
+      pi_compare_ms: 10000, pi_apply_ms: 10000, pi_disp: "10–30 s",
+      st_compare_s: 20, st_apply_s: 20, st_disp: "20 s 左右" }
   ];
 
   function pick(matrix, n) {
@@ -344,32 +363,31 @@
     return matrix[matrix.length - 1];
   }
 
+  function rowToReco(r, src) {
+    return {
+      ci_disp: r.ci_disp, pi_disp: r.pi_disp, st_disp: r.st_disp,
+      ci_apply_ms: r.ci_apply_ms, pi_apply_ms: r.pi_apply_ms, st_apply_s: r.st_apply_s,
+      ci_compare_ms: r.ci_compare_ms, pi_compare_ms: r.pi_compare_ms, st_compare_s: r.st_compare_s,
+      ci_src: src, pi_src: src, st_src: src
+    };
+  }
+
   function computeReco() {
     const pw = Math.max(0, parseInt(document.getElementById("cnt-pw").value) || 0);
     const bt = Math.max(0, parseInt(document.getElementById("cnt-bt").value) || 0);
     const total = pw + bt;
     if (total === 0) return { basis: "empty", pw, bt, total };
-    if (pw > 0 && bt === 0) {
-      const p = pick(POWERED, pw);
-      return { basis: "powered", pw, bt, total,
-        ci_disp: p.ci_disp, pi_disp: p.pi_disp, st_disp: p.st_disp,
-        ci_ms: p.ci_ms, pi_ms_lo: p.pi_ms_lo, st_s_hi: p.st_s_hi,
-        ci_src: "powered", pi_src: "powered", st_src: "powered" };
-    }
-    if (bt > 0 && pw === 0) {
-      const b = pick(BATTERY, bt);
-      return { basis: "battery", pw, bt, total,
-        ci_disp: b.ci_disp, pi_disp: b.pi_disp, st_disp: b.st_disp,
-        ci_ms: b.ci_ms, pi_ms_lo: b.pi_ms_lo, st_s_hi: b.st_s_hi,
-        ci_src: "battery", pi_src: "battery", st_src: "battery" };
-    }
+    if (pw > 0 && bt === 0) return Object.assign({ basis: "powered", pw, bt, total }, rowToReco(pick(POWERED, pw), "powered"));
+    if (bt > 0 && pw === 0) return Object.assign({ basis: "battery", pw, bt, total }, rowToReco(pick(BATTERY, bt), "battery"));
+    // Mixed：用 *_compare_* 做保守比較，取勝者的 apply / disp
     const p = pick(POWERED, pw), b = pick(BATTERY, bt);
-    const ci_w = b.ci_ms >= p.ci_ms ? b : p;
-    const pi_w = b.pi_ms_lo >= p.pi_ms_lo ? b : p;
-    const st_w = b.st_s_hi >= p.st_s_hi ? b : p;
+    const ci_w = b.ci_compare_ms >= p.ci_compare_ms ? b : p;
+    const pi_w = b.pi_compare_ms >= p.pi_compare_ms ? b : p;
+    const st_w = b.st_compare_s  >= p.st_compare_s  ? b : p;
     return { basis: "mixed", pw, bt, total,
       ci_disp: ci_w.ci_disp, pi_disp: pi_w.pi_disp, st_disp: st_w.st_disp,
-      ci_ms: ci_w.ci_ms, pi_ms_lo: pi_w.pi_ms_lo, st_s_hi: st_w.st_s_hi,
+      ci_apply_ms: ci_w.ci_apply_ms, pi_apply_ms: pi_w.pi_apply_ms, st_apply_s: st_w.st_apply_s,
+      ci_compare_ms: ci_w.ci_compare_ms, pi_compare_ms: pi_w.pi_compare_ms, st_compare_s: st_w.st_compare_s,
       ci_src: ci_w === b ? "battery" : "powered",
       pi_src: pi_w === b ? "battery" : "powered",
       st_src: st_w === b ? "battery" : "powered" };
@@ -462,14 +480,16 @@
     const units = isNaN(ms) ? "—" : Math.round(ms / 1.25);
     $("ov-ci-conv").textContent = "≈ " + units + " BLE units";
   }
+  // PI 單位由 apply 值決定：>= 1000 ms 用 s，否則用 ms
+  function piUnitFor(ms) { return ms >= 1000 ? "s" : "ms"; }
+
   function applyRecoToOverride() {
     if (!lastReco || lastReco.basis === "empty") return;
-    // 直接用 numeric source（ci_ms / pi_ms_lo / st_s_hi），不從 disp 字串抓
-    $("ov-ci").value = lastReco.ci_ms;
-    const piUnit = lastReco.basis === "battery" ? "s" : "ms";
-    $("ov-pi-unit").textContent = piUnit;
-    $("ov-pi").value = piUnit === "s" ? lastReco.pi_ms_lo / 1000 : lastReco.pi_ms_lo;
-    $("ov-st").value = lastReco.st_s_hi;
+    $("ov-ci").value = lastReco.ci_apply_ms;
+    const unit = piUnitFor(lastReco.pi_apply_ms);
+    $("ov-pi-unit").textContent = unit;
+    $("ov-pi").value = unit === "s" ? lastReco.pi_apply_ms / 1000 : lastReco.pi_apply_ms;
+    $("ov-st").value = lastReco.st_apply_s;
     syncCiConv();
     runValidation();
   }
@@ -549,9 +569,9 @@
     const hasFieldErr = (id) => $(id).classList.contains("error");
 
     // 是否「全部剛好等於 recommendation」→ 不出 warning
-    const reco_ci = lastReco.ci_ms;
-    const reco_pi_ms = lastReco.pi_ms_lo;
-    const reco_st = lastReco.st_s_hi;
+    const reco_ci = lastReco.ci_apply_ms;
+    const reco_pi_ms = lastReco.pi_apply_ms;
+    const reco_st = lastReco.st_apply_s;
     const exactlyReco = (!hasFieldErr("ov-ci") && !hasFieldErr("ov-pi") && !hasFieldErr("ov-st")
       && c.ci === reco_ci && c.pi_ms === reco_pi_ms && c.st === reco_st);
 

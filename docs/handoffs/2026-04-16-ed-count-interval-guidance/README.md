@@ -29,6 +29,20 @@ Step 3 解鎖條件（擇一）：
 
 UI 顯示：`Mixed (conservative) · Calculated from Powered X + Battery Y`
 
+## Compare key vs Apply value
+
+Recommendation matrix 內部把欄位拆兩層，避免 UI 自打架：
+- `*_compare_*` — 純 internal，僅供 Mixed conservative 比較（Battery 可保守到 1500/2000 ms）
+- `*_apply_*` — recommendation card 顯示、`Apply recommended` 寫入 override、validation 都用這個值；必須落在 UI 支援範圍（CI 100–1000 ms 等）
+
+結果：剛 Apply recommended 永遠合法、不會立刻紅字；剛套用 recommendation 也不會被 warn `Faster than conservative recommended`。
+
+## Packet interval 顯示與單位
+
+- `< 1000 ms` 顯示為 `ms`；`>= 1000 ms` 顯示為 `s`
+- range 同樣處理（`1000–5000 ms` → `1–5 s`，已 baked 進 disp 字串）
+- override 欄位單位由 apply 值的量級決定，與 basis 解耦
+
 ## Bucket
 
 - Powered：1–3 / 4–5 / 6–8 / 9+
