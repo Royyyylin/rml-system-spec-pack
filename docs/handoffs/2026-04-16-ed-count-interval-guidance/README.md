@@ -80,6 +80,7 @@ Recommendation matrix 內部把欄位拆兩層，避免 UI 自打架：
 - review.html 帶 `viewport` meta，phone mock 改成 `width: 100% / max-width: 460px`，會跟著容器伸縮
 - `@media (max-width: 420px)` 收斂 padding、按鈕、count input、override 欄位寬度，避免 360–390 CSS px 螢幕橫向捲動或字疊字
 - UI 文案維持 app-surface 簡短風格，不在 phone 內塞 tutorial；流程說明留在本 README
+- ED count 欄位採 `type="text" inputmode="numeric"` 直跳手機數字鍵盤，不依賴 number input 的小型 spinner；JS 對非數字字元做 sanitize，focus 自動清 0、blur 空白回填 0
 
 ## 不在本輪範圍
 

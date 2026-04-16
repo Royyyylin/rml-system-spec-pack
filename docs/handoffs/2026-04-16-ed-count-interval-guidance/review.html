@@ -263,11 +263,15 @@
         <div class="counts">
           <div class="count-field">
             <div class="count-label">Powered ED</div>
-            <input type="number" id="cnt-pw" class="count-input" min="0" value="0">
+            <input type="text" id="cnt-pw" class="count-input"
+                   inputmode="numeric" pattern="[0-9]*"
+                   autocomplete="off" maxlength="3" value="0">
           </div>
           <div class="count-field">
             <div class="count-label">Battery ED</div>
-            <input type="number" id="cnt-bt" class="count-input" min="0" value="0">
+            <input type="text" id="cnt-bt" class="count-input"
+                   inputmode="numeric" pattern="[0-9]*"
+                   autocomplete="off" maxlength="3" value="0">
           </div>
         </div>
         <div class="total-bar">
@@ -698,8 +702,23 @@
   }
 
   // === Wiring ===
-  $("cnt-pw").addEventListener("input", renderStep1Step2);
-  $("cnt-bt").addEventListener("input", renderStep1Step2);
+  function sanitizeCount(el) {
+    // 只留數字、最多 3 位（0–999 ED 已遠超合理上限）
+    const cleaned = String(el.value).replace(/[^0-9]/g, "").slice(0, 3);
+    if (cleaned !== el.value) el.value = cleaned;
+  }
+  function onCountInput(e) {
+    sanitizeCount(e.target);
+    renderStep1Step2();
+  }
+  $("cnt-pw").addEventListener("input", onCountInput);
+  $("cnt-bt").addEventListener("input", onCountInput);
+  // focus 時清空 0，方便直接輸入；blur 空白回填 0
+  ["cnt-pw","cnt-bt"].forEach(id => {
+    const el = $(id);
+    el.addEventListener("focus", () => { if (el.value === "0") el.value = ""; });
+    el.addEventListener("blur",  () => { if (el.value === "") { el.value = "0"; renderStep1Step2(); } });
+  });
   $("apply-reco-btn").addEventListener("click", () => {
     applyRecoToOverride();
     $("step2").classList.add("done");
