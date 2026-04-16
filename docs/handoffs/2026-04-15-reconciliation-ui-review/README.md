@@ -64,6 +64,18 @@ Runtime 主畫面**只顯示 freshness / quality 結果**（「最後更新 2s �
 - 用詞延用 Page 2 freshness 分層（最後更新 = runtime / 上次同步 = central），不引入新 vocabulary
 - 不在本頁攤開 raw timestamp / revision / observed_at；證據細節屬 Page 4
 
+### Page 3 resolution action
+
+Conflict 不只是顯示狀態；Page 3 在 diff hint 下方加一條 resolution action strip，明示 reviewer 下一步：
+
+- **Conflict**：primary `Recover runtime`（Central 是 canonical default）；danger 替代 `Accept runtime as new assignment`（明示需 Engineer 確認 / audit）；link `View evidence`
+- **Pending sync**：`Wait for sync` + `View evidence`（不要叫人選哪邊正確）
+- **Central only**：`Wait for runtime` / `Send check command` / `View evidence`
+- **Not compared**：`Refresh Central` + `View evidence`（先取得 fresh Central 再判定）
+- **Converged**：`No action needed`，僅低權重 `View evidence`
+
+不做成「Central / Runtime 兩邊等權選正確」— 兩側角色不對等：Central 是 canonical assignment，Runtime 是 observed evidence。所有 action 在本輪皆為 mock，未串實作；危險動作以紅框 outline + 註記呈現權重差異。
+
 ## Rename boundary
 
 Rename 不屬於 Page 1 / Page 2 的範圍：
