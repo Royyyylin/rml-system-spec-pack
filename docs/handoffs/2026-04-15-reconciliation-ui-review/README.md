@@ -42,6 +42,8 @@ mock 假設不是所有區塊同頻率更新，與現有 app contract / firmware
 
 不把 50–100ms 級的更新搬進手機主 flow。
 
+Runtime 主畫面優先顯示 **freshness 結果**（「最後更新 2s 前」/「即時」/「資料較舊」/「目前無法比對」），不直接暴露 polling / notify / event-driven 這類機制細節。機制層仍在 Page 2 底部 `Engineer note · Update policy`（預設收合）供 review。
+
 ## Rename boundary
 
 Rename 不屬於 Page 1 / Page 2 的範圍：

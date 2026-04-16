@@ -275,21 +275,33 @@
   .next-hint strong { color: #1976d2; }
 
   .update-strategy {
-    padding: 12px 22px;
+    padding: 10px 22px;
     background: #fafbfc;
     font-size: 11px;
     color: #6a7a8a;
     line-height: 1.5;
     border-top: 1px solid #f0f0f0;
   }
+  .update-strategy .ust-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    padding: 2px 0;
+  }
+  .update-strategy .ust-head:hover { color: #1976d2; }
   .update-strategy .ust-title {
-    font-size: 11px;
+    font-size: 10px;
     color: #888;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-weight: 600;
-    margin-bottom: 6px;
   }
+  .update-strategy .ust-chev { color: #bbb; font-size: 14px; transition: transform 0.15s; }
+  .update-strategy.open .ust-chev { transform: rotate(90deg); color: #1976d2; }
+  .update-strategy .ust-body { display: none; margin-top: 10px; }
+  .update-strategy.open .ust-body { display: block; }
   .update-strategy .ust-row {
     display: flex;
     justify-content: space-between;
@@ -379,15 +391,20 @@
 
     <div id="body"></div>
 
-    <div class="update-strategy">
-      <div class="ust-title">Update strategy</div>
-      <div class="ust-row"><span class="ust-k">Gateway overview / 收合 ED 列</span><span class="ust-v">2s（STATUS polling）</span></div>
-      <div class="ust-row"><span class="ust-k">展開中的 ED detail</span><span class="ust-v">notify · ~1s 節流（METRICS_V2）</span></div>
-      <div class="ust-row"><span class="ust-k">Central Bridge 摘要</span><span class="ust-v">3–5s 或 event-driven</span></div>
-      <div class="ust-row"><span class="ust-k">Conflict banner / Recent events</span><span class="ust-v">event-driven（EVT）</span></div>
-      <div class="ust-row"><span class="ust-k">DEVICE_INFO（uptime 等）</span><span class="ust-v">30s（read）</span></div>
-      <div class="ust-row"><span class="ust-k">FW_VERSION / CAPS_V2 / ROSTER / alias</span><span class="ust-v">on open / 手動 refresh</span></div>
-      <div class="ust-eng">更快的細節更新只在「展開中且正在看的項目」上發生。</div>
+    <div class="update-strategy" id="ust">
+      <div class="ust-head" id="ust-head">
+        <span class="ust-title">Engineer note · Update policy</span>
+        <span class="ust-chev">›</span>
+      </div>
+      <div class="ust-body">
+        <div class="ust-row"><span class="ust-k">Gateway overview / 收合 ED 列</span><span class="ust-v">2s（STATUS polling）</span></div>
+        <div class="ust-row"><span class="ust-k">展開中的 ED detail</span><span class="ust-v">notify · ~1s 節流（METRICS_V2）</span></div>
+        <div class="ust-row"><span class="ust-k">Central Bridge 摘要</span><span class="ust-v">3–5s 或 event-driven</span></div>
+        <div class="ust-row"><span class="ust-k">Conflict banner / Recent events</span><span class="ust-v">event-driven（EVT）</span></div>
+        <div class="ust-row"><span class="ust-k">DEVICE_INFO（uptime 等）</span><span class="ust-v">30s（read）</span></div>
+        <div class="ust-row"><span class="ust-k">FW_VERSION / CAPS_V2 / ROSTER / alias</span><span class="ust-v">on open / 手動 refresh</span></div>
+        <div class="ust-eng">主畫面優先顯示 freshness 結果（「最後更新 2s 前」/「即時」），不直接暴露機制細節。</div>
+      </div>
     </div>
 
     <div class="next-hint">
@@ -417,13 +434,13 @@
       sub: "Gateway",
       // Gateway 走專用 renderer；下列是 overview + members + bridge 資料
       overview: {
-        health: { dot: "ok", text: "Alive", sub: "uptime 2d 04h" },
+        health: { dot: "ok", text: "Alive", sub: "最後更新 2s 前 · uptime 2d 04h" },
         summary: [
           ["End devices", "3 台連線中"],
           ["Uplink", "Central Bridge · online"]
         ],
         conflictPatch: {
-          health: { dot: "warn", text: "Alive（有異常）", sub: "uptime 2d 04h · 有成員與後台紀錄不一致" },
+          health: { dot: "warn", text: "Alive（有異常）", sub: "最後更新 2s 前 · 有成員與後台紀錄不一致" },
           summary: [
             ["End devices", "3 台連線中（1 台有衝突）"],
             ["Uplink", "Central Bridge · online"]
@@ -533,7 +550,7 @@
       name: "ED-007",
       sub: "End Device",
       inspector: [
-        { kind: "health", id: "health", label: "Device health", dot: "ok", text: "Alive", sub: "uptime 6h 12m · 訊號正常" },
+        { kind: "health", id: "health", label: "Device health", dot: "ok", text: "Alive", sub: "最後更新 1s 前 · 訊號正常" },
         { kind: "info", id: "connection", label: "Connection", rows: [
           ["Via gateway", "North Group"],
           ["Signal", "良好"],
@@ -573,7 +590,7 @@
       name: "Central Bridge",
       sub: "Central-side path · 特殊路徑",
       inspector: [
-        { kind: "health", id: "health", label: "Bridge health", dot: "ok", text: "Online", sub: "僅負責轉發，不是 Central 本體；非一般巡視入口" },
+        { kind: "health", id: "health", label: "Bridge health", dot: "ok", text: "Online", sub: "上次同步 3s 前 · 僅負責轉發；非一般巡視入口" },
         { kind: "info", id: "central", label: "Central side", rows: [
           ["Central reachable", "是"],
           ["Last sync", "3s ago"]
@@ -908,6 +925,10 @@
       state = btn.dataset.state;
       render();
     });
+  });
+
+  document.getElementById("ust-head").addEventListener("click", () => {
+    document.getElementById("ust").classList.toggle("open");
   });
 
   render();
