@@ -44,6 +44,15 @@ mock 假設不是所有區塊同頻率更新，與現有 app contract / firmware
 
 Runtime 主畫面優先顯示 **freshness 結果**（「最後更新 2s 前」/「即時」/「資料較舊」/「目前無法比對」），不直接暴露 polling / notify / event-driven 這類機制細節。機制層仍在 Page 2 底部 `Engineer note · Update policy`（預設收合）供 review。
 
+### Freshness 用詞分層
+
+為避免後續頁面混用，Page 2 採以下一致規則：
+
+- **最後更新**：runtime / live observation（Gateway、ED page-level health sub）
+- **上次同步**：Central / bridge / sync reference（Central Bridge、sync status 類）
+- **最後看到**：member item / accordion 內 ED 列
+- 時間一律用中文 `X 前`（不用 `X ago`）
+
 ## Rename boundary
 
 Rename 不屬於 Page 1 / Page 2 的範圍：

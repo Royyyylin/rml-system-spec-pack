@@ -452,7 +452,7 @@
           id: "ed-007",
           name: "ED-007",
           dot: "ok",
-          sub: "alive · last seen 1s ago",
+          sub: "alive · 最後看到 1s 前",
           inspector: [
             ["Signal", "良好"],
             ["PDR", "99%"],
@@ -466,15 +466,15 @@
             ["can_compare", "true"]
           ],
           log: [
-            ["1s ago", "status ok"],
-            ["45s ago", "attach to GW"]
+            ["1s 前", "status ok"],
+            ["45s 前", "attach to GW"]
           ]
         },
         {
           id: "ed-014",
           name: "ED-014",
           dot: "ok",
-          sub: "alive · last seen 2s ago",
+          sub: "alive · 最後看到 2s 前",
           inspector: [
             ["Signal", "良好"],
             ["PDR", "97%"],
@@ -488,8 +488,8 @@
             ["can_compare", "true"]
           ],
           log: [
-            ["2s ago", "status ok"],
-            ["3m ago", "attach to GW"]
+            ["2s 前", "status ok"],
+            ["3m 前", "attach to GW"]
           ],
           conflictPatch: {
             dot: "danger",
@@ -501,7 +501,7 @@
           id: "ed-022",
           name: "ED-022",
           dot: "ok",
-          sub: "alive · last seen 5s ago",
+          sub: "alive · 最後看到 5s 前",
           inspector: [
             ["Signal", "普通"],
             ["PDR", "94%"],
@@ -515,8 +515,8 @@
             ["can_compare", "true"]
           ],
           log: [
-            ["5s ago", "status ok"],
-            ["12m ago", "attach to GW"]
+            ["5s 前", "status ok"],
+            ["12m 前", "attach to GW"]
           ]
         }
       ],
@@ -524,10 +524,10 @@
         id: "cc",
         name: "Central Bridge",
         dot: "ok",
-        sub: "online · last sync 3s ago",
+        sub: "online · 上次同步 3s 前",
         inspector: [
           ["Central reachable", "是"],
-          ["Last sync", "3s ago"],
+          ["上次同步", "3s 前"],
           ["Queue", "清空"]
         ],
         engineer: [
@@ -536,14 +536,14 @@
           ["Retries (5m)", "0"]
         ],
         log: [
-          ["3s ago", "sync ok"],
-          ["30s ago", "bridge reset (scheduled)"]
+          ["3s 前", "sync ok"],
+          ["30s 前", "bridge reset (scheduled)"]
         ]
       },
       logAll: [
-        ["2s ago", "ED-007 attach"],
-        ["1m ago", "heartbeat ok"],
-        ["3m ago", "cfg version 42 applied"]
+        ["2s 前", "ED-007 attach"],
+        ["1m 前", "heartbeat ok"],
+        ["3m 前", "cfg version 42 applied"]
       ]
     },
     ed: {
@@ -554,7 +554,7 @@
         { kind: "info", id: "connection", label: "Connection", rows: [
           ["Via gateway", "North Group"],
           ["Signal", "良好"],
-          ["Last seen", "1s ago"]
+          ["最後看到", "1s 前"]
         ]}
       ],
       engineer: [
@@ -572,16 +572,16 @@
         ]}
       ],
       logAll: [
-        ["1s ago", "status ok"],
-        ["45s ago", "attach to GW"],
-        ["2m ago", "roster refresh"]
+        ["1s 前", "status ok"],
+        ["45s 前", "attach to GW"],
+        ["2m 前", "roster refresh"]
       ],
       conflictPatch: {
         health: { dot: "warn", text: "Alive（有異常）", sub: "目前附著與後台紀錄不一致" },
         connection: { rows: [
           ["Via gateway", "現場：North Group"],
           ["Signal", "良好"],
-          ["Last seen", "1s ago"]
+          ["最後看到", "1s 前"]
         ]},
         extraWarn: "後台記錄此裝置應屬 South Group；建議查看差異"
       }
@@ -593,7 +593,7 @@
         { kind: "health", id: "health", label: "Bridge health", dot: "ok", text: "Online", sub: "上次同步 3s 前 · 僅負責轉發；非一般巡視入口" },
         { kind: "info", id: "central", label: "Central side", rows: [
           ["Central reachable", "是"],
-          ["Last sync", "3s ago"]
+          ["上次同步", "3s 前"]
         ]},
         { kind: "info", id: "gwside", label: "Gateway side", rows: [
           ["Linked gateways", "3 組"],
@@ -609,15 +609,15 @@
         ]}
       ],
       logAll: [
-        ["3s ago", "sync ok"],
-        ["30s ago", "bridge reset (scheduled)"],
-        ["2m ago", "gateway linked"]
+        ["3s 前", "sync ok"],
+        ["30s 前", "bridge reset (scheduled)"],
+        ["2m 前", "gateway linked"]
       ],
       conflictPatch: {
         health: { dot: "warn", text: "Online（有衝突路徑）", sub: "某條 relay 路徑上，後台與現場指向不同 Gateway" },
         central: { rows: [
           ["Central reachable", "是"],
-          ["Last sync", "3s ago（存在衝突項目）"]
+          ["上次同步", "3s 前（存在衝突項目）"]
         ]},
         extraWarn: "1 個 ED 的 bridge relay 與現場觀測不一致"
       }
@@ -808,7 +808,7 @@
     ico.textContent = "● ";
     ico.style.color = "#e65100";
     hint.appendChild(ico);
-    hint.appendChild(document.createTextNode("2s ago · ED-014 switched gateway"));
+    hint.appendChild(document.createTextNode("2s 前 · ED-014 切換 Gateway"));
     return hint;
   }
 
