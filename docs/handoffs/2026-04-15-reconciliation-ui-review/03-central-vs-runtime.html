@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page 3 — Central vs Runtime</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Noto Sans TC", sans-serif;
+    background: #eef1f5;
+    min-height: 100vh;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; width: 100%; max-width: 460px; }
+
+  .page-hint {
+    background: #fff;
+    border-left: 4px solid #1976d2;
+    padding: 12px 18px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #444;
+  }
+  .page-hint strong { color: #1976d2; }
+  .page-hint .muted { color: #888; font-size: 12px; margin-top: 4px; line-height: 1.5; }
+
+  /* Scenario switcher */
+  .switcher {
+    display: flex; gap: 6px;
+    background: #fff; padding: 6px; border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    flex-wrap: wrap; justify-content: center;
+    width: 100%;
+  }
+  .switcher button {
+    border: none; background: transparent;
+    padding: 8px 12px; border-radius: 999px;
+    font-family: inherit; font-size: 12px; color: #555;
+    cursor: pointer; flex: 1; min-width: 88px;
+  }
+  .switcher button:hover { background: #f5f6f8; }
+  .switcher button.active {
+    background: #1976d2; color: white; font-weight: 600;
+  }
+
+  .phone {
+    width: 100%; max-width: 460px;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    overflow: hidden;
+  }
+  .phone-header {
+    background: linear-gradient(135deg, #1976d2, #1565c0);
+    color: white;
+    padding: 18px 22px 16px;
+  }
+  .phone-header .back { font-size: 13px; opacity: 0.85; margin-bottom: 8px; }
+  .phone-header .title { font-size: 20px; font-weight: 600; }
+  .phone-header .ed { font-size: 12px; opacity: 0.85; margin-top: 4px; font-family: ui-monospace, monospace; }
+
+  /* State strip */
+  .state-strip {
+    padding: 14px 22px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .state-strip.confirmed { background: #f5fbf5; }
+  .state-strip.pending { background: #fff8e1; }
+  .state-strip.conflict { background: #fdecea; }
+  .state-strip.central_only { background: #e8f4fd; }
+  .state-strip.not_compared { background: #f5f7fa; }
+  .state-name {
+    font-size: 16px; font-weight: 700;
+    font-family: ui-monospace, "Menlo", monospace;
+    margin-bottom: 4px;
+  }
+  .state-strip.confirmed .state-name { color: #2e7d32; }
+  .state-strip.pending .state-name { color: #b06000; }
+  .state-strip.conflict .state-name { color: #c62828; }
+  .state-strip.central_only .state-name { color: #0d47a1; }
+  .state-strip.not_compared .state-name { color: #546e7a; }
+  .state-text { font-size: 13px; color: #444; line-height: 1.5; }
+
+  /* Dual panel */
+  .dual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: #f0f0f0;
+  }
+  .pane {
+    background: #fff;
+    padding: 14px;
+  }
+  .pane.central { background: #f5faff; }
+  .pane.runtime { background: #fff8f0; }
+  .pane-title {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .pane.central .pane-title { color: #0d47a1; }
+  .pane.runtime .pane-title { color: #c45c00; }
+  .pane-side {
+    font-size: 10px;
+    color: #999;
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+  .pane-key {
+    font-size: 10px; color: #888;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 8px;
+    margin-bottom: 2px;
+  }
+  .pane-value {
+    font-size: 18px; font-weight: 700;
+    color: #222;
+    font-family: ui-monospace, monospace;
+  }
+  .pane-value.diff { color: #c62828; }
+  .pane-value.muted { color: #888; font-weight: normal; font-size: 14px; }
+  .pane-fresh {
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px dotted #e0e0e0;
+    font-size: 11px;
+    color: #666;
+  }
+  .pane-fresh-tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+  .pane-fresh-tag.fresh { background: #d4edda; color: #155724; }
+  .pane-fresh-tag.stale { background: #ffe5a0; color: #8a6d00; }
+  .pane-fresh-tag.last_synced { background: #d1ecf1; color: #0c5460; }
+  .pane-fresh-tag.missing { background: #e2e3e5; color: #555; }
+
+  /* Diff hint between panes */
+  .diff-hint {
+    padding: 10px 22px;
+    background: #fafbfc;
+    font-size: 12px;
+    color: #555;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .diff-hint .lbl { font-weight: 600; }
+  .diff-hint.danger .lbl { color: #c62828; }
+  .diff-hint.warn .lbl { color: #b06000; }
+  .diff-hint.muted .lbl { color: #5a6a7a; }
+
+  .next-hint {
+    padding: 12px 22px;
+    font-size: 12px;
+    color: #6a7a8a;
+    background: #f5f8fc;
+    line-height: 1.6;
+  }
+  .next-hint strong { color: #1976d2; }
+
+  .page-note {
+    width: 100%; max-width: 460px;
+    padding: 14px 18px;
+    background: #fff;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .page-note strong { color: #222; }
+  .page-note code { font-family: ui-monospace, monospace; font-size: 12px; background: #f0f0f0; padding: 1px 5px; border-radius: 3px; }
+
+  /* Small-screen polish */
+  @media (max-width: 420px) {
+    body { padding: 12px; }
+    .phone { border-radius: 18px; }
+    .phone-header { padding: 14px 16px 12px; }
+    .state-strip { padding: 12px 16px; }
+    .pane { padding: 12px; }
+    .next-hint, .diff-hint { padding: 10px 16px; }
+    .pane-value { font-size: 16px; }
+    .switcher button { font-size: 11px; padding: 7px 10px; min-width: 76px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="page-hint">
+    <strong>Page 3 / 4 — Central vs Runtime 並列差異</strong>
+    <div class="muted">
+      由 Page 2 的 conflict banner「查看差異」進來。本頁只比 Central 與 Runtime 兩側；想追 raw timestamp / revision，往 Page 4。
+    </div>
+  </div>
+
+  <div class="switcher" id="switcher">
+    <button data-scn="confirmed" class="active">converged</button>
+    <button data-scn="conflict">conflict</button>
+    <button data-scn="pending">pending_reconciliation</button>
+    <button data-scn="central_only">central_only</button>
+    <button data-scn="not_compared">not compared</button>
+  </div>
+
+  <div class="phone">
+    <div class="phone-header">
+      <div class="back">← North Group</div>
+      <div class="title">Central vs Runtime</div>
+      <div class="ed" id="ed-name">ED · 從 Page 2 詳情層展開</div>
+    </div>
+
+    <div class="state-strip" id="state-strip">
+      <div class="state-name" id="state-name">conflict</div>
+      <div class="state-text" id="state-text">後台與現場都最新，但指向不同 Gateway。需要人工確認。</div>
+    </div>
+
+    <div class="dual">
+      <div class="pane central">
+        <div class="pane-title">Central</div>
+        <div class="pane-side">authoritative · 後台分配</div>
+        <div class="pane-key">Gateway</div>
+        <div class="pane-value" id="central-gw">GW-A</div>
+        <div class="pane-fresh">
+          上次同步 <span id="central-time">3s 前</span>
+          <span class="pane-fresh-tag fresh" id="central-tag">fresh</span>
+        </div>
+      </div>
+      <div class="pane runtime">
+        <div class="pane-title">Runtime</div>
+        <div class="pane-side">observed · 現場觀測</div>
+        <div class="pane-key">Gateway</div>
+        <div class="pane-value" id="runtime-gw">GW-D</div>
+        <div class="pane-fresh">
+          最後更新 <span id="runtime-time">2s 前</span>
+          <span class="pane-fresh-tag fresh" id="runtime-tag">fresh</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="diff-hint" id="diff-hint">
+      <span class="lbl" id="diff-label">差異點</span>　<span id="diff-text">兩側 Gateway 值不同；can_compare = true。</span>
+    </div>
+
+    <div class="next-hint">
+      <strong>下一步</strong><br>
+      想追 timestamp / revision / observed_at / evidence → Page 4
+    </div>
+  </div>
+
+  <div class="page-note">
+    <strong>下一頁</strong>：Roy review 通過後再做 <code>04-evidence-panel.html</code>。
+  </div>
+
+</div>
+
+<script>
+  // 用詞延用 Page 2 freshness 分層：
+  //   最後更新 = runtime / live observation
+  //   上次同步 = Central / sync reference
+  //   最後看到 = member item（本頁不用，因 ED 已被選定）
+  const scenarios = {
+    confirmed: {
+      stateClass: "confirmed",
+      stateName: "confirmed",
+      stateText: "Central 分配與 Runtime 觀測一致，皆 fresh。reviewer 不需動作。",
+      central: { gw: "GW-A", time: "2s 前", tag: "fresh", tagText: "fresh" },
+      runtime: { gw: "GW-A", time: "1s 前", tag: "fresh", tagText: "fresh" },
+      diff: { cls: "muted", lbl: "目前狀態", text: "兩側 Gateway 一致；can_compare = true。" }
+    },
+    conflict: {
+      stateClass: "conflict",
+      stateName: "conflict",
+      stateText: "後台與現場都最新，但指向不同 Gateway。需要人工確認，不要自行覆寫任一側。",
+      central: { gw: "GW-A", time: "3s 前", tag: "fresh", tagText: "fresh" },
+      runtime: { gw: "GW-D", time: "2s 前", tag: "fresh", tagText: "fresh", diff: true },
+      diff: { cls: "danger", lbl: "差異點", text: "兩側 Gateway 值不同；can_compare = true。" }
+    },
+    pending: {
+      stateClass: "pending",
+      stateName: "pending_reconciliation",
+      stateText: "現場剛切換 Gateway（failover），後台尚未同步。屬正常延遲，幾秒內應自動收斂為 confirmed。",
+      central: { gw: "GW-A", time: "12s 前", tag: "fresh", tagText: "fresh" },
+      runtime: { gw: "GW-B", time: "剛剛", tag: "fresh", tagText: "fresh", diff: true },
+      diff: { cls: "warn", lbl: "目前差異", text: "Runtime 已切到 GW-B，Central 仍記錄 GW-A；等同步即可。" }
+    },
+    central_only: {
+      stateClass: "central_only",
+      stateName: "central_only",
+      stateText: "後台已分配 Gateway，但現場尚未回報 attach。常見於剛派工或裝置剛上線。",
+      central: { gw: "GW-A", time: "5s 前", tag: "fresh", tagText: "fresh" },
+      runtime: { gw: "—",   time: "—",     tag: "missing", tagText: "尚未回報", missing: true },
+      diff: { cls: "muted", lbl: "目前狀態", text: "Runtime 尚未提供 Gateway 觀測，等現場回報。" }
+    },
+    not_compared: {
+      stateClass: "not_compared",
+      stateName: "not compared / last synced",
+      stateText: "目前沒有 live Central 資料；只能看到上次同步的 reference，不足以判定衝突。",
+      central: { gw: "GW-A", time: "45s 前（快取）", tag: "last_synced", tagText: "last synced" },
+      runtime: { gw: "GW-B", time: "2s 前", tag: "fresh", tagText: "fresh" },
+      diff: { cls: "muted", lbl: "comparison gate", text: "Central reference 不夠新鮮，can_compare = false；不會升格為 conflict。" }
+    }
+  };
+
+  const $ = (id) => document.getElementById(id);
+  let active = "confirmed";
+
+  function render() {
+    const s = scenarios[active];
+
+    const strip = $("state-strip");
+    strip.className = "state-strip " + s.stateClass;
+    $("state-name").textContent = s.stateName;
+    $("state-text").textContent = s.stateText;
+
+    $("central-gw").textContent = s.central.gw;
+    $("central-time").textContent = s.central.time;
+    $("central-tag").textContent = s.central.tagText;
+    $("central-tag").className = "pane-fresh-tag " + s.central.tag;
+
+    const rgw = $("runtime-gw");
+    rgw.textContent = s.runtime.gw;
+    rgw.className = "pane-value" + (s.runtime.diff ? " diff" : (s.runtime.missing ? " muted" : ""));
+    $("runtime-time").textContent = s.runtime.time;
+    $("runtime-tag").textContent = s.runtime.tagText;
+    $("runtime-tag").className = "pane-fresh-tag " + s.runtime.tag;
+
+    const dh = $("diff-hint");
+    dh.className = "diff-hint " + s.diff.cls;
+    $("diff-label").textContent = s.diff.lbl;
+    $("diff-text").textContent = s.diff.text;
+  }
+
+  document.querySelectorAll("#switcher button").forEach(b => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll("#switcher button").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      active = b.dataset.scn;
+      render();
+    });
+  });
+
+  render();
+</script>
+
+</body>
+</html>

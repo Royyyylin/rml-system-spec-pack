@@ -7,8 +7,8 @@ Page-by-page review。一次只看一頁，上一頁通過後才做下一頁。
 | # | 頁面 | 回答什麼 | 狀態 |
 |---|------|---------|------|
 | 1 | [01-entry-list.html](01-entry-list.html) | 入口：現在可以連誰？哪個對象值得先連？ | Passed |
-| 2 | [02-detail-summary.html](02-detail-summary.html) | 連線後 peer overview + role-based information layering（巡視人員 / Engineer） | **Ready for Roy review** |
-| 3 | 03-central-vs-runtime.html | Central vs Runtime 怎麼並列？ | 待第 2 頁通過 |
+| 2 | [02-detail-summary.html](02-detail-summary.html) | 連線後 peer overview + role-based information layering（巡視人員 / Engineer） | Passed |
+| 3 | [03-central-vs-runtime.html](03-central-vs-runtime.html) | Central vs Runtime 並列差異視圖（dual-source evidence） | **Ready for Roy review** |
 | 4 | 04-evidence-panel.html | 追證據去哪裡看？ | 待第 3 頁通過 |
 
 ## 第 1 頁設計原則
@@ -52,6 +52,16 @@ Runtime 主畫面**只顯示 freshness / quality 結果**（「最後更新 2s �
 - **上次同步**：Central / bridge / sync reference（Central Bridge、sync status 類）
 - **最後看到**：member item / accordion 內 ED 列
 - 時間一律用中文 `X 前`（不用 `X ago`）
+
+## 第 3 頁設計原則
+
+- 由 Page 2 conflict banner「查看差異」進入，主畫面 = Central vs Runtime 並列
+- 兩側分明：左側 Central（authoritative · 後台分配）、右側 Runtime（observed · 現場觀測）；視覺上不靜默合併
+- 每側都顯示 freshness（最後更新 / 上次同步）與對應 tag（fresh / stale / last synced / 尚未回報）
+- 5 個切換情境：`converged` / `conflict` / `pending_reconciliation` / `central_only` / `not compared`
+- diff hint 條同步說明 `can_compare` 結論與 reviewer 下一步注意點
+- 用詞延用 Page 2 freshness 分層（最後更新 = runtime / 上次同步 = central），不引入新 vocabulary
+- 不在本頁攤開 raw timestamp / revision / observed_at；那些屬 Page 4
 
 ## Rename boundary
 
