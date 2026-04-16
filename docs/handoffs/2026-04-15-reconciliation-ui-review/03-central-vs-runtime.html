@@ -358,10 +358,10 @@
       stateText: "後台與現場都最新，但指向不同 Gateway。需要人工確認，不要自行覆寫任一側。",
       central: { gw: "GW-A", time: "3s 前", tag: "fresh", tagText: "fresh" },
       runtime: { gw: "GW-D", time: "2s 前", tag: "fresh", tagText: "fresh", diff: true },
-      diff: { cls: "danger", lbl: "差異點", text: "可比對：兩側 Gateway 值不同;需人工確認。" },
+      diff: { cls: "danger", lbl: "差異點", text: "可比對：兩側 Gateway 值不同；需人工確認。" },
       actions: {
         title: "Recommended action",
-        body: "Central 是 canonical assignment;預設恢復 Runtime 回到 Central 分配。",
+        body: "Central 是權威分配；預設先恢復 Runtime 回到 Central。",
         buttons: [
           { text: "Recover runtime", style: "primary" },
           { text: "Accept runtime as new assignment", style: "danger", note: "需 Engineer 確認" },
@@ -372,10 +372,10 @@
     pending: {
       stateClass: "pending",
       stateName: "Pending sync",
-      stateText: "現場剛切換 Gateway(failover),後台尚未同步。屬正常延遲,幾秒內應自動收斂。",
+      stateText: "現場剛切換 Gateway（failover），後台尚未同步。屬正常延遲，幾秒內應自動收斂。",
       central: { gw: "GW-A", time: "12s 前", tag: "fresh", tagText: "fresh" },
       runtime: { gw: "GW-B", time: "剛剛", tag: "fresh", tagText: "fresh", diff: true },
-      diff: { cls: "warn", lbl: "目前差異", text: "Runtime 已切到 GW-B,Central 仍記錄 GW-A;等同步即可。" },
+      diff: { cls: "warn", lbl: "目前差異", text: "Runtime 已切到 GW-B，Central 仍記錄 GW-A；等同步即可。" },
       actions: {
         title: "Wait for sync",
         body: "Runtime changed recently. Let Central sync before resolving.",
@@ -387,13 +387,13 @@
     central_only: {
       stateClass: "central_only",
       stateName: "Central only",
-      stateText: "後台已分配 Gateway,但現場尚未回報 attach。常見於剛派工或裝置剛上線。",
+      stateText: "後台已分配 Gateway，但現場尚未回報 attach。常見於剛派工或裝置剛上線。",
       central: { gw: "GW-A", time: "5s 前", tag: "fresh", tagText: "fresh" },
       runtime: { gw: "—",   time: "—",     tag: "missing", tagText: "尚未回報", missing: true },
-      diff: { cls: "muted", lbl: "目前狀態", text: "Runtime 尚未提供 Gateway 觀測,等現場回報。" },
+      diff: { cls: "muted", lbl: "目前狀態", text: "Runtime 尚未提供 Gateway 觀測，等現場回報。" },
       actions: {
         title: "Wait for runtime",
-        body: "Runtime 尚未回報 attach;可發送主動檢查指令確認狀況。",
+        body: "Runtime 尚未回報 attach；可發送主動檢查指令確認狀況。",
         buttons: [
           { text: "Wait for runtime", style: "secondary" },
           { text: "Send check command", style: "secondary" },
@@ -404,13 +404,13 @@
     not_compared: {
       stateClass: "not_compared",
       stateName: "Not compared",
-      stateText: "目前沒有 live Central 資料;只能看到上次同步的 reference,不足以判定衝突。",
-      central: { gw: "GW-A", time: "45s 前(快取)", tag: "last_synced", tagText: "last synced" },
+      stateText: "目前沒有 live Central 資料；只能看到上次同步的 reference，不足以判定衝突。",
+      central: { gw: "GW-A", time: "45s 前（快取）", tag: "last_synced", tagText: "last synced" },
       runtime: { gw: "GW-B", time: "2s 前", tag: "fresh", tagText: "fresh" },
-      diff: { cls: "muted", lbl: "比對結果", text: "不可比對:Central 只有上次同步 reference;不會升格為衝突。" },
+      diff: { cls: "muted", lbl: "比對結果", text: "不可比對：Central 只有上次同步 reference；不會升格為衝突。" },
       actions: {
         title: "Refresh Central",
-        body: "Central reference 不夠新;先刷新後再判斷是否真有衝突。",
+        body: "Central reference 不夠新；先刷新後再判斷是否真有衝突。",
         buttons: [
           { text: "Refresh Central", style: "primary" },
           { text: "View evidence", style: "link" }
