@@ -16,7 +16,9 @@
 
 **Acceptance**：
 - HIL test 改用 `family=` / `code=` 過濾，不再靠子字串
-- 既有 33 條 `[EVT]` tag 必須**逐條對應**到 [event-taxonomy.md](event-taxonomy.md) 的 family + code（含 BOOT / BLE_LINK / ROSTER（含 TOPOLOGY）/ FAILOVER（含 QOS_HEARTBEAT）/ CMD / CC_RELAY / UPLINK（UPLINK_DISPATCH 改名 `frame_family=`））；無法對應者列為缺漏 follow-up，不可自行發明 family
+- 既有 33 條 `[EVT]` tag 必須**逐條對應**到 [event-taxonomy.md](event-taxonomy.md) 的 family + code（含 BOOT / BLE_LINK / ROSTER（含 TOPOLOGY）/ FAILOVER（**僅 HA peer 健康度與 role 變更，不含 `QOS_HEARTBEAT`**）/ CMD / CC_RELAY / UPLINK（UPLINK_DISPATCH 改名 `frame_family=`））
+- `QOS_HEARTBEAT` 本輪**不收編到任何 family**，列為 follow-up（見 [event-taxonomy.md](event-taxonomy.md) 「本輪不收編的 tag」段與 [open-questions.md](open-questions.md) Q10）；Phase 0 標準化期間可暫保留原 free-form 文字
+- 其他無法對應者一律列為缺漏 follow-up，不可自行發明 family
 - 仍是 RTT only；**不上 wire**
 - 不需要新增 GATT 欄位、不需要 firmware code 大改
 

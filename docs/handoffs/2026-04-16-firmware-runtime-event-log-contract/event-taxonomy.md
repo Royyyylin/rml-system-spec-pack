@@ -37,15 +37,14 @@
 | `TOPOLOGY` / `TOPOLOGY_PEER` | INFO | 既有 `[EVT] TOPOLOGY ...`（GW emits 30s）|
 | `TOPOLOGY_BRIDGE` | INFO | CC 端 `[EVT] TOPOLOGY role=CC`；只是 relay 視角，非 authority |
 
-### `FAILOVER` — HA / 角色切換 / link 健康度
+### `FAILOVER` — HA / 角色切換 / link 健康度（**僅限 HA peer 健康度與 role 變更**；不含週期性 QoS metrics）
 
 | Representative | Severity | Notes |
 |---|---|---|
-| `HEARTBEAT_LOST` / `HEARTBEAT_RESTORED` | WARN/INFO | peer suspect / 恢復 |
+| `HEARTBEAT_LOST` / `HEARTBEAT_RESTORED` | WARN/INFO | HA peer suspect / 恢復（不是 QoS rolling metrics）|
 | `PEER_DEAD` | WARN | hold-down 過 |
 | `PROMOTE` / `DEMOTE` | WARN | role 升降 |
 | `FAILOVER_GENERATION_INC` | WARN | failover_generation +1 |
-| `QOS_HEARTBEAT` | INFO | 既有 `[EVT] QOS_HEARTBEAT pdr/lat/jit/conn`，rolling QoS metrics |
 
 ### `CMD` — CMD_V2 / CMD_RESULT 生命週期
 
@@ -72,6 +71,10 @@
 | `UPLINK_DRAIN_OK` / `UPLINK_DRAIN_FAIL` *(future)* | INFO/WARN | drain → backend 結果 |
 
 ### `EVIDENCE_SNAPSHOT` *(future)* — Page 4 / Central audit compact snapshot；本輪只佔位
+
+## 本輪不收編的 tag（deferred / temporary mapping）
+
+- **`QOS_HEARTBEAT`**（既有 `[EVT] QOS_HEARTBEAT pdr/lat/jit/conn`，gw_qos.c emits rolling QoS metrics）：屬週期性 runtime metrics，與 `role-mapping.md` 「telemetry / measurement 本身不算 event」主軸一致；**不歸 FAILOVER**，本輪也不正式收編到任何 family。後續決策（新增 `RUNTIME_HEALTH` family、改走 STATUS/METRICS_V2 telemetry stream、或拆成「rolling QoS + threshold 違反才升級為 event」）見 [open-questions.md](open-questions.md) Q10
 
 ## Family 對應消費者（建議）
 

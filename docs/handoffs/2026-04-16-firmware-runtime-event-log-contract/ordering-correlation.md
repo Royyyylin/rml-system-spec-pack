@@ -39,7 +39,12 @@
   1. `(initiator_role, peer_addr, central_conn_handle, link_open_uptime_ms)` 拼湊 hash
   2. GW 側生成、寫入連線早期 GATT exchange，由 ED 端記入後續 event
   3. 由 App / Central 端在收到兩側 event 後做 best-effort 對齊（fallback；不算共享 id）
-- 在 `link_session_id` 落地前，**App / Central 端 best-effort 對齊**：用 `peer_addr` + `event_seq` 接近 + `uptime_ms` 接近做 heuristic match；明標為「probable pairing」，不可作為 audit 真相
+- 在 `link_session_id` 落地前，**只允許 receiver-side observable best-effort 對齊**；可用依據限定為：
+  - `peer_addr`（GW 與 ED 兩側皆可看到對端 BLE address）
+  - `reason_code`（BLE_LINK_DOWN 的 HCI reason，兩側通常一致）
+  - 接收端時間窗（`app_received_at` / `central_received_at`）的近似觀察
+- **明文禁止**用 `event_seq` 或 `uptime_ms / uptime_s` 做跨 device pairing — 兩者都是 device-local 量，與本檔上方「順序保證」硬規則衝突
+- 對齊結果一律標 `probable pairing`，不可作為 audit 真相；落地的 `link_session_id` 才是 authority
 - BLE_LINK_DOWN 必須帶 `reason_code`（HCI reason）以利兩側對端互相比對
 
 **Open question**：見 [open-questions.md](open-questions.md) Q9（已從原 7 題擴增）。

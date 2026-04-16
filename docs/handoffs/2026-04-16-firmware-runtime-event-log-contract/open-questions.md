@@ -71,6 +71,20 @@
 - **Proposal**：候選 1（hash from initiator + addr + open uptime）影響最小、不需 wire 改動，可先試
 - **Impact**：跨 device link 對齊；在落地前 App / Central 只能 best-effort heuristic match，不可 audit
 
+## Q10 — `QOS_HEARTBEAT` 該歸哪裡（或不該收編到 event log）
+
+**問題**：`[EVT] QOS_HEARTBEAT pdr/lat/jit/conn`（gw_qos.c emits, periodic）是 GW 端 rolling QoS metrics，本輪明文移出 `FAILOVER`。應走哪條路？
+
+- **背景**：
+  - `role-mapping.md` 既有原則：「telemetry / measurement 本身不算 event（屬 STATUS / METRICS_V2），measurement-driven 異常才升格」
+  - QOS_HEARTBEAT 是週期性指標，不是 state transition，混進 event log 會稀釋 event 語意，也污染 Page 4 / Central audit 的 failover 過濾
+- **候選方案**：
+  1. 新開 `RUNTIME_HEALTH` / `DIAGNOSTIC` family 收編（保留 event 形式但與 FAILOVER 分開）
+  2. 改走 STATUS / METRICS_V2 telemetry stream，event log 不收
+  3. 拆兩半：rolling metrics 走 telemetry；只在 threshold 違反時 emit `QOS_DEGRADED` event（升格規則待定）
+- **Decision needed by**：`ble_qos_demo_V1.2m`（firmware）+ `central-device-metadata`（audit owner）
+- **Impact**：Page 4 evidence 過濾條件、Central audit 大小、HIL test 對 QoS 健康度的觀察介面
+
 ## Q7 — Severity 與 ALARM 業務語意的分界
 
 **問題**：`severity = ERROR/FATAL` 與既有 `EVT type=ALARM` 是否完全對應？是否需要在 schema 內額外標 `is_alarm`？
