@@ -42,6 +42,17 @@ mock 假設不是所有區塊同頻率更新，與現有 app contract / firmware
 
 不把 50–100ms 級的更新搬進手機主 flow。
 
+## Rename boundary
+
+Rename 不屬於 Page 1 / Page 2 的範圍：
+
+- 不屬於 pre-connect entry（Page 1）
+- 不屬於 operational overview（Page 2）
+- 屬於後續 metadata / manage flow，非本輪 UI mock 範圍
+- Canonical name 由 Central 擁有
+- Firmware `DEVICE_ALIAS` 是 fallback / rescue，不是 canonical source
+- 運維人員在 runtime 改的是 value / command / mode；改名走工程 / 管理層路徑
+
 ## 操作
 
 用 Chrome 直接打開 `01-entry-list.html`。
