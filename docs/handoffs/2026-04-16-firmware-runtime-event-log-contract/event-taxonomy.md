@@ -2,25 +2,20 @@
 
 主檔：[README.md](README.md)　Status：`draft-for-review`
 
-事件分成有限 family。每個 family 定義 event_code 列表（本輪只列 representative，不 freeze 數值）。下游消費者（Page 4 / App debug / Central audit）依 family 過濾與分流。
+事件分成有限 family。每個 family 列 representative event_code（本輪不 freeze 數值）。下游消費者依 family / severity 過濾。
 
 ## Families
 
-### `BOOT`
+### `BOOT` — device 啟動 / 重置 / role 初始化
 
-device 啟動 / 重置 / role 初始化。
-
-| Representative event_code | Severity | Notes |
+| Representative | Severity | Notes |
 |---|---|---|
-| `BOOT_OK` | INFO | 對應現有 `[EVT] BOOT_OK role=... fw_ver=... profile=...` |
-| `BLE_STACK_READY` | INFO | |
+| `BOOT_OK` / `BLE_STACK_READY` | INFO | 對應現有 `[EVT] BOOT_OK ...` / `[EVT] BLE_STACK_READY` |
 | `BOOT_ID_CONFIRMED` | INFO | 寫入 / 讀回 boot_id 後第一條 |
 | `RESET_REASON` | INFO/WARN | brownout / watchdog / sw reset |
 | `FATAL_INIT_FAIL` | FATAL | bt_enable_fail / NVS init fail |
 
-### `BLE_LINK`
-
-BLE 物理層連線生命週期。
+### `BLE_LINK` — BLE 物理層連線生命週期
 
 | Representative | Severity | Notes |
 |---|---|---|
@@ -32,56 +27,51 @@ BLE 物理層連線生命週期。
 | `MTU_UPDATE` / `PHY_CHANGED` | INFO | optional |
 | `CONN_FAIL` | WARN | create_fail / disc_fail / conn_err |
 
-### `ROSTER`
-
-GW 端對 ED 的 attach / visibility 觀察。對應 reconciliation Page 4 的 Runtime evidence。
+### `ROSTER` — GW 端 ED attach / visibility（Page 4 Runtime evidence 主要來源）
 
 | Representative | Severity | Notes |
 |---|---|---|
 | `ED_SEEN` | INFO | scan 或 advertising 看到 ED |
-| `ATTACH_VISIBLE` | INFO | ED 已掛上 GW slot |
-| `ATTACH_NOT_VISIBLE` | INFO | roster 內無此 ED；對應 `Central only` 的 runtime side |
-| `ROSTER_ONLINE` / `ROSTER_OFFLINE` | INFO | |
-| `SLOT_ASSIGNMENT` | INFO | slot 變更 |
+| `ATTACH_VISIBLE` / `ATTACH_NOT_VISIBLE` | INFO | 後者對應 `Central only` 的 runtime side |
+| `ROSTER_ONLINE` / `ROSTER_OFFLINE` / `SLOT_ASSIGNMENT` | INFO | slot 與成員變更 |
+| `TOPOLOGY` / `TOPOLOGY_PEER` | INFO | 既有 `[EVT] TOPOLOGY ...`（GW emits 30s）|
+| `TOPOLOGY_BRIDGE` | INFO | CC 端 `[EVT] TOPOLOGY role=CC`；只是 relay 視角，非 authority |
 
-### `FAILOVER`
-
-HA / 角色切換。
+### `FAILOVER` — HA / 角色切換 / link 健康度
 
 | Representative | Severity | Notes |
 |---|---|---|
-| `HEARTBEAT_LOST` | WARN | peer suspect |
-| `HEARTBEAT_RESTORED` | INFO | |
+| `HEARTBEAT_LOST` / `HEARTBEAT_RESTORED` | WARN/INFO | peer suspect / 恢復 |
 | `PEER_DEAD` | WARN | hold-down 過 |
 | `PROMOTE` / `DEMOTE` | WARN | role 升降 |
 | `FAILOVER_GENERATION_INC` | WARN | failover_generation +1 |
+| `QOS_HEARTBEAT` | INFO | 既有 `[EVT] QOS_HEARTBEAT pdr/lat/jit/conn`，rolling QoS metrics |
 
-### `CMD`
-
-CMD_V2 / CMD_RESULT 生命週期。
-
-| Representative | Severity | Notes |
-|---|---|---|
-| `CMD_RECEIVED` | INFO | correlation_id = txn_id |
-| `CMD_ACCEPTED` | INFO | |
-| `CMD_APPLIED` | INFO | |
-| `CMD_FAILED` | WARN | reason_code |
-| `CMD_REJECTED` | WARN | reason_code（含 permission denied）|
-
-### `CC_RELAY`
-
-CC bridge 的 relay / session 行為。**CC 只是 relay，不是 authority**。
+### `CMD` — CMD_V2 / CMD_RESULT 生命週期
 
 | Representative | Severity | Notes |
 |---|---|---|
-| `CC_SESSION_OPEN` | INFO | App ↔ CC bridge 建立 |
-| `CC_SESSION_CLOSE` | INFO | |
+| `CMD_RECEIVED` / `CMD_ACCEPTED` / `CMD_APPLIED` | INFO | correlation_id = txn_id |
+| `CMD_FAILED` / `CMD_REJECTED` | WARN | reason_code（含 permission denied）|
+
+### `CC_RELAY` — CC bridge relay / session（CC 只是 relay，不是 authority）
+
+| Representative | Severity | Notes |
+|---|---|---|
+| `CC_SESSION_OPEN` / `CC_SESSION_CLOSE` | INFO | App ↔ CC bridge |
 | `CC_FORWARDED` | INFO | command 經 CC 轉發 |
 | `CC_RELAY_RESULT` | INFO/WARN | upstream 回 ack / error |
 
-### `EVIDENCE_SNAPSHOT` *(future)*
+### `UPLINK` — uplink dispatch / ring buffer / backend drain（對應 reliability Phase 3 `uplink_ring`）
 
-供 Page 4 evidence / Central audit 撈 compact snapshot。本輪不展開，只佔位。
+| Representative | Severity | Notes |
+|---|---|---|
+| `UPLINK_DISPATCH` | INFO | 既有 `[EVT] UPLINK_DISPATCH frame_family=P0/P1 type=0xNN seq=N`；**Phase 0 標準化時把原 `family=` 改名 `frame_family=` 以避免與本 contract `event_family` 同名衝突** |
+| `UPLINK_RING_EVICT` *(future)* | WARN | Class C/B 被 eviction |
+| `UPLINK_RING_REJECT` *(future)* | ERROR | Class A 拒收 / 滿載 |
+| `UPLINK_DRAIN_OK` / `UPLINK_DRAIN_FAIL` *(future)* | INFO/WARN | drain → backend 結果 |
+
+### `EVIDENCE_SNAPSHOT` *(future)* — Page 4 / Central audit compact snapshot；本輪只佔位
 
 ## Family 對應消費者（建議）
 
@@ -93,4 +83,5 @@ CC bridge 的 relay / session 行為。**CC 只是 relay，不是 authority**。
 | FAILOVER | yes | yes | yes |
 | CMD | yes | yes | yes |
 | CC_RELAY | partial | yes | partial |
+| UPLINK | partial | yes | partial |
 | EVIDENCE_SNAPSHOT | yes | yes | yes |

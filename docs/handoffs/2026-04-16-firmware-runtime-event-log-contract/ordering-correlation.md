@@ -28,6 +28,22 @@
 - **同一個 CC relay**：`CC_SESSION_OPEN` → `CC_FORWARDED` → `CC_RELAY_RESULT` 共用 `correlation_id = relay_id`
 - **roster 觀察與 reconciliation**：`ATTACH_VISIBLE` / `ATTACH_NOT_VISIBLE` 在 Page 4 evidence 引用時，App 端用 `peer_id (ed)` 串接 Central assignment evidence；不需要 firmware 端統一 correlation_id
 
+### BLE_LINK lifecycle correlation（target / draft）
+
+**現況**：firmware 兩端 (GW / ED) 各自 emit 自己的 `BLE_LINK_UP` / `BLE_LINK_DOWN` / `CONN_PARAM_UPDATE`。**目前沒有共享的 `link_session_id`**；每側只看得到自己的 `conn_idx` / `conn_handle`，對端的 handle 不可見。
+
+**Target rule（draft，待 firmware 確認後鎖定）**：
+
+- 同一條 BLE 連線兩端的 BLE_LINK family event 應共享 `correlation_id = link_session_id`
+- 候選組成方式（待選一個）：
+  1. `(initiator_role, peer_addr, central_conn_handle, link_open_uptime_ms)` 拼湊 hash
+  2. GW 側生成、寫入連線早期 GATT exchange，由 ED 端記入後續 event
+  3. 由 App / Central 端在收到兩側 event 後做 best-effort 對齊（fallback；不算共享 id）
+- 在 `link_session_id` 落地前，**App / Central 端 best-effort 對齊**：用 `peer_addr` + `event_seq` 接近 + `uptime_ms` 接近做 heuristic match；明標為「probable pairing」，不可作為 audit 真相
+- BLE_LINK_DOWN 必須帶 `reason_code`（HCI reason）以利兩側對端互相比對
+
+**Open question**：見 [open-questions.md](open-questions.md) Q9（已從原 7 題擴增）。
+
 ## 斷線/重連 debug 預期可組出的 trace
 
 依 `event_seq` 排序，應能看出（以 ED 為例）：

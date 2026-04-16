@@ -53,6 +53,24 @@
 - **Proposal**：Engineering details 顯示「最近 N 條 family/code/severity 過濾後」即可；獨立 viewer 留 Engineer mode
 - **Impact**：App UI scope；事件量大時 phone bandwidth / storage
 
+## Q8 — Event family ↔ reliability class 對應表
+
+**問題**：Phase 1 ring buffer 沿用 firmware reliability Class A/B/C eviction（A 永不 drop / B 次之 / C 先踢）。每個 event family / severity 應對應哪一 class？
+
+- **背景**：既有 `firmware-phase3-reliability.md` 定義 Class A 為 critical data 必須 buffer+replay+seq；event log 是新加類別，未在原 mapping 內
+- **Decision needed by**：`ble_qos_demo_V1.2m`（firmware）
+- **Proposal（draft）**：FATAL / ERROR + FAILOVER family → A；WARN + ROSTER / CMD → B；INFO / DEBUG 其他 → C
+- **Impact**：拒收策略、NVS persist 範圍、Phase 1 acceptance
+
+## Q9 — BLE_LINK `link_session_id` 來源
+
+**問題**：[ordering-correlation.md](ordering-correlation.md) BLE_LINK lifecycle 段定為 target rule，但目前無共享 `link_session_id`。三個候選方式如何擇一？
+
+- **背景**：GW / ED 兩端各自看到自己的 `conn_idx` / `conn_handle`，對端 handle 不可見；無 session-level 共享識別
+- **Decision needed by**：`ble_qos_demo_V1.2m`（firmware）
+- **Proposal**：候選 1（hash from initiator + addr + open uptime）影響最小、不需 wire 改動，可先試
+- **Impact**：跨 device link 對齊；在落地前 App / Central 只能 best-effort heuristic match，不可 audit
+
 ## Q7 — Severity 與 ALARM 業務語意的分界
 
 **問題**：`severity = ERROR/FATAL` 與既有 `EVT type=ALARM` 是否完全對應？是否需要在 schema 內額外標 `is_alarm`？

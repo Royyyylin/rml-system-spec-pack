@@ -16,20 +16,29 @@
 
 **Acceptance**：
 - HIL test 改用 `family=` / `code=` 過濾，不再靠子字串
-- 33 條 tag 全部 covered；缺漏列 follow-up
+- 既有 33 條 `[EVT]` tag 必須**逐條對應**到 [event-taxonomy.md](event-taxonomy.md) 的 family + code（含 BOOT / BLE_LINK / ROSTER（含 TOPOLOGY）/ FAILOVER（含 QOS_HEARTBEAT）/ CMD / CC_RELAY / UPLINK（UPLINK_DISPATCH 改名 `frame_family=`））；無法對應者列為缺漏 follow-up，不可自行發明 family
 - 仍是 RTT only；**不上 wire**
 - 不需要新增 GATT 欄位、不需要 firmware code 大改
 
 ## Phase 1 — Firmware local in-memory ring buffer
 
-**目標**：firmware 維護有界 event ring buffer（建議 64–256 條，依 RAM）；可被 RTT / debug command 讀取與 drain；含 `dropped_count`。
+**目標**：firmware 維護有界 event ring buffer（深度依 RAM 預算）；可被 RTT / debug command 讀取與 drain；含每 class 的 `dropped_count`。
+
+**Eviction policy 與 firmware reliability SSOT 對齊**（見 `ble_qos_demo_V1.2m/docs/specs/firmware-phase3-reliability.md` Task 3.2）：
+
+- 每筆 event record 帶 reliability class（`A` / `B` / `C`），由 family / severity 對應（建議 mapping 待 firmware 端確認）
+- ring 滿時：**先踢最舊 C → 再踢最舊 B → A 不可 eviction，必要時拒收新 entry**
+- 不使用 newest-overwrites-oldest；不發明新 eviction 語意
+- dropped 計數需 per-class 區分（`dropped_a` 應永遠為 0；若 ≠ 0 視為 firmware bug）
 
 **Acceptance**：
 - ring buffer schema 對齊 [event-record-schema.md](event-record-schema.md)
-- 滿載時用 newest-overwrites-oldest，並把 dropped 數字計入下次 drain
+- Class A 永不被 silent drop（沿用既有 `R1` 規則）
+- 拒收 / drop 都會被下次 drain 攜出（per-class counter）
 - HIL 可下 command（既有 CMD_V2 或新增 debug command）讀取最近 N 條
 - `event_seq` / `boot_id` / `uptime_ms` 都已可由 firmware 內部供應
 - 仍**不主動上 wire**；只在 debug / engineer drain 時送出
+- Event family ↔ reliability class 的對應表納入下一輪 spec 修訂（見 [open-questions.md](open-questions.md) Q8）
 
 ## Phase 2 — Wire / uplink + 對接 Page 4 / Central audit
 
