@@ -88,7 +88,11 @@
   }
   .preset .pre-body { flex: 1; }
   .preset .pre-name { font-size: 14px; font-weight: 600; color: #222; }
-  .preset .pre-desc { font-size: 12px; color: #666; margin-top: 2px; }
+  .preset .pre-interval {
+    font-size: 12px; color: #5e35b1; font-weight: 600;
+    font-family: ui-monospace, monospace; margin-top: 2px;
+  }
+  .preset .pre-desc { font-size: 12px; color: #666; margin-top: 3px; }
 
   .adv-acc { background: #fafbfc; border-radius: 10px; }
   .adv-head {
@@ -174,7 +178,7 @@
     </div>
 
     <div class="warn-banner">
-      <strong>調校提醒</strong>　影響 GW 與 ED 的 BLE link 行為，可能改變延遲、穩定度與耗電。建議優先使用 Preset；不建議在巡視模式調整。
+      <strong>調校提醒</strong>　影響 GW 與 ED 的 BLE 連線間隔（connection interval），會牽動回應速度、穩定度與耗電。建議優先使用 Preset；不建議在巡視模式調整。
     </div>
 
     <div class="section">
@@ -184,7 +188,8 @@
         <div class="pre-radio"></div>
         <div class="pre-body">
           <div class="pre-name">Responsive</div>
-          <div class="pre-desc">偏低延遲，適合單裝置或近距離調校</div>
+          <div class="pre-interval">80 units · 100 ms</div>
+          <div class="pre-desc">連線間隔較短，回應較快；適合單裝置或近距離調校</div>
         </div>
       </div>
 
@@ -192,6 +197,7 @@
         <div class="pre-radio"></div>
         <div class="pre-body">
           <div class="pre-name">Balanced</div>
+          <div class="pre-interval">160 units · 200 ms</div>
           <div class="pre-desc">預設折衷，適合多數情境</div>
         </div>
       </div>
@@ -200,7 +206,8 @@
         <div class="pre-radio"></div>
         <div class="pre-body">
           <div class="pre-name">Conservative</div>
-          <div class="pre-desc">偏穩定，多裝置或干擾環境較佳</div>
+          <div class="pre-interval">400 units · 500 ms</div>
+          <div class="pre-desc">連線間隔較長，偏穩定；多裝置或干擾環境較佳</div>
         </div>
       </div>
     </div>
@@ -227,7 +234,9 @@
             1 BLE unit = 1.25 ms（Bluetooth Core spec）
           </div>
           <div class="guard">
-            <strong>進階設定</strong>　覆寫 preset 後將直接寫入裝置；建議測試後再套用到生產。本頁僅處理 BLE connection interval，不處理 packet / throughput interval。
+            <strong>進階設定</strong>　覆寫 preset 後將直接寫入裝置；建議測試後再套用到生產。<br>
+            主 preset 對應目前常用 interval bucket（100 / 200 / 500 ms）；更慢值（如 800 units · 1000 ms）僅在此 advanced override 可指定，不列入主 preset。<br>
+            本頁僅處理 BLE connection interval，不處理 packet / throughput interval。
           </div>
         </div>
       </div>

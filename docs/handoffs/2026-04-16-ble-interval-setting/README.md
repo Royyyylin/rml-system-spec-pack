@@ -24,12 +24,21 @@
 
 ## UI 原則
 
-- **Preset first**：3 個 preset（Responsive / Balanced / Conservative），每個一句人話描述
+- **Preset first**：3 個 preset，**每個直接列出實際 interval（BLE units + ms）**
+  - Responsive：`80 units · 100 ms`
+  - Balanced：`160 units · 200 ms`（預設）
+  - Conservative：`400 units · 500 ms`
 - **Advanced override second**：預設收合；展開才看到 raw `Min interval` / `Max interval`，標示單位（BLE units 1.25 ms）並換算 ms
 - **Guardrail 文案**：明示「進階設定，建議先用 preset；不建議在巡視模式調整」
 - **Apply path**：明畫 `App (Engineer) → CTRL.interval → GW → ED link param update`
 - **不要把 `GW_CFG`** 畫成 interval owner
 - **不要出現** packet / throughput interval 設定
+
+## 用詞與 preset bucket 決策
+
+- **Preset 卡顯示實際 interval**：不能只給形容詞；engineer 需要直接看出三個 preset 的 interval 差異與換算
+- **用 `連線間隔` / `BLE connection interval`，不用 `延遲`**：避免和 telemetry latency 混淆
+- **`1000 ms` 不列入主 preset**：主 preset 對應目前常用 bucket（100 / 200 / 500 ms）；更慢值留在 advanced override 由 engineer 視情況指定，不浪費 preset 槽位
 
 ## 對應現有 spec
 
