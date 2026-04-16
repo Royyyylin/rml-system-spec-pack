@@ -10,7 +10,13 @@
 |------|------|------|
 | 1 | Device mix — 輸入 Powered ED + Battery ED 數量 | ✓ |
 | 2 | Recommended settings — 自動算出 3 個建議值；按 `Apply recommended` 帶入 override | ✓ |
-| 3 | Engineer override — 預設收合，僅在 Step 2 後可進入 | 選用 |
+| 3 | Engineer override — 預設收合，僅在 Step 2 採取明確動作後才解鎖 | 選用 |
+
+Step 3 解鎖條件（擇一）：
+- 按下 `Apply recommended`（不自動展開 Step 3）
+- 按下 `Review override`（自動展開 Step 3 並把 recommendation 帶入欄位作基準）
+
+任一 count 變回 0 → Step 3 重新鎖回並收合。
 
 預設安裝路徑：Step 1 → Step 2 → `Apply recommended` 結束。
 
@@ -50,6 +56,7 @@ UI 顯示：`Mixed (conservative) · Calculated from Powered X + Battery Y`
 
 ### Validation summary 顯示
 
+- 初始 / Step 1 還沒填：**idle**，`Enter device counts to begin`（不算 error）
 - 有 hard error：`Fix N errors`
 - 無 error 但有 warning：`Ready to apply · N warnings`
 - 都沒有：`Ready to apply`

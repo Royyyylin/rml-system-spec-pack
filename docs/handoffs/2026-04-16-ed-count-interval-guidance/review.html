@@ -200,6 +200,7 @@
   .summary-bar.ok { background: #f5fbf5; color: #2e7d32; }
   .summary-bar.warn { background: #fff8e1; color: #b06000; }
   .summary-bar.err { background: #fdecea; color: #c62828; }
+  .summary-bar.idle { background: #f5f8fc; color: #5a6a7a; }
   .summary-bar .summary-label { font-weight: 600; }
 </style>
 </head>
@@ -252,7 +253,8 @@
         <div id="reco-area">
           <div class="empty-state">先在 Step 1 填入 ED 數量。</div>
         </div>
-        <div class="right-row">
+        <div class="right-row" style="gap:8px;">
+          <button class="btn-secondary" id="review-ov-btn" disabled>Review override</button>
           <button class="btn-primary" id="apply-reco-btn" disabled>Apply recommended</button>
         </div>
       </div>
@@ -418,6 +420,24 @@
     $("apply-reco-btn").disabled = false;
   }
 
+  // Step 3 unlock 只能由 Step 2 的明確動作觸發
+  let step3Unlocked = false;
+
+  function applyStep3Lock() {
+    const empty = !lastReco || lastReco.basis === "empty";
+    if (empty) {
+      // count 變回 0 → 重鎖並收合
+      step3Unlocked = false;
+      $("step3").classList.add("muted", "disabled");
+      $("step3").classList.remove("open");
+    } else if (step3Unlocked) {
+      $("step3").classList.remove("muted", "disabled");
+    } else {
+      $("step3").classList.add("muted", "disabled");
+      $("step3").classList.remove("open");
+    }
+  }
+
   function renderStep1Step2() {
     const reco = computeReco();
     lastReco = reco;
@@ -429,14 +449,10 @@
 
     renderRecoStep(reco);
 
-    // Step 3 enable when reco available
-    if (reco.basis !== "empty") {
-      $("step3").classList.remove("muted", "disabled");
-    } else {
-      $("step3").classList.add("muted", "disabled");
-      $("step3").classList.remove("open");
-    }
+    // Step 2 secondary action（Review override）跟 reco 是否存在連動
+    $("review-ov-btn").disabled = (reco.basis === "empty");
 
+    applyStep3Lock();
     runValidation();
   }
 
@@ -448,17 +464,14 @@
   }
   function applyRecoToOverride() {
     if (!lastReco || lastReco.basis === "empty") return;
-    const ci = firstNum(lastReco.ci_disp); $("ov-ci").value = ci != null ? ci : 200;
-    // packet send unit auto: battery only → s, otherwise ms
+    // 直接用 numeric source（ci_ms / pi_ms_lo / st_s_hi），不從 disp 字串抓
+    $("ov-ci").value = lastReco.ci_ms;
     const piUnit = lastReco.basis === "battery" ? "s" : "ms";
     $("ov-pi-unit").textContent = piUnit;
-    // Recommendation pi_ms_lo → 顯示為對應單位的數字
-    const piVal = piUnit === "s" ? lastReco.pi_ms_lo / 1000 : lastReco.pi_ms_lo;
-    $("ov-pi").value = piVal;
-    const st = firstNum(lastReco.st_disp); $("ov-st").value = st != null ? st : 6;
+    $("ov-pi").value = piUnit === "s" ? lastReco.pi_ms_lo / 1000 : lastReco.pi_ms_lo;
+    $("ov-st").value = lastReco.st_s_hi;
     syncCiConv();
     runValidation();
-    $("step2").classList.add("done");
   }
 
   // === Validation ===
@@ -483,9 +496,9 @@
     });
 
     if (!lastReco || lastReco.basis === "empty") {
-      errs.push("recommendation 尚未建立（請先在 Step 1 輸入 ED 數量）");
+      // idle：使用者還沒開始填，不算 error
       $("ov-apply").disabled = true;
-      paintSummary(errs, warns);
+      paintIdle();
       return;
     }
 
@@ -604,9 +617,17 @@
     paintSummary(errs, warns);
   }
 
+  function paintIdle() {
+    const bar = $("summary"); const label = $("summary-text"); const detail = $("summary-detail");
+    bar.classList.remove("ok","warn","err","idle");
+    bar.classList.add("idle");
+    label.textContent = "Enter device counts to begin";
+    detail.textContent = "";
+  }
+
   function paintSummary(errs, warns) {
     const bar = $("summary"); const label = $("summary-text"); const detail = $("summary-detail");
-    bar.classList.remove("ok","warn","err");
+    bar.classList.remove("ok","warn","err","idle");
     if (errs.length > 0) {
       bar.classList.add("err");
       label.textContent = `Fix ${errs.length} error${errs.length>1?"s":""}`;
@@ -627,6 +648,16 @@
   $("cnt-bt").addEventListener("input", renderStep1Step2);
   $("apply-reco-btn").addEventListener("click", () => {
     applyRecoToOverride();
+    $("step2").classList.add("done");
+    step3Unlocked = true;     // 解鎖 Step 3，但不自動展開
+    applyStep3Lock();
+  });
+  $("review-ov-btn").addEventListener("click", () => {
+    if (!lastReco || lastReco.basis === "empty") return;
+    applyRecoToOverride();    // 進 override 前先帶入 recommendation 當基準
+    step3Unlocked = true;
+    applyStep3Lock();
+    $("step3").classList.add("open");   // 自動展開供微調
     $("step2").classList.add("done");
   });
 
