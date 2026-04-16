@@ -44,6 +44,20 @@
 
 備註：Battery 這組刻意不寫精確 BLE units；本輪是 guided recommendation，不是最終 protocol constant。
 
+## 兩層結構
+
+這包現在分兩層：
+
+1. **Recommendation**（首要）—— 依 power class + ED count 自動給三個值
+2. **Engineer custom override**（次要）—— 預設收合；展開後可手動輸入 ms / s
+
+Roy 要求的「自己調」屬第二層；recommendation 仍是第一優先。custom override 內附：
+- BLE connection interval（ms 輸入 + 自動換算 BLE units，建議 100–1000 ms）
+- Packet / data send interval（單位隨 power class 切換 ms ↔ s；建議 Powered 100 ms – 2 s、Battery 1 s – 60 s）
+- Supervision timeout（s 輸入；建議 Powered 4–20 s、Battery 10–30 s）
+- Guardrail：先用 recommendation；不建議把 packet cadence 設得比 recommendation 更激進；event / alarm 不跟此 cadence 慢
+- `Reset to recommended` 會把 3 個欄位填回當前 recommendation
+
 ## 不在本輪範圍
 
 - 既有 `2026-04-16-ble-interval-setting/` 不動

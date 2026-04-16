@@ -92,6 +92,65 @@
   }
   .reco-desc { font-size: 12px; color: #666; margin-top: 4px; line-height: 1.5; }
 
+  /* Custom override */
+  .override {
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .override .ov-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 22px; cursor: pointer;
+    background: #f9f7fc;
+  }
+  .override .ov-head:hover { background: #f3edff; }
+  .override .ov-title {
+    font-size: 13px; color: #5e35b1; font-weight: 600;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .override .ov-eng-tag {
+    font-size: 9px; color: #5e35b1;
+    background: #ede7f6; padding: 1px 6px;
+    border-radius: 6px; font-weight: 700; letter-spacing: 0.5px;
+  }
+  .override .ov-chev { color: #bbb; transition: transform 0.15s; }
+  .override.open .ov-chev { transform: rotate(90deg); color: #5e35b1; }
+  .override .ov-body { display: none; padding: 14px 22px; background: #fafbfc; }
+  .override.open .ov-body { display: block; }
+
+  .ov-field { margin-bottom: 14px; }
+  .ov-field .ov-label {
+    font-size: 11px; color: #888;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    font-weight: 600; margin-bottom: 4px;
+  }
+  .ov-field .ov-input-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .ov-field input {
+    width: 90px; padding: 6px 8px;
+    border: 1px solid #ccc; border-radius: 6px;
+    font-family: ui-monospace, monospace; font-size: 13px;
+  }
+  .ov-field .ov-unit { color: #555; font-size: 12px; }
+  .ov-field .ov-conv { color: #5e35b1; font-size: 11px; font-family: ui-monospace, monospace; }
+  .ov-field .ov-range { font-size: 11px; color: #888; margin-top: 4px; }
+
+  .ov-guard {
+    margin-top: 4px; padding: 10px;
+    background: #fff3e0; border-radius: 6px;
+    font-size: 11px; color: #7a3a00; line-height: 1.6;
+  }
+  .ov-guard strong { color: #e65100; }
+
+  .ov-actions {
+    margin-top: 14px;
+    display: flex; gap: 8px; justify-content: flex-end;
+  }
+  .ov-btn {
+    padding: 7px 14px; border: none; border-radius: 16px;
+    font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+  .ov-btn-secondary { background: #e0e0e0; color: #555; }
+  .ov-btn-primary { background: #5e35b1; color: white; }
+  .ov-btn-primary:hover { background: #4527a0; }
+
   .principles {
     padding: 14px 22px;
     background: #fafbfc;
@@ -160,6 +219,56 @@
       </div>
     </div>
 
+    <div class="override" id="ov">
+      <div class="ov-head" id="ov-head">
+        <div class="ov-title">
+          <span>Custom override</span>
+          <span class="ov-eng-tag">ENG</span>
+        </div>
+        <div class="ov-chev">›</div>
+      </div>
+      <div class="ov-body">
+        <div class="ov-field">
+          <div class="ov-label">BLE connection interval</div>
+          <div class="ov-input-row">
+            <input type="number" id="ov-ci" value="100">
+            <span class="ov-unit">ms</span>
+            <span class="ov-conv" id="ov-ci-conv">≈ 80 BLE units</span>
+          </div>
+          <div class="ov-range">建議範圍：100–1000 ms</div>
+        </div>
+
+        <div class="ov-field">
+          <div class="ov-label">Packet / data send interval</div>
+          <div class="ov-input-row">
+            <input type="number" id="ov-pi" value="100">
+            <span class="ov-unit" id="ov-pi-unit">ms</span>
+          </div>
+          <div class="ov-range" id="ov-pi-range">建議範圍：Powered 100 ms – 2 s · Battery 1 s – 60 s</div>
+        </div>
+
+        <div class="ov-field">
+          <div class="ov-label">Connection supervision timeout</div>
+          <div class="ov-input-row">
+            <input type="number" id="ov-st" value="6">
+            <span class="ov-unit">s</span>
+          </div>
+          <div class="ov-range">建議範圍：Powered 4–20 s · Battery 10–30 s</div>
+        </div>
+
+        <div class="ov-guard">
+          <strong>提醒</strong>　請優先使用上方 recommendation。<br>
+          custom override 僅供 Engineer 微調；不建議將 packet cadence 設得比 recommendation 更激進。<br>
+          event / alarm 不會跟著此處的 slow cadence 走，仍保持 event-driven。
+        </div>
+
+        <div class="ov-actions">
+          <button class="ov-btn ov-btn-secondary" id="ov-reset">Reset to recommended</button>
+          <button class="ov-btn ov-btn-primary">Apply custom</button>
+        </div>
+      </div>
+    </div>
+
     <div class="principles">
       <div class="pr-title">原則</div>
       <ul>
@@ -218,6 +327,12 @@
   let pw = "powered", ct = "1-3";
   const $ = (id) => document.getElementById(id);
 
+  // 從 recommendation 字串抽第一個數字（取下界）
+  function firstNum(s) {
+    const m = String(s).match(/\d+(\.\d+)?/);
+    return m ? parseFloat(m[0]) : null;
+  }
+
   function render() {
     const r = table[pw][ct];
     $("ctx-tag").textContent = pwLabel[pw] + " · " + ctLabel[ct];
@@ -227,6 +342,29 @@
     $("r-pi-desc").textContent = r.piD;
     $("r-st").textContent = r.st;
     $("r-st-desc").textContent = r.stD;
+
+    // packet send interval 單位隨 power class 變化
+    $("ov-pi-unit").textContent = (pw === "battery") ? "s" : "ms";
+  }
+
+  function syncCiConv() {
+    const ms = parseFloat($("ov-ci").value);
+    const units = isNaN(ms) ? "—" : Math.round(ms / 1.25);
+    $("ov-ci-conv").textContent = "≈ " + units + " BLE units";
+  }
+
+  function resetToRecommended() {
+    const r = table[pw][ct];
+    // CI: 用建議值的第一個數字（ms），battery 走「較保守」就填 200
+    const ciNum = firstNum(r.ci);
+    $("ov-ci").value = ciNum != null ? ciNum : 200;
+    // PI: 取 packet send 字串第一個數字；battery 視為 s，powered 視為 ms
+    const piNum = firstNum(r.pi);
+    $("ov-pi").value = piNum != null ? piNum : (pw === "battery" ? 5 : 200);
+    // ST: 取 supervision 字串第一個數字（s）
+    const stNum = firstNum(r.st);
+    $("ov-st").value = stNum != null ? stNum : (pw === "battery" ? 15 : 6);
+    syncCiConv();
   }
 
   document.querySelectorAll("#power-sw button").forEach(b => {
@@ -246,6 +384,14 @@
     });
   });
 
+  // Override toggle + ms→units conv + reset
+  document.getElementById("ov-head").addEventListener("click", () => {
+    document.getElementById("ov").classList.toggle("open");
+  });
+  document.getElementById("ov-ci").addEventListener("input", syncCiConv);
+  document.getElementById("ov-reset").addEventListener("click", resetToRecommended);
+
+  syncCiConv();
   render();
 </script>
 
