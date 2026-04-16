@@ -48,15 +48,47 @@
 
 這包現在分兩層：
 
-1. **Recommendation**（首要）—— 依 power class + ED count 自動給三個值
-2. **Engineer custom override**（次要）—— 預設收合；展開後可手動輸入 ms / s
+1. **Install entry**（首要）—— 直接輸入 Powered / Battery ED 數量，自動算出 Total 與 3 個建議值
+2. **Engineer Advanced override**（次要）—— 預設收合；展開後可手動輸入 ms / s
 
-Roy 要求的「自己調」屬第二層；recommendation 仍是第一優先。custom override 內附：
-- BLE connection interval（ms 輸入 + 自動換算 BLE units，建議 100–1000 ms）
-- Packet / data send interval（單位隨 power class 切換 ms ↔ s；建議 Powered 100 ms – 2 s、Battery 1 s – 60 s）
-- Supervision timeout（s 輸入；建議 Powered 4–20 s、Battery 10–30 s）
-- Guardrail：先用 recommendation；不建議把 packet cadence 設得比 recommendation 更激進；event / alarm 不跟此 cadence 慢
-- `Reset to recommended` 會把 3 個欄位填回當前 recommendation
+Recommendation 仍是第一優先；Apply recommended 會把 3 個建議值填回 override。
+
+## Mixed conservative rule
+
+當 `Powered ED count > 0` 且 `Battery ED count > 0` 時為 Mixed。
+
+計算步驟：
+1. 依 Powered count 算一組 Powered recommendation
+2. 依 Battery count 算一組 Battery recommendation
+3. 逐項取「較保守」者：
+   - BLE connection interval：數值較大者
+   - Packet / data send interval：取較慢的那一組
+   - Connection supervision timeout：取較長的那一組
+
+UI 顯示：`Recommendation basis: Mixed (conservative) · Calculated from Powered X + Battery Y`
+
+## Bucket
+
+- Powered：1–3 / 4–5 / 6–8 / 9+
+- Battery：1–3 / 4–5 / 6+
+- 任一 count = 0 → 該類別不參與 Mixed conservative 比較
+
+## 空狀態
+
+Powered = 0 且 Battery = 0 → 顯示 `Enter device counts to get recommended settings`，Apply 按鈕 disabled。
+
+## Override 欄位
+
+- BLE connection interval（ms 輸入 + 即時換算 BLE units，100–1000 ms）
+- Packet / data send interval（單位隨情境切換 ms ↔ s；Powered 100 ms – 2 s / Battery 1 s – 60 s）
+- Supervision timeout（s 輸入；Powered 4–20 s / Battery 10–30 s）
+- Guardrail：先用 recommendation；不要比 recommendation 更激進；event / alarm 不跟 cadence 慢
+
+## 重要限制
+
+- Mixed conservative 是 UI recommendation 邏輯，不是新 protocol
+- 不新增任何 wire field
+- 不改既有正式 spec wording
 
 ## 不在本輪範圍
 

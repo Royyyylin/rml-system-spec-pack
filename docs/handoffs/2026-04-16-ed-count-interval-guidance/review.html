@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<title>ED-count guided interval recommendation</title>
+<title>ED-count guided interval — install entry</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -13,7 +13,7 @@
     display: flex;
     justify-content: center;
   }
-  .wrap { display: flex; flex-direction: column; align-items: center; gap: 18px; max-width: 480px; }
+  .wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; max-width: 460px; }
 
   .page-hint {
     background: #fff;
@@ -26,33 +26,8 @@
   .page-hint strong { color: #5e35b1; }
   .page-hint .muted { color: #888; font-size: 12px; margin-top: 4px; line-height: 1.5; }
 
-  .controls {
-    width: 100%;
-    display: flex; flex-direction: column; gap: 8px; align-items: center;
-  }
-  .row-label {
-    font-size: 11px; color: #888;
-    text-transform: uppercase; letter-spacing: 0.5px;
-    font-weight: 600; align-self: flex-start; padding-left: 8px;
-  }
-  .switcher {
-    display: flex; gap: 6px;
-    background: #fff; padding: 6px; border-radius: 999px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    flex-wrap: wrap; justify-content: center;
-    width: 100%;
-  }
-  .switcher button {
-    border: none; background: transparent;
-    padding: 8px 14px; border-radius: 999px;
-    font-family: inherit; font-size: 13px; color: #555;
-    cursor: pointer; flex: 1; min-width: 70px;
-  }
-  .switcher button:hover { background: #f5f6f8; }
-  .switcher button.active { background: #5e35b1; color: white; font-weight: 600; }
-
   .phone {
-    width: 480px;
+    width: 460px;
     background: #fff;
     border-radius: 24px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.12);
@@ -65,21 +40,47 @@
   }
   .phone-header .title { font-size: 19px; font-weight: 600; }
   .phone-header .sub { font-size: 12px; opacity: 0.85; margin-top: 4px; }
-  .phone-header .ctx-tag {
-    display: inline-block;
-    font-size: 11px;
-    padding: 2px 10px;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.22);
-    margin-top: 8px;
-    font-weight: 600;
-  }
 
-  .reco-card {
-    padding: 18px 22px;
+  /* Count inputs */
+  .counts {
+    padding: 16px 22px;
     border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    gap: 12px;
   }
-  .reco-row { padding: 12px 0; border-bottom: 1px dashed #eee; }
+  .count-field { flex: 1; }
+  .count-label {
+    font-size: 11px; color: #888;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    font-weight: 600; margin-bottom: 6px;
+  }
+  .count-input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #5e35b1;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-family: ui-monospace, monospace;
+    text-align: center;
+  }
+  .count-input:focus { outline: none; border-color: #5e35b1; }
+
+  .total-bar {
+    padding: 10px 22px;
+    background: #f3edff;
+    font-size: 13px;
+    color: #4527a0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .total-bar .basis { font-size: 11px; color: #6a4fb1; }
+
+  /* Recommendation */
+  .reco-card { padding: 14px 22px; }
+  .reco-row { padding: 10px 0; border-bottom: 1px dashed #eee; }
   .reco-row:last-child { border-bottom: none; }
   .reco-key {
     font-size: 11px; color: #888;
@@ -90,57 +91,82 @@
     font-size: 22px; font-weight: 700;
     color: #5e35b1; font-family: ui-monospace, monospace;
   }
-  .reco-desc { font-size: 12px; color: #666; margin-top: 4px; line-height: 1.5; }
+  .reco-desc { font-size: 12px; color: #666; margin-top: 2px; }
 
-  /* Custom override */
-  .override {
-    border-bottom: 1px solid #f0f0f0;
+  .empty-state {
+    padding: 32px 22px;
+    text-align: center;
+    color: #888;
+    font-size: 13px;
   }
-  .override .ov-head {
+
+  /* Apply button */
+  .actions {
+    padding: 14px 22px;
+    background: #fafbfc;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .btn-primary {
+    padding: 9px 22px;
+    background: #5e35b1;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: #4527a0; }
+  .btn-primary:disabled { background: #b39ddb; cursor: not-allowed; }
+
+  /* Override */
+  .override { border-top: 1px solid #f0f0f0; }
+  .ov-head {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 14px 22px; cursor: pointer;
-    background: #f9f7fc;
+    padding: 12px 22px; cursor: pointer; background: #fafbfc;
   }
-  .override .ov-head:hover { background: #f3edff; }
-  .override .ov-title {
-    font-size: 13px; color: #5e35b1; font-weight: 600;
+  .ov-head:hover { background: #f3edff; }
+  .ov-title {
+    font-size: 12px; color: #5e35b1; font-weight: 600;
     display: flex; align-items: center; gap: 8px;
   }
-  .override .ov-eng-tag {
-    font-size: 9px; color: #5e35b1;
-    background: #ede7f6; padding: 1px 6px;
-    border-radius: 6px; font-weight: 700; letter-spacing: 0.5px;
+  .ov-eng-tag {
+    font-size: 9px; color: #5e35b1; background: #ede7f6;
+    padding: 1px 6px; border-radius: 6px;
+    font-weight: 700; letter-spacing: 0.5px;
   }
-  .override .ov-chev { color: #bbb; transition: transform 0.15s; }
+  .ov-chev { color: #bbb; transition: transform 0.15s; }
   .override.open .ov-chev { transform: rotate(90deg); color: #5e35b1; }
-  .override .ov-body { display: none; padding: 14px 22px; background: #fafbfc; }
+  .ov-body { display: none; padding: 14px 22px; background: #fafbfc; }
   .override.open .ov-body { display: block; }
 
-  .ov-field { margin-bottom: 14px; }
-  .ov-field .ov-label {
+  .ov-field { margin-bottom: 12px; }
+  .ov-label {
     font-size: 11px; color: #888;
     text-transform: uppercase; letter-spacing: 0.5px;
     font-weight: 600; margin-bottom: 4px;
   }
-  .ov-field .ov-input-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-  .ov-field input {
+  .ov-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .ov-row input {
     width: 90px; padding: 6px 8px;
     border: 1px solid #ccc; border-radius: 6px;
     font-family: ui-monospace, monospace; font-size: 13px;
   }
-  .ov-field .ov-unit { color: #555; font-size: 12px; }
-  .ov-field .ov-conv { color: #5e35b1; font-size: 11px; font-family: ui-monospace, monospace; }
-  .ov-field .ov-range { font-size: 11px; color: #888; margin-top: 4px; }
+  .ov-unit { color: #555; font-size: 12px; }
+  .ov-conv { color: #5e35b1; font-size: 11px; font-family: ui-monospace, monospace; }
+  .ov-range { font-size: 11px; color: #888; margin-top: 4px; }
 
   .ov-guard {
-    margin-top: 4px; padding: 10px;
+    margin-top: 8px; padding: 8px 10px;
     background: #fff3e0; border-radius: 6px;
-    font-size: 11px; color: #7a3a00; line-height: 1.6;
+    font-size: 11px; color: #7a3a00; line-height: 1.5;
   }
   .ov-guard strong { color: #e65100; }
-
   .ov-actions {
-    margin-top: 14px;
+    margin-top: 12px;
     display: flex; gap: 8px; justify-content: flex-end;
   }
   .ov-btn {
@@ -149,21 +175,6 @@
   }
   .ov-btn-secondary { background: #e0e0e0; color: #555; }
   .ov-btn-primary { background: #5e35b1; color: white; }
-  .ov-btn-primary:hover { background: #4527a0; }
-
-  .principles {
-    padding: 14px 22px;
-    background: #fafbfc;
-    font-size: 12px; color: #555; line-height: 1.6;
-  }
-  .principles .pr-title {
-    font-size: 11px; color: #888;
-    text-transform: uppercase; letter-spacing: 0.5px;
-    font-weight: 600; margin-bottom: 8px;
-  }
-  .principles ul { padding-left: 18px; }
-  .principles li { margin-bottom: 4px; }
-  .principles strong { color: #5e35b1; }
 </style>
 </head>
 <body>
@@ -171,58 +182,44 @@
 <div class="wrap">
 
   <div class="page-hint">
-    <strong>ED-count guided interval recommendation</strong>
-    <div class="muted">
-      Engineer / 佈場用 guided guidance，<strong>不是</strong> runtime patrol 主畫面。<br>
-      依「Power class」與「同時連線 ED 數」建議三個值：BLE connection interval、packet send interval、supervision timeout。
-    </div>
-  </div>
-
-  <div class="controls">
-    <div class="row-label">Power class</div>
-    <div class="switcher" id="power-sw">
-      <button data-pw="powered" class="active">Powered</button>
-      <button data-pw="battery">Battery</button>
-    </div>
-
-    <div class="row-label">Connected ED count</div>
-    <div class="switcher" id="count-sw">
-      <button data-ct="1-3" class="active">1–3</button>
-      <button data-ct="4-5">4–5</button>
-      <button data-ct="6-8">6–8</button>
-      <button data-ct="9+">9+</button>
-    </div>
+    <strong>ED-count guided interval — install entry</strong>
+    <div class="muted">輸入 Powered / Battery ED 數量，建議值會立刻算出。Mixed 情境採保守取值。</div>
   </div>
 
   <div class="phone">
     <div class="phone-header">
       <div class="title">建議值</div>
-      <div class="sub">依 Power class 與 ED 數量自動套用</div>
-      <div class="ctx-tag" id="ctx-tag">Powered · 1–3 ED</div>
+      <div class="sub">輸入 ED 數量，自動套用</div>
     </div>
 
-    <div class="reco-card">
-      <div class="reco-row">
-        <div class="reco-key">BLE connection interval</div>
-        <div class="reco-val" id="r-ci">100 ms</div>
-        <div class="reco-desc" id="r-ci-desc">較快回應，適合少量 ED</div>
+    <div class="counts">
+      <div class="count-field">
+        <div class="count-label">Powered ED</div>
+        <input type="number" id="cnt-pw" class="count-input" min="0" value="0">
       </div>
-      <div class="reco-row">
-        <div class="reco-key">Packet / data send interval</div>
-        <div class="reco-val" id="r-pi">100–200 ms</div>
-        <div class="reco-desc" id="r-pi-desc">適合 powered device 的即時更新</div>
+      <div class="count-field">
+        <div class="count-label">Battery ED</div>
+        <input type="number" id="cnt-bt" class="count-input" min="0" value="0">
       </div>
-      <div class="reco-row">
-        <div class="reco-key">Connection supervision timeout</div>
-        <div class="reco-val" id="r-st">4–6 s</div>
-        <div class="reco-desc" id="r-st-desc">避免短暫干擾就誤判斷線</div>
-      </div>
+    </div>
+
+    <div class="total-bar">
+      <span id="total-line">Total 0 ED</span>
+      <span class="basis" id="basis-line">尚未輸入</span>
+    </div>
+
+    <div id="reco-area">
+      <div class="empty-state">請先輸入 ED 數量。</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" id="apply-btn" disabled>Apply recommended</button>
     </div>
 
     <div class="override" id="ov">
       <div class="ov-head" id="ov-head">
         <div class="ov-title">
-          <span>Custom override</span>
+          <span>Advanced override</span>
           <span class="ov-eng-tag">ENG</span>
         </div>
         <div class="ov-chev">›</div>
@@ -230,7 +227,7 @@
       <div class="ov-body">
         <div class="ov-field">
           <div class="ov-label">BLE connection interval</div>
-          <div class="ov-input-row">
+          <div class="ov-row">
             <input type="number" id="ov-ci" value="100">
             <span class="ov-unit">ms</span>
             <span class="ov-conv" id="ov-ci-conv">≈ 80 BLE units</span>
@@ -240,16 +237,16 @@
 
         <div class="ov-field">
           <div class="ov-label">Packet / data send interval</div>
-          <div class="ov-input-row">
+          <div class="ov-row">
             <input type="number" id="ov-pi" value="100">
             <span class="ov-unit" id="ov-pi-unit">ms</span>
           </div>
-          <div class="ov-range" id="ov-pi-range">建議範圍：Powered 100 ms – 2 s · Battery 1 s – 60 s</div>
+          <div class="ov-range">建議範圍：Powered 100 ms – 2 s · Battery 1 s – 60 s</div>
         </div>
 
         <div class="ov-field">
           <div class="ov-label">Connection supervision timeout</div>
-          <div class="ov-input-row">
+          <div class="ov-row">
             <input type="number" id="ov-st" value="6">
             <span class="ov-unit">s</span>
           </div>
@@ -268,128 +265,161 @@
         </div>
       </div>
     </div>
-
-    <div class="principles">
-      <div class="pr-title">原則</div>
-      <ul>
-        <li><strong>connection interval</strong> 與 <strong>packet send interval</strong> 受 ED 數量明顯影響，多 ED 應放寬</li>
-        <li><strong>supervision timeout</strong> 會跟著 link 壓力與 interval 一起放寬（中度間接影響）</li>
-        <li><strong>event / alarm</strong> 不跟著慢 cadence，保持 event-driven</li>
-      </ul>
-    </div>
   </div>
 
 </div>
 
 <script>
-  const table = {
-    powered: {
-      "1-3": { ci: "100 ms",   pi: "100–200 ms",  st: "4–6 s",
-               ciD: "較快回應，適合少量 ED",
-               piD: "適合 powered device 的即時更新",
-               stD: "避免短暫干擾就誤判斷線" },
-      "4-5": { ci: "200 ms",   pi: "200–500 ms",  st: "6–8 s",
-               ciD: "中等節奏，平衡多 ED 排程",
-               piD: "兼顧多裝置同時更新",
-               stD: "為更多 ED 留斷線復原裕度" },
-      "6-8": { ci: "500 ms",   pi: "500–1000 ms", st: "8–12 s",
-               ciD: "減壓 link 排程，降低衝突",
-               piD: "粒度放寬給多裝置共用頻寬",
-               stD: "對應較長 interval 的合理 timeout" },
-      "9+":  { ci: "1000 ms",  pi: "1–2 s",       st: "12–20 s",
-               ciD: "大量 ED 共存的保守節奏",
-               piD: "節省 air time，避免互踩",
-               stD: "對應 1 s interval 的合理 timeout" }
-    },
-    battery: {
-      "1-3": { ci: "較保守",   pi: "1–5 s",       st: "10–20 s",
-               ciD: "Battery ED 不取最快值，優先省電",
-               piD: "粒度足夠日常 telemetry",
-               stD: "容忍偶發 sleep / wake 抖動" },
-      "4-5": { ci: "較保守",   pi: "5–10 s",      st: "15–20 s",
-               ciD: "Battery 多裝置時，仍走保守 interval",
-               piD: "明顯拉長 cadence 換取電量",
-               stD: "容許較長 sleep window" },
-      "6-8": { ci: "較保守",   pi: "10–30 s",     st: "20 s 左右",
-               ciD: "Battery 多裝置：interval 不再追求快",
-               piD: "事件驅動補足，cadence 拉到分鐘級邊緣",
-               stD: "對應大量 sleep window 的合理上限" },
-      "9+":  { ci: "較保守",   pi: "10–30 s",     st: "20 s 左右",
-               ciD: "Battery 多裝置：interval 不再追求快",
-               piD: "事件驅動補足，cadence 拉到分鐘級邊緣",
-               stD: "對應大量 sleep window 的合理上限" }
+  // Recommendation matrix（沿用既有 ED-count 矩陣）
+  // ci_ms: BLE connection interval 比較用 ms 數值
+  // ci_disp: 顯示字串
+  // pi_ms_lo: packet send interval 比較用 ms 下界（normalized）
+  // pi_disp: 顯示字串
+  // st_s_hi: supervision timeout 比較用 s 上界（保守 = 較長）
+  // st_disp: 顯示字串
+  const POWERED = [
+    { max: 3,  ci_ms: 100,  ci_disp: "100 ms",   pi_ms_lo: 100,   pi_disp: "100–200 ms",  st_s_hi: 6,  st_disp: "4–6 s" },
+    { max: 5,  ci_ms: 200,  ci_disp: "200 ms",   pi_ms_lo: 200,   pi_disp: "200–500 ms",  st_s_hi: 8,  st_disp: "6–8 s" },
+    { max: 8,  ci_ms: 500,  ci_disp: "500 ms",   pi_ms_lo: 500,   pi_disp: "500–1000 ms", st_s_hi: 12, st_disp: "8–12 s" },
+    { max: 99, ci_ms: 1000, ci_disp: "1000 ms",  pi_ms_lo: 1000,  pi_disp: "1–2 s",       st_s_hi: 20, st_disp: "12–20 s" }
+  ];
+  // Battery：ci 用「較保守」字串；ci_ms 用一個高 sentinel 供 mixed 比較
+  const BATTERY = [
+    { max: 3,  ci_ms: 1000, ci_disp: "較保守",   pi_ms_lo: 1000,  pi_disp: "1–5 s",   st_s_hi: 20, st_disp: "10–20 s" },
+    { max: 5,  ci_ms: 1500, ci_disp: "較保守",   pi_ms_lo: 5000,  pi_disp: "5–10 s",  st_s_hi: 20, st_disp: "15–20 s" },
+    { max: 99, ci_ms: 2000, ci_disp: "較保守",   pi_ms_lo: 10000, pi_disp: "10–30 s", st_s_hi: 20, st_disp: "20 s 左右" }
+  ];
+
+  function pick(matrix, n) {
+    for (const row of matrix) {
+      if (n <= row.max) return row;
     }
-  };
+    return matrix[matrix.length - 1];
+  }
 
-  const ctLabel = { "1-3": "1–3 ED", "4-5": "4–5 ED", "6-8": "6–8 ED", "9+": "9+ ED" };
-  const pwLabel = { powered: "Powered", battery: "Battery" };
+  function conservative(p, b) {
+    // 逐項取較保守（較大 / 較長）
+    const ci_ms_winner = (b.ci_ms >= p.ci_ms) ? b : p;
+    const pi_ms_winner = (b.pi_ms_lo >= p.pi_ms_lo) ? b : p;
+    const st_s_winner  = (b.st_s_hi  >= p.st_s_hi)  ? b : p;
+    return {
+      ci_disp: ci_ms_winner.ci_disp,
+      pi_disp: pi_ms_winner.pi_disp,
+      st_disp: st_s_winner.st_disp,
+      ci_src: ci_ms_winner === b ? "battery" : "powered",
+      pi_src: pi_ms_winner === b ? "battery" : "powered",
+      st_src: st_s_winner === b ? "battery" : "powered"
+    };
+  }
 
-  let pw = "powered", ct = "1-3";
-  const $ = (id) => document.getElementById(id);
+  let lastReco = null;
 
-  // 從 recommendation 字串抽第一個數字（取下界）
+  function render() {
+    const pw = Math.max(0, parseInt(document.getElementById("cnt-pw").value) || 0);
+    const bt = Math.max(0, parseInt(document.getElementById("cnt-bt").value) || 0);
+    const total = pw + bt;
+
+    const totalLine = document.getElementById("total-line");
+    const basisLine = document.getElementById("basis-line");
+    const recoArea = document.getElementById("reco-area");
+    const applyBtn = document.getElementById("apply-btn");
+
+    totalLine.textContent = `Powered ${pw} + Battery ${bt} = Total ${total} ED`;
+
+    while (recoArea.firstChild) recoArea.removeChild(recoArea.firstChild);
+
+    if (total === 0) {
+      basisLine.textContent = "—";
+      const empty = document.createElement("div");
+      empty.className = "empty-state";
+      empty.textContent = "Enter device counts to get recommended settings";
+      recoArea.appendChild(empty);
+      applyBtn.disabled = true;
+      lastReco = null;
+      return;
+    }
+
+    let reco;
+    if (pw > 0 && bt === 0) {
+      const p = pick(POWERED, pw);
+      basisLine.textContent = "Powered only";
+      reco = { ci_disp: p.ci_disp, pi_disp: p.pi_disp, st_disp: p.st_disp,
+               ci_src: "powered", pi_src: "powered", st_src: "powered" };
+    } else if (bt > 0 && pw === 0) {
+      const b = pick(BATTERY, bt);
+      basisLine.textContent = "Battery only";
+      reco = { ci_disp: b.ci_disp, pi_disp: b.pi_disp, st_disp: b.st_disp,
+               ci_src: "battery", pi_src: "battery", st_src: "battery" };
+    } else {
+      const p = pick(POWERED, pw);
+      const b = pick(BATTERY, bt);
+      basisLine.textContent = `Mixed (conservative) · Calculated from Powered ${pw} + Battery ${bt}`;
+      reco = conservative(p, b);
+    }
+    lastReco = reco;
+    applyBtn.disabled = false;
+
+    const card = document.createElement("div");
+    card.className = "reco-card";
+
+    const make = (k, v, src) => {
+      const row = document.createElement("div");
+      row.className = "reco-row";
+      const key = document.createElement("div");
+      key.className = "reco-key";
+      key.textContent = k;
+      const val = document.createElement("div");
+      val.className = "reco-val";
+      val.textContent = v;
+      row.appendChild(key);
+      row.appendChild(val);
+      if (src && basisLine.textContent === "Mixed (conservative)") {
+        const desc = document.createElement("div");
+        desc.className = "reco-desc";
+        desc.textContent = "取自 " + (src === "battery" ? "Battery 端（較保守）" : "Powered 端（較保守）");
+        row.appendChild(desc);
+      }
+      return row;
+    };
+
+    card.appendChild(make("BLE connection interval", reco.ci_disp, reco.ci_src));
+    card.appendChild(make("Packet / data send interval", reco.pi_disp, reco.pi_src));
+    card.appendChild(make("Connection supervision timeout", reco.st_disp, reco.st_src));
+    recoArea.appendChild(card);
+  }
+
   function firstNum(s) {
     const m = String(s).match(/\d+(\.\d+)?/);
     return m ? parseFloat(m[0]) : null;
   }
-
-  function render() {
-    const r = table[pw][ct];
-    $("ctx-tag").textContent = pwLabel[pw] + " · " + ctLabel[ct];
-    $("r-ci").textContent = r.ci;
-    $("r-ci-desc").textContent = r.ciD;
-    $("r-pi").textContent = r.pi;
-    $("r-pi-desc").textContent = r.piD;
-    $("r-st").textContent = r.st;
-    $("r-st-desc").textContent = r.stD;
-
-    // packet send interval 單位隨 power class 變化
-    $("ov-pi-unit").textContent = (pw === "battery") ? "s" : "ms";
-  }
-
   function syncCiConv() {
-    const ms = parseFloat($("ov-ci").value);
+    const ms = parseFloat(document.getElementById("ov-ci").value);
     const units = isNaN(ms) ? "—" : Math.round(ms / 1.25);
-    $("ov-ci-conv").textContent = "≈ " + units + " BLE units";
+    document.getElementById("ov-ci-conv").textContent = "≈ " + units + " BLE units";
   }
-
-  function resetToRecommended() {
-    const r = table[pw][ct];
-    // CI: 用建議值的第一個數字（ms），battery 走「較保守」就填 200
-    const ciNum = firstNum(r.ci);
-    $("ov-ci").value = ciNum != null ? ciNum : 200;
-    // PI: 取 packet send 字串第一個數字；battery 視為 s，powered 視為 ms
-    const piNum = firstNum(r.pi);
-    $("ov-pi").value = piNum != null ? piNum : (pw === "battery" ? 5 : 200);
-    // ST: 取 supervision 字串第一個數字（s）
-    const stNum = firstNum(r.st);
-    $("ov-st").value = stNum != null ? stNum : (pw === "battery" ? 15 : 6);
+  function applyToOverride() {
+    if (!lastReco) return;
+    const ci = firstNum(lastReco.ci_disp);
+    document.getElementById("ov-ci").value = ci != null ? ci : 200;
+    const bt = parseInt(document.getElementById("cnt-bt").value) || 0;
+    const pw = parseInt(document.getElementById("cnt-pw").value) || 0;
+    const piUnit = (bt > 0 && pw === 0) ? "s" : "ms";
+    document.getElementById("ov-pi-unit").textContent = piUnit;
+    const pi = firstNum(lastReco.pi_disp);
+    document.getElementById("ov-pi").value = pi != null ? pi : 200;
+    const st = firstNum(lastReco.st_disp);
+    document.getElementById("ov-st").value = st != null ? st : 6;
     syncCiConv();
   }
 
-  document.querySelectorAll("#power-sw button").forEach(b => {
-    b.addEventListener("click", () => {
-      document.querySelectorAll("#power-sw button").forEach(x => x.classList.remove("active"));
-      b.classList.add("active");
-      pw = b.dataset.pw;
-      render();
-    });
-  });
-  document.querySelectorAll("#count-sw button").forEach(b => {
-    b.addEventListener("click", () => {
-      document.querySelectorAll("#count-sw button").forEach(x => x.classList.remove("active"));
-      b.classList.add("active");
-      ct = b.dataset.ct;
-      render();
-    });
-  });
-
-  // Override toggle + ms→units conv + reset
+  document.getElementById("cnt-pw").addEventListener("input", render);
+  document.getElementById("cnt-bt").addEventListener("input", render);
+  document.getElementById("apply-btn").addEventListener("click", applyToOverride);
   document.getElementById("ov-head").addEventListener("click", () => {
     document.getElementById("ov").classList.toggle("open");
   });
   document.getElementById("ov-ci").addEventListener("input", syncCiConv);
-  document.getElementById("ov-reset").addEventListener("click", resetToRecommended);
+  document.getElementById("ov-reset").addEventListener("click", applyToOverride);
 
   syncCiConv();
   render();
