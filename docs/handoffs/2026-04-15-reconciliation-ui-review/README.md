@@ -2,6 +2,8 @@
 
 Page-by-page review。一次只看一頁，上一頁通過後才做下一頁。
 
+**Wave 1 status**：所有 4 頁已 passed。收尾摘要 + accepted commits + 下一步建議見 [WAVE1-COMPLETE.md](WAVE1-COMPLETE.md)。
+
 ## Review 順序
 
 | # | 頁面 | 回答什麼 | 狀態 |
@@ -9,7 +11,7 @@ Page-by-page review。一次只看一頁，上一頁通過後才做下一頁。
 | 1 | [01-entry-list.html](01-entry-list.html) | 入口：現在可以連誰？哪個對象值得先連？ | Passed |
 | 2 | [02-detail-summary.html](02-detail-summary.html) | 連線後 peer overview + role-based information layering（巡視人員 / Engineer） | Passed |
 | 3 | [03-central-vs-runtime.html](03-central-vs-runtime.html) | Central vs Runtime 並列差異視圖 + resolution action strip | Passed |
-| 4 | [04-evidence-panel.html](04-evidence-panel.html) | Evidence panel：為什麼 UI 這樣判斷？ | **Ready for Roy review** |
+| 4 | [04-evidence-panel.html](04-evidence-panel.html) | Evidence panel：為什麼 UI 這樣判斷？ | Passed |
 
 ## 第 1 頁設計原則
 
