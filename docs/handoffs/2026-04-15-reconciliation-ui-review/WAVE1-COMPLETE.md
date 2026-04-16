@@ -40,6 +40,12 @@
 - Page 3 `Recover runtime` / `Accept runtime as new assignment` 真實實作流程（誰下指令、誰寫 audit、reason 欄位）尚未綁定 spec
 - Wave 1 沒涵蓋 metadata / manage flow（rename 等）— 已標 boundary，留給後續
 
+## Diagrams（review / communication）
+
+- Source：[central-vs-runtime-evidence-flow.mmd](central-vs-runtime-evidence-flow.mmd)（Mermaid，含 AI Diagram Contract）
+- Render：[central-vs-runtime-evidence-flow.svg](central-vs-runtime-evidence-flow.svg)
+- 用途：在 evidence field contract alignment 開始前，先讓 cross-repo reviewer 一眼看懂 Central canonical / Runtime observed / App compare gate / Page 3 / Page 4 的責任分層；屬 handoff review artifact，不在 shared-spec lint 範圍
+
 ## Next recommended gates（擇一推進）
 
 1. 將 Page 1–4 UI decision 回寫成 **implementation handoff** 給 App repo（mock → spec：欄位、role gate、action audit 流程）

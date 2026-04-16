@@ -1,0 +1,40 @@
+%% AI-DIAGRAM: required
+%% primary_message: App keeps Central canonical assignment and Runtime observed attach as two separate sources, runs a compare gate, and never merges them into a single truth.
+%% reader: newcomer / cross-repo reviewer
+%% template_id: handoff-evidence-flow
+%% diagram_type: flowchart
+%% layout: top-to-bottom
+%% max_nodes: 12
+%% max_groups: 1
+%% keep: source asymmetry, App compare gate, 5 outcomes, asymmetric Conflict action (Recover runtime default; Accept runtime as new assignment requires Engineer confirmation + reason + audit), Page 3 / Page 4 review surface
+%% avoid: raw protocol / opcode / GATT, equal-weight vote, CC bridge as authority, full implementation sequence
+%% scope: handoff review artifact (not under shared-spec lint)
+
+flowchart TD
+  subgraph S[Truth sources（角色不對等）]
+    direction LR
+    C["Central<br/>canonical · authoritative<br/>assignment"]
+    R["Runtime<br/>observed · actual attach<br/>evidence"]
+  end
+
+  C -- "canonical assignment" --> G
+  R -- "observed attach evidence" --> G
+
+  G{{"App compare gate<br/>不把兩源合併成單一 truth"}}
+
+  G --> O1["Converged<br/>(no action)"]
+  G --> O2["Conflict<br/>(both fresh, differ)"]
+  G --> O3["Pending sync<br/>(runtime ahead;<br/>Central catching up)"]
+  G --> O4["Not compared<br/>(Central stale →<br/>Refresh Central)"]
+  G --> O5["Central only<br/>(Runtime missing →<br/>Wait / Send check)"]
+
+  O2 --> A2["primary: Recover runtime<br/>danger: Accept runtime as new assignment"]
+  A2 -. "high-risk path" .-> AUD["Engineer confirmation<br/>+ reason + audit"]
+
+  O1 --> P3
+  O2 --> P3
+  O3 --> P3
+  O4 --> P3
+  O5 --> P3
+  P3["Page 3<br/>Central vs Runtime<br/>+ resolution action"]
+  P3 -. "View evidence" .-> P4["Page 4<br/>Evidence panel<br/>(human first; raw in Engineering details)"]
