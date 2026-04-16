@@ -17,7 +17,8 @@
 - `cdb99b4` Page 3 resolution action strip（recommended / danger / link）
 - `fc10868` Page 3 microcopy polish（中英標點、人話 state label）— accepted
 - `7627457` Page 4 初版 + README 拆 sub-files（page-2/3/4-design.md）
-- `0b71812` Page 4 human-first evidence summary（first screen 結論優先；Central only 修為 cannot compare）— accepted
+- `0b71812` Page 4 human-first evidence summary（first screen 結論優先；raw/internal details 收進 Engineering details）— accepted
+- `6b17373` Page 4 / handoff 對齊正式 spec FSM（Central only `can_compare = true`）；evidence-flow 圖重畫為 D2 對齊 Wave 1 風格 — accepted
 
 ## Key design decisions
 
