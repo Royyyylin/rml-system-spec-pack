@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page 4 — Evidence panel</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Noto Sans TC", sans-serif;
+    background: #eef1f5;
+    min-height: 100vh;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; width: 100%; max-width: 460px; }
+
+  .page-hint {
+    background: #fff;
+    border-left: 4px solid #1976d2;
+    padding: 12px 18px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #444;
+  }
+  .page-hint strong { color: #1976d2; }
+  .page-hint .muted { color: #888; font-size: 12px; margin-top: 4px; line-height: 1.5; }
+
+  .switcher {
+    display: flex; gap: 6px;
+    background: #fff; padding: 6px; border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    flex-wrap: wrap; justify-content: center;
+    width: 100%;
+  }
+  .switcher button {
+    border: none; background: transparent;
+    padding: 8px 12px; border-radius: 999px;
+    font-family: inherit; font-size: 12px; color: #555;
+    cursor: pointer; flex: 1; min-width: 90px;
+  }
+  .switcher button:hover { background: #f5f6f8; }
+  .switcher button.active {
+    background: #1976d2; color: white; font-weight: 600;
+  }
+
+  .phone {
+    width: 100%; max-width: 460px;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    overflow: hidden;
+  }
+  .phone-header {
+    background: linear-gradient(135deg, #1976d2, #1565c0);
+    color: white;
+    padding: 18px 22px 16px;
+  }
+  .phone-header .back { font-size: 13px; opacity: 0.85; margin-bottom: 8px; }
+  .phone-header .title { font-size: 20px; font-weight: 600; }
+  .phone-header .ed { font-size: 12px; opacity: 0.85; margin-top: 4px; font-family: ui-monospace, monospace; }
+
+  /* Section */
+  .sec { padding: 14px 22px; border-bottom: 1px solid #f0f0f0; }
+  .sec:last-child { border-bottom: none; }
+  .sec-label {
+    font-size: 11px; color: #888;
+    text-transform: uppercase;
+    font-weight: 600; margin-bottom: 8px;
+  }
+
+  /* Summary */
+  .summary-card { padding: 16px 22px; border-bottom: 1px solid #f0f0f0; }
+  .summary-card.conflict { background: #fdecea; }
+  .summary-card.not_compared { background: #f5f7fa; }
+  .summary-card.central_only { background: #e8f4fd; }
+  .summary-state {
+    font-size: 18px; font-weight: 700;
+    font-family: ui-monospace, "Menlo", monospace;
+    margin-bottom: 4px;
+  }
+  .summary-card.conflict .summary-state { color: #c62828; }
+  .summary-card.not_compared .summary-state { color: #546e7a; }
+  .summary-card.central_only .summary-state { color: #0d47a1; }
+  .summary-conclusion {
+    font-size: 13px; color: #333; line-height: 1.5; margin-bottom: 10px;
+  }
+  .summary-row {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; padding: 4px 0;
+  }
+  .summary-row .k { color: #555; }
+  .summary-row .v { font-weight: 600; color: #222; font-family: ui-monospace, monospace; }
+  .summary-row .v.ok { color: #2e7d32; }
+  .summary-row .v.no { color: #c62828; }
+
+  /* Side card (Central / Runtime evidence) */
+  .ev-card {
+    padding: 14px 22px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .ev-card.central { background: #f5faff; }
+  .ev-card.runtime { background: #fff8f0; }
+  .ev-title {
+    font-size: 12px; font-weight: 700; margin-bottom: 2px;
+  }
+  .ev-card.central .ev-title { color: #0d47a1; }
+  .ev-card.runtime .ev-title { color: #c45c00; }
+  .ev-side {
+    font-size: 10px; color: #999; font-style: italic; margin-bottom: 10px;
+  }
+  .ev-row {
+    display: flex; justify-content: space-between; gap: 10px;
+    padding: 5px 0; font-size: 12px;
+    border-bottom: 1px dotted #e8e8e8;
+  }
+  .ev-row:last-child { border-bottom: none; }
+  .ev-row .k { color: #666; flex-shrink: 0; }
+  .ev-row .v {
+    color: #222; font-weight: 600;
+    font-family: ui-monospace, monospace;
+    text-align: right; word-break: break-all;
+  }
+  .ev-row .v.muted { color: #999; font-weight: normal; }
+  .ev-row .v.stale { color: #b06000; }
+
+  /* Gate card */
+  .gate-card { padding: 14px 22px; background: #fafbfc; border-bottom: 1px solid #f0f0f0; }
+  .gate-row {
+    display: flex; justify-content: space-between;
+    padding: 4px 0; font-size: 12px;
+    font-family: ui-monospace, monospace;
+  }
+  .gate-row .k { color: #888; }
+  .gate-row .v { color: #222; font-weight: 600; }
+  .gate-row .v.ok { color: #2e7d32; }
+  .gate-row .v.no { color: #c62828; }
+
+  /* Timeline */
+  .tl-row {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px dotted #eee;
+    font-size: 12px;
+  }
+  .tl-row:last-child { border-bottom: none; }
+  .tl-time { color: #999; font-family: ui-monospace, monospace; font-size: 11px; }
+  .tl-body .src {
+    font-size: 10px;
+    color: #5e35b1;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-right: 6px;
+  }
+  .tl-body .ev { color: #333; }
+
+  /* Confirm hint */
+  .confirm-hint {
+    padding: 12px 22px;
+    background: #f3edff;
+    border-top: 1px solid #e1d5f5;
+    font-size: 12px;
+    color: #4527a0;
+    line-height: 1.6;
+  }
+  .confirm-hint strong { color: #5e35b1; }
+  .confirm-hint ul { margin: 6px 0 0 16px; padding: 0; }
+  .confirm-hint li { margin-bottom: 2px; }
+
+  .next-hint {
+    padding: 12px 22px;
+    font-size: 12px;
+    color: #6a7a8a;
+    background: #f5f8fc;
+    line-height: 1.6;
+  }
+  .next-hint strong { color: #1976d2; }
+
+  .page-note {
+    width: 100%; max-width: 460px;
+    padding: 14px 18px;
+    background: #fff;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .page-note strong { color: #222; }
+  .page-note code { font-family: ui-monospace, monospace; font-size: 12px; background: #f0f0f0; padding: 1px 5px; border-radius: 3px; }
+
+  @media (max-width: 420px) {
+    body { padding: 12px; }
+    .phone { border-radius: 18px; }
+    .phone-header { padding: 14px 16px 12px; }
+    .sec, .summary-card, .ev-card, .gate-card, .confirm-hint, .next-hint { padding-left: 16px; padding-right: 16px; }
+    .tl-row { grid-template-columns: 56px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="page-hint">
+    <strong>Page 4 — Evidence panel</strong>
+    <div class="muted">
+      由 Page 3「View evidence」進來。本頁是證據細節層，可顯示 raw timestamp / revision / observed_at；仍維持 Central canonical vs Runtime observed 邊界。
+    </div>
+  </div>
+
+  <div class="switcher" id="switcher">
+    <button data-scn="conflict" class="active">Conflict</button>
+    <button data-scn="not_compared">Not compared</button>
+    <button data-scn="central_only">Central only</button>
+  </div>
+
+  <div class="phone">
+    <div class="phone-header">
+      <div class="back">← Central vs Runtime</div>
+      <div class="title">Evidence</div>
+      <div class="ed" id="ed-name">ED-014 · ed-f093</div>
+    </div>
+
+    <div class="summary-card conflict" id="summary-card">
+      <div class="summary-state" id="state">Conflict</div>
+      <div class="summary-conclusion" id="conclusion">
+        Central assignment and Runtime observation disagree while both are fresh.
+      </div>
+      <div class="summary-row">
+        <span class="k">Compare gate</span>
+        <span class="v ok" id="gate-summary">Can compare</span>
+      </div>
+      <div class="summary-row">
+        <span class="k">Recommended action</span>
+        <span class="v" id="reco-action">Recover runtime</span>
+      </div>
+    </div>
+
+    <div class="ev-card central">
+      <div class="ev-title">Central evidence</div>
+      <div class="ev-side">authoritative · canonical assignment</div>
+      <div class="ev-row"><span class="k">Assigned gateway</span><span class="v" id="c-gw">GW-A</span></div>
+      <div class="ev-row"><span class="k">Source</span><span class="v" id="c-src">Central Assignment API</span></div>
+      <div class="ev-row"><span class="k">Owner</span><span class="v" id="c-owner">Central</span></div>
+      <div class="ev-row"><span class="k">Sync age</span><span class="v" id="c-age">3s 前</span></div>
+      <div class="ev-row"><span class="k">Revision</span><span class="v" id="c-rev">142</span></div>
+      <div class="ev-row"><span class="k">updated_at</span><span class="v" id="c-updated">2026-04-16 22:14:53Z</span></div>
+    </div>
+
+    <div class="ev-card runtime">
+      <div class="ev-title">Runtime evidence</div>
+      <div class="ev-side">observed · actual attach evidence</div>
+      <div class="ev-row"><span class="k">Observed gateway</span><span class="v" id="r-gw">GW-D</span></div>
+      <div class="ev-row"><span class="k">Source path</span><span class="v" id="r-srcpath">Firmware-side · notify</span></div>
+      <div class="ev-row"><span class="k">Observed age</span><span class="v" id="r-age">2s 前</span></div>
+      <div class="ev-row"><span class="k">observed_at</span><span class="v" id="r-observed">2026-04-16 22:14:54Z</span></div>
+      <div class="ev-row"><span class="k">Event source</span><span class="v" id="r-evtsrc">METRICS_V2 + EVT</span></div>
+    </div>
+
+    <div class="gate-card">
+      <div class="sec-label">Compare gate</div>
+      <div class="gate-row"><span class="k">can_compare</span><span class="v ok" id="g-can">true</span></div>
+      <div class="gate-row"><span class="k">reason</span><span class="v" id="g-reason">both sides fresh</span></div>
+      <div class="gate-row"><span class="k">mismatch_field</span><span class="v" id="g-mismatch">gateway</span></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label">Recent evidence timeline</div>
+      <div id="timeline"></div>
+    </div>
+
+    <div class="confirm-hint" id="confirm-hint">
+      <strong id="confirm-title">Dangerous action requires</strong>
+      <ul id="confirm-list">
+        <li>Engineer role</li>
+        <li>明確 confirmation</li>
+        <li>填寫 reason</li>
+        <li>寫入 audit record</li>
+      </ul>
+    </div>
+
+    <div class="next-hint">
+      <strong>下一步</strong>　返回 Page 3 處理動作 / 等系統自動收斂
+    </div>
+  </div>
+
+  <div class="page-note">
+    <strong>本頁定位</strong>：Evidence detail，不是主操作頁；raw timestamp / revision / observed_at 可在此攤開，不在 Page 1–3 出現。
+  </div>
+
+</div>
+
+<script>
+  const scenarios = {
+    conflict: {
+      cls: "conflict",
+      state: "Conflict",
+      conclusion: "Central assignment and Runtime observation disagree while both are fresh.",
+      gateSummary: { text: "Can compare", cls: "ok" },
+      recoAction: "Recover runtime",
+      central: {
+        gw: "GW-A", src: "Central Assignment API", owner: "Central",
+        age: "3s 前", rev: "142", updated: "2026-04-16 22:14:53Z"
+      },
+      runtime: {
+        gw: "GW-D", srcpath: "Firmware-side · notify",
+        age: "2s 前", observed: "2026-04-16 22:14:54Z",
+        evtsrc: "METRICS_V2 + EVT", gwClass: "no"
+      },
+      gate: { can: "true", canCls: "ok", reason: "both sides fresh", mismatch: "gateway" },
+      timeline: [
+        ["2s 前",  "Runtime",  "ED-014 attach observed → GW-D"],
+        ["3s 前",  "Central",  "Assignment revision 142 confirmed → GW-A"],
+        ["3s 前",  "Compare",  "can_compare = true · mismatch_field = gateway"],
+        ["3s 前",  "App",      "Conflict surfaced; recommended Recover runtime"],
+        ["12s 前", "Runtime",  "ED-014 prior attach → GW-A"]
+      ],
+      confirmTitle: "Recover runtime / Accept runtime as new assignment 需要",
+      confirmList: ["Engineer role", "明確 confirmation", "填寫 reason（變更原因）", "寫入 audit record"]
+    },
+    not_compared: {
+      cls: "not_compared",
+      state: "Not compared",
+      conclusion: "Central reference is stale; cannot determine conflict.",
+      gateSummary: { text: "Cannot compare", cls: "no" },
+      recoAction: "Refresh Central",
+      central: {
+        gw: "GW-A", src: "Central Assignment API（cached）", owner: "Central",
+        age: "45s 前（快取）", rev: "138", updated: "2026-04-16 22:14:11Z"
+      },
+      runtime: {
+        gw: "GW-B", srcpath: "Firmware-side · notify",
+        age: "2s 前", observed: "2026-04-16 22:14:54Z",
+        evtsrc: "METRICS_V2 + EVT"
+      },
+      gate: { can: "false", canCls: "no", reason: "stale Central reference", mismatch: "—" },
+      timeline: [
+        ["2s 前",  "Runtime", "ED-014 attach observed → GW-B"],
+        ["45s 前", "Central", "Last successful sync → GW-A · revision 138"],
+        ["45s 前", "Compare", "can_compare = false · reason = stale Central reference"],
+        ["46s 前", "App",     "Surfaced as Not compared; suggested Refresh Central"]
+      ],
+      confirmTitle: "Refresh Central 不需特殊權限；後續若升為 Conflict，再走 Engineer 流程"
+    },
+    central_only: {
+      cls: "central_only",
+      state: "Central only",
+      conclusion: "Runtime evidence missing; waiting for runtime report.",
+      gateSummary: { text: "Can compare", cls: "ok" },
+      recoAction: "Wait for runtime / Send check command",
+      central: {
+        gw: "GW-A", src: "Central Assignment API", owner: "Central",
+        age: "5s 前", rev: "143", updated: "2026-04-16 22:14:51Z"
+      },
+      runtime: {
+        gw: "—", srcpath: "—",
+        age: "—", observed: "—",
+        evtsrc: "—", gwClass: "muted"
+      },
+      gate: { can: "true", canCls: "ok", reason: "runtime evidence missing (no diff)", mismatch: "—" },
+      timeline: [
+        ["5s 前",  "Central", "Assignment revision 143 created → GW-A"],
+        ["5s 前",  "Compare", "Runtime evidence missing; no mismatch yet"],
+        ["—",       "Runtime", "尚未回報 attach"]
+      ],
+      confirmTitle: "Send check command 需要",
+      confirmList: ["Engineer role", "明確 confirmation"]
+    }
+  };
+
+  const $ = (id) => document.getElementById(id);
+  function clear(el) { while (el.firstChild) el.removeChild(el.firstChild); }
+  function row(time, src, ev) {
+    const r = document.createElement("div"); r.className = "tl-row";
+    const t = document.createElement("div"); t.className = "tl-time"; t.textContent = time;
+    const b = document.createElement("div"); b.className = "tl-body";
+    const s = document.createElement("span"); s.className = "src"; s.textContent = src;
+    const e = document.createElement("span"); e.className = "ev"; e.textContent = ev;
+    b.appendChild(s); b.appendChild(e);
+    r.appendChild(t); r.appendChild(b);
+    return r;
+  }
+
+  let active = "conflict";
+
+  function render() {
+    const s = scenarios[active];
+    $("summary-card").className = "summary-card " + s.cls;
+    $("state").textContent = s.state;
+    $("conclusion").textContent = s.conclusion;
+    $("gate-summary").textContent = s.gateSummary.text;
+    $("gate-summary").className = "v " + s.gateSummary.cls;
+    $("reco-action").textContent = s.recoAction;
+
+    $("c-gw").textContent = s.central.gw;
+    $("c-src").textContent = s.central.src;
+    $("c-owner").textContent = s.central.owner;
+    $("c-age").textContent = s.central.age;
+    $("c-rev").textContent = s.central.rev;
+    $("c-updated").textContent = s.central.updated;
+
+    const rgw = $("r-gw");
+    rgw.textContent = s.runtime.gw;
+    rgw.className = "v" + (s.runtime.gwClass ? " " + s.runtime.gwClass : "");
+    $("r-srcpath").textContent = s.runtime.srcpath;
+    $("r-age").textContent = s.runtime.age;
+    $("r-observed").textContent = s.runtime.observed;
+    $("r-evtsrc").textContent = s.runtime.evtsrc;
+
+    $("g-can").textContent = s.gate.can;
+    $("g-can").className = "v " + s.gate.canCls;
+    $("g-reason").textContent = s.gate.reason;
+    $("g-mismatch").textContent = s.gate.mismatch;
+
+    const tl = $("timeline"); clear(tl);
+    s.timeline.forEach(([t, src, ev]) => tl.appendChild(row(t, src, ev)));
+
+    $("confirm-title").textContent = s.confirmTitle;
+    const cl = $("confirm-list"); clear(cl);
+    (s.confirmList || []).forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      cl.appendChild(li);
+    });
+    // 沒有 confirmList → 隱藏 ul
+    $("confirm-list").style.display = (s.confirmList && s.confirmList.length) ? "block" : "none";
+  }
+
+  document.querySelectorAll("#switcher button").forEach(b => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll("#switcher button").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      active = b.dataset.scn;
+      render();
+    });
+  });
+
+  render();
+</script>
+
+</body>
+</html>
