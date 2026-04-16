@@ -61,45 +61,55 @@
   .phone-header .title { font-size: 20px; font-weight: 600; }
   .phone-header .ed { font-size: 12px; opacity: 0.85; margin-top: 4px; font-family: ui-monospace, monospace; }
 
-  /* Section */
-  .sec { padding: 14px 22px; border-bottom: 1px solid #f0f0f0; }
-  .sec:last-child { border-bottom: none; }
-  .sec-label {
-    font-size: 11px; color: #888;
-    text-transform: uppercase;
-    font-weight: 600; margin-bottom: 8px;
-  }
-
-  /* Summary */
-  .summary-card { padding: 16px 22px; border-bottom: 1px solid #f0f0f0; }
+  /* ===== Summary (human-first first screen) ===== */
+  .summary-card { padding: 18px 22px; border-bottom: 1px solid #f0f0f0; }
   .summary-card.conflict { background: #fdecea; }
   .summary-card.not_compared { background: #f5f7fa; }
   .summary-card.central_only { background: #e8f4fd; }
   .summary-state {
-    font-size: 18px; font-weight: 700;
-    font-family: ui-monospace, "Menlo", monospace;
-    margin-bottom: 4px;
+    font-size: 22px; font-weight: 700;
+    margin-bottom: 6px;
   }
   .summary-card.conflict .summary-state { color: #c62828; }
   .summary-card.not_compared .summary-state { color: #546e7a; }
   .summary-card.central_only .summary-state { color: #0d47a1; }
   .summary-conclusion {
-    font-size: 13px; color: #333; line-height: 1.5; margin-bottom: 10px;
+    font-size: 14px; color: #333; line-height: 1.6; margin-bottom: 12px;
   }
-  .summary-row {
-    display: flex; justify-content: space-between; align-items: center;
-    font-size: 12px; padding: 4px 0;
+  .reco-block {
+    background: rgba(255,255,255,0.7);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 14px;
   }
-  .summary-row .k { color: #555; }
-  .summary-row .v { font-weight: 600; color: #222; font-family: ui-monospace, monospace; }
-  .summary-row .v.ok { color: #2e7d32; }
-  .summary-row .v.no { color: #c62828; }
+  .reco-label {
+    font-size: 11px; color: #888;
+    text-transform: uppercase;
+    font-weight: 600; margin-bottom: 4px;
+  }
+  .reco-text {
+    font-size: 14px; font-weight: 600; color: #222;
+  }
+  .why-list { padding-left: 16px; }
+  .why-label {
+    font-size: 11px; color: #888;
+    text-transform: uppercase;
+    font-weight: 600; margin-bottom: 6px;
+  }
+  .why-item {
+    font-size: 13px; color: #333; line-height: 1.6;
+    margin-bottom: 4px;
+  }
+  .why-item .src {
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .why-item .src.central { color: #0d47a1; }
+  .why-item .src.runtime { color: #c45c00; }
+  .why-item .src.compare { color: #5e35b1; }
 
-  /* Side card (Central / Runtime evidence) */
-  .ev-card {
-    padding: 14px 22px;
-    border-bottom: 1px solid #f0f0f0;
-  }
+  /* ===== Per-side evidence card with collapsible engineering details ===== */
+  .ev-card { padding: 14px 22px; border-bottom: 1px solid #f0f0f0; }
   .ev-card.central { background: #f5faff; }
   .ev-card.runtime { background: #fff8f0; }
   .ev-title {
@@ -108,15 +118,27 @@
   .ev-card.central .ev-title { color: #0d47a1; }
   .ev-card.runtime .ev-title { color: #c45c00; }
   .ev-side {
-    font-size: 10px; color: #999; font-style: italic; margin-bottom: 10px;
+    font-size: 10px; color: #999; font-style: italic; margin-bottom: 8px;
   }
+  .ev-summary {
+    font-size: 14px; color: #222; line-height: 1.5; margin-bottom: 8px;
+  }
+  .ev-eng-toggle {
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; padding: 6px 0;
+    font-size: 11px; color: #5e35b1; font-weight: 600;
+  }
+  .ev-eng-toggle .chev { transition: transform 0.15s; }
+  .ev-card.open .ev-eng-toggle .chev { transform: rotate(90deg); }
+  .ev-eng-rows { display: none; margin-top: 4px; }
+  .ev-card.open .ev-eng-rows { display: block; }
   .ev-row {
     display: flex; justify-content: space-between; gap: 10px;
-    padding: 5px 0; font-size: 12px;
+    padding: 4px 0; font-size: 11px;
     border-bottom: 1px dotted #e8e8e8;
   }
   .ev-row:last-child { border-bottom: none; }
-  .ev-row .k { color: #666; flex-shrink: 0; }
+  .ev-row .k { color: #888; flex-shrink: 0; }
   .ev-row .v {
     color: #222; font-weight: 600;
     font-family: ui-monospace, monospace;
@@ -125,39 +147,53 @@
   .ev-row .v.muted { color: #999; font-weight: normal; }
   .ev-row .v.stale { color: #b06000; }
 
-  /* Gate card */
-  .gate-card { padding: 14px 22px; background: #fafbfc; border-bottom: 1px solid #f0f0f0; }
-  .gate-row {
+  /* ===== Engineering details (compare gate raw + cross-cut) ===== */
+  .eng-card { background: #fafbfc; padding: 14px 22px; border-bottom: 1px solid #f0f0f0; }
+  .eng-toggle {
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer;
+    font-size: 11px; color: #5e35b1; font-weight: 600;
+    text-transform: uppercase;
+  }
+  .eng-toggle .eng-tag {
+    font-size: 9px; background: #ede7f6; color: #5e35b1;
+    padding: 1px 6px; border-radius: 6px;
+    margin-left: 6px;
+  }
+  .eng-toggle .chev { transition: transform 0.15s; color: #bbb; }
+  .eng-card.open .eng-toggle .chev { transform: rotate(90deg); color: #5e35b1; }
+  .eng-body { display: none; margin-top: 10px; }
+  .eng-card.open .eng-body { display: block; }
+  .eng-row {
     display: flex; justify-content: space-between;
-    padding: 4px 0; font-size: 12px;
+    padding: 4px 0; font-size: 11px;
     font-family: ui-monospace, monospace;
   }
-  .gate-row .k { color: #888; }
-  .gate-row .v { color: #222; font-weight: 600; }
-  .gate-row .v.ok { color: #2e7d32; }
-  .gate-row .v.no { color: #c62828; }
+  .eng-row .k { color: #888; }
+  .eng-row .v { color: #222; font-weight: 600; }
+  .eng-row .v.ok { color: #2e7d32; }
+  .eng-row .v.no { color: #c62828; }
 
-  /* Timeline */
+  /* ===== Timeline (human first) ===== */
+  .sec { padding: 14px 22px; border-bottom: 1px solid #f0f0f0; }
+  .sec-label {
+    font-size: 11px; color: #888;
+    text-transform: uppercase;
+    font-weight: 600; margin-bottom: 8px;
+  }
   .tl-row {
     display: grid;
     grid-template-columns: 60px 1fr;
     gap: 8px;
     padding: 6px 0;
     border-bottom: 1px dotted #eee;
-    font-size: 12px;
+    font-size: 13px;
   }
   .tl-row:last-child { border-bottom: none; }
   .tl-time { color: #999; font-family: ui-monospace, monospace; font-size: 11px; }
-  .tl-body .src {
-    font-size: 10px;
-    color: #5e35b1;
-    font-weight: 600;
-    text-transform: uppercase;
-    margin-right: 6px;
-  }
-  .tl-body .ev { color: #333; }
+  .tl-body { color: #333; line-height: 1.5; }
 
-  /* Confirm hint */
+  /* ===== Confirm hint ===== */
   .confirm-hint {
     padding: 12px 22px;
     background: #f3edff;
@@ -167,8 +203,6 @@
     line-height: 1.6;
   }
   .confirm-hint strong { color: #5e35b1; }
-  .confirm-hint ul { margin: 6px 0 0 16px; padding: 0; }
-  .confirm-hint li { margin-bottom: 2px; }
 
   .next-hint {
     padding: 12px 22px;
@@ -196,7 +230,7 @@
     body { padding: 12px; }
     .phone { border-radius: 18px; }
     .phone-header { padding: 14px 16px 12px; }
-    .sec, .summary-card, .ev-card, .gate-card, .confirm-hint, .next-hint { padding-left: 16px; padding-right: 16px; }
+    .summary-card, .ev-card, .eng-card, .sec, .confirm-hint, .next-hint { padding-left: 16px; padding-right: 16px; }
     .tl-row { grid-template-columns: 56px 1fr; }
   }
 </style>
@@ -208,7 +242,7 @@
   <div class="page-hint">
     <strong>Page 4 — Evidence panel</strong>
     <div class="muted">
-      由 Page 3「View evidence」進來。本頁是證據細節層，可顯示 raw timestamp / revision / observed_at；仍維持 Central canonical vs Runtime observed 邊界。
+      由 Page 3「View evidence」進來。第一屏先給人話結論與建議；raw / internal 欄位放在 Engineering details。
     </div>
   </div>
 
@@ -225,62 +259,81 @@
       <div class="ed" id="ed-name">ED-014 · ed-f093</div>
     </div>
 
+    <!-- Human-first summary -->
     <div class="summary-card conflict" id="summary-card">
       <div class="summary-state" id="state">Conflict</div>
-      <div class="summary-conclusion" id="conclusion">
-        Central assignment and Runtime observation disagree while both are fresh.
+      <div class="summary-conclusion" id="conclusion">後台與現場都很新，但 Gateway 不一致。</div>
+
+      <div class="reco-block">
+        <div class="reco-label">建議處理</div>
+        <div class="reco-text" id="reco-text">先恢復 Runtime 回到 Central 分配。</div>
       </div>
-      <div class="summary-row">
-        <span class="k">Compare gate</span>
-        <span class="v ok" id="gate-summary">Can compare</span>
-      </div>
-      <div class="summary-row">
-        <span class="k">Recommended action</span>
-        <span class="v" id="reco-action">Recover runtime</span>
+
+      <div class="why-label">為什麼</div>
+      <div class="why-list">
+        <div class="why-item"><span class="src central" id="why-central-src">Central：</span><span id="why-central">3 秒前確認 ED 應在 GW-A</span></div>
+        <div class="why-item"><span class="src runtime" id="why-runtime-src">Runtime：</span><span id="why-runtime">2 秒前觀測 ED 在 GW-D</span></div>
+        <div class="why-item"><span class="src compare" id="why-compare-src">比對結果：</span><span id="why-compare">可比對，Gateway 不一致</span></div>
       </div>
     </div>
 
-    <div class="ev-card central">
+    <!-- Central evidence -->
+    <div class="ev-card central" id="c-card">
       <div class="ev-title">Central evidence</div>
       <div class="ev-side">authoritative · canonical assignment</div>
-      <div class="ev-row"><span class="k">Assigned gateway</span><span class="v" id="c-gw">GW-A</span></div>
-      <div class="ev-row"><span class="k">Source</span><span class="v" id="c-src">Central Assignment API</span></div>
-      <div class="ev-row"><span class="k">Owner</span><span class="v" id="c-owner">Central</span></div>
-      <div class="ev-row"><span class="k">Sync age</span><span class="v" id="c-age">3s 前</span></div>
-      <div class="ev-row"><span class="k">Revision</span><span class="v" id="c-rev">142</span></div>
-      <div class="ev-row"><span class="k">updated_at</span><span class="v" id="c-updated">2026-04-16 22:14:53Z</span></div>
+      <div class="ev-summary" id="c-summary">3 秒前確認 ED 應在 GW-A。</div>
+
+      <div class="ev-eng-toggle" data-target="c-card">
+        <span>Engineering details</span><span class="chev">›</span>
+      </div>
+      <div class="ev-eng-rows">
+        <div class="ev-row"><span class="k">assigned_gateway</span><span class="v" id="c-gw">GW-A</span></div>
+        <div class="ev-row"><span class="k">source</span><span class="v" id="c-src">Central Assignment API</span></div>
+        <div class="ev-row"><span class="k">owner</span><span class="v" id="c-owner">Central</span></div>
+        <div class="ev-row"><span class="k">sync_age</span><span class="v" id="c-age">3s 前</span></div>
+        <div class="ev-row"><span class="k">revision</span><span class="v" id="c-rev">142</span></div>
+        <div class="ev-row"><span class="k">updated_at</span><span class="v" id="c-updated">2026-04-16 22:14:53Z</span></div>
+      </div>
     </div>
 
-    <div class="ev-card runtime">
+    <!-- Runtime evidence -->
+    <div class="ev-card runtime" id="r-card">
       <div class="ev-title">Runtime evidence</div>
       <div class="ev-side">observed · actual attach evidence</div>
-      <div class="ev-row"><span class="k">Observed gateway</span><span class="v" id="r-gw">GW-D</span></div>
-      <div class="ev-row"><span class="k">Source path</span><span class="v" id="r-srcpath">Firmware-side · notify</span></div>
-      <div class="ev-row"><span class="k">Observed age</span><span class="v" id="r-age">2s 前</span></div>
-      <div class="ev-row"><span class="k">observed_at</span><span class="v" id="r-observed">2026-04-16 22:14:54Z</span></div>
-      <div class="ev-row"><span class="k">Event source</span><span class="v" id="r-evtsrc">METRICS_V2 + EVT</span></div>
+      <div class="ev-summary" id="r-summary">2 秒前觀測 ED 在 GW-D。</div>
+
+      <div class="ev-eng-toggle" data-target="r-card">
+        <span>Engineering details</span><span class="chev">›</span>
+      </div>
+      <div class="ev-eng-rows">
+        <div class="ev-row"><span class="k">observed_gateway</span><span class="v" id="r-gw">GW-D</span></div>
+        <div class="ev-row"><span class="k">source_path</span><span class="v" id="r-srcpath">Firmware-side · notify</span></div>
+        <div class="ev-row"><span class="k">observed_age</span><span class="v" id="r-age">2s 前</span></div>
+        <div class="ev-row"><span class="k">observed_at</span><span class="v" id="r-observed">2026-04-16 22:14:54Z</span></div>
+        <div class="ev-row"><span class="k">event_source</span><span class="v" id="r-evtsrc">METRICS_V2 + EVT</span></div>
+      </div>
     </div>
 
-    <div class="gate-card">
-      <div class="sec-label">Compare gate</div>
-      <div class="gate-row"><span class="k">can_compare</span><span class="v ok" id="g-can">true</span></div>
-      <div class="gate-row"><span class="k">reason</span><span class="v" id="g-reason">both sides fresh</span></div>
-      <div class="gate-row"><span class="k">mismatch_field</span><span class="v" id="g-mismatch">gateway</span></div>
+    <!-- Engineering details: compare gate raw -->
+    <div class="eng-card" id="eng-card">
+      <div class="eng-toggle">
+        <span>Engineering details · Compare gate<span class="eng-tag">ENG</span></span><span class="chev">›</span>
+      </div>
+      <div class="eng-body">
+        <div class="eng-row"><span class="k">can_compare</span><span class="v ok" id="g-can">true</span></div>
+        <div class="eng-row"><span class="k">reason</span><span class="v" id="g-reason">both sides fresh</span></div>
+        <div class="eng-row"><span class="k">mismatch_field</span><span class="v" id="g-mismatch">gateway</span></div>
+      </div>
     </div>
 
+    <!-- Timeline (human-first) -->
     <div class="sec">
-      <div class="sec-label">Recent evidence timeline</div>
+      <div class="sec-label">Recent evidence</div>
       <div id="timeline"></div>
     </div>
 
     <div class="confirm-hint" id="confirm-hint">
-      <strong id="confirm-title">Dangerous action requires</strong>
-      <ul id="confirm-list">
-        <li>Engineer role</li>
-        <li>明確 confirmation</li>
-        <li>填寫 reason</li>
-        <li>寫入 audit record</li>
-      </ul>
+      <strong>提醒</strong>　執行高風險動作前，會要求工程師確認、填寫原因，並留下 audit record。
     </div>
 
     <div class="next-hint">
@@ -289,7 +342,7 @@
   </div>
 
   <div class="page-note">
-    <strong>本頁定位</strong>：Evidence detail，不是主操作頁；raw timestamp / revision / observed_at 可在此攤開，不在 Page 1–3 出現。
+    <strong>本頁定位</strong>：第一層是 human-readable evidence summary；raw / internal 欄位（updated_at / revision / observed_at / can_compare 等）放在 Engineering details 折疊區，不主導第一屏。
   </div>
 
 </div>
@@ -299,91 +352,91 @@
     conflict: {
       cls: "conflict",
       state: "Conflict",
-      conclusion: "Central assignment and Runtime observation disagree while both are fresh.",
-      gateSummary: { text: "Can compare", cls: "ok" },
-      recoAction: "Recover runtime",
+      conclusion: "後台與現場都很新，但 Gateway 不一致。",
+      reco: "先恢復 Runtime 回到 Central 分配。",
+      why: {
+        central: "3 秒前確認 ED 應在 GW-A",
+        runtime: "2 秒前觀測 ED 在 GW-D",
+        compare: "可比對，Gateway 不一致"
+      },
       central: {
+        summary: "3 秒前確認 ED 應在 GW-A。",
         gw: "GW-A", src: "Central Assignment API", owner: "Central",
         age: "3s 前", rev: "142", updated: "2026-04-16 22:14:53Z"
       },
       runtime: {
+        summary: "2 秒前觀測 ED 在 GW-D。",
         gw: "GW-D", srcpath: "Firmware-side · notify",
         age: "2s 前", observed: "2026-04-16 22:14:54Z",
-        evtsrc: "METRICS_V2 + EVT", gwClass: "no"
+        evtsrc: "METRICS_V2 + EVT", gwClass: ""
       },
       gate: { can: "true", canCls: "ok", reason: "both sides fresh", mismatch: "gateway" },
       timeline: [
-        ["2s 前",  "Runtime",  "ED-014 attach observed → GW-D"],
-        ["3s 前",  "Central",  "Assignment revision 142 confirmed → GW-A"],
-        ["3s 前",  "Compare",  "can_compare = true · mismatch_field = gateway"],
-        ["3s 前",  "App",      "Conflict surfaced; recommended Recover runtime"],
-        ["12s 前", "Runtime",  "ED-014 prior attach → GW-A"]
-      ],
-      confirmTitle: "Recover runtime / Accept runtime as new assignment 需要",
-      confirmList: ["Engineer role", "明確 confirmation", "填寫 reason（變更原因）", "寫入 audit record"]
+        ["2s 前",  "Runtime 觀測 ED 接到 GW-D"],
+        ["3s 前",  "Central 確認 ED 應在 GW-A"],
+        ["3s 前",  "系統判定 Gateway 不一致；建議恢復 Runtime"]
+      ]
     },
     not_compared: {
       cls: "not_compared",
       state: "Not compared",
-      conclusion: "Central reference is stale; cannot determine conflict.",
-      gateSummary: { text: "Cannot compare", cls: "no" },
-      recoAction: "Refresh Central",
+      conclusion: "Central 資料不夠新，無法判斷是否衝突。",
+      reco: "先刷新 Central 後再比對。",
+      why: {
+        central: "上次同步 45 秒前，視為過期",
+        runtime: "2 秒前觀測 ED 在 GW-B",
+        compare: "不可比對，Central 不夠新"
+      },
       central: {
+        summary: "上次同步 45 秒前，現有資料視為過期。",
         gw: "GW-A", src: "Central Assignment API（cached）", owner: "Central",
         age: "45s 前（快取）", rev: "138", updated: "2026-04-16 22:14:11Z"
       },
       runtime: {
+        summary: "2 秒前觀測 ED 在 GW-B。",
         gw: "GW-B", srcpath: "Firmware-side · notify",
         age: "2s 前", observed: "2026-04-16 22:14:54Z",
         evtsrc: "METRICS_V2 + EVT"
       },
       gate: { can: "false", canCls: "no", reason: "stale Central reference", mismatch: "—" },
       timeline: [
-        ["2s 前",  "Runtime", "ED-014 attach observed → GW-B"],
-        ["45s 前", "Central", "Last successful sync → GW-A · revision 138"],
-        ["45s 前", "Compare", "can_compare = false · reason = stale Central reference"],
-        ["46s 前", "App",     "Surfaced as Not compared; suggested Refresh Central"]
-      ],
-      confirmTitle: "Refresh Central 不需特殊權限；後續若升為 Conflict，再走 Engineer 流程"
+        ["2s 前",  "Runtime 觀測 ED 接到 GW-B"],
+        ["45s 前", "Central 上次成功同步（GW-A）"],
+        ["46s 前", "系統判定 Central 不夠新，無法比對；建議刷新 Central"]
+      ]
     },
     central_only: {
       cls: "central_only",
       state: "Central only",
-      conclusion: "Runtime evidence missing; waiting for runtime report.",
-      gateSummary: { text: "Can compare", cls: "ok" },
-      recoAction: "Wait for runtime / Send check command",
+      conclusion: "Central 已分配，但現場還沒回報 attach。",
+      reco: "等 Runtime 回報，或主動發送檢查指令。",
+      why: {
+        central: "5 秒前確認 ED 應在 GW-A",
+        runtime: "尚未回報 attach",
+        compare: "不可比對，缺 Runtime 證據"
+      },
       central: {
+        summary: "5 秒前確認 ED 應在 GW-A。",
         gw: "GW-A", src: "Central Assignment API", owner: "Central",
         age: "5s 前", rev: "143", updated: "2026-04-16 22:14:51Z"
       },
       runtime: {
+        summary: "現場尚未回報 attach。",
         gw: "—", srcpath: "—",
         age: "—", observed: "—",
         evtsrc: "—", gwClass: "muted"
       },
-      gate: { can: "true", canCls: "ok", reason: "runtime evidence missing (no diff)", mismatch: "—" },
+      gate: { can: "false", canCls: "no", reason: "missing runtime evidence", mismatch: "—" },
       timeline: [
-        ["5s 前",  "Central", "Assignment revision 143 created → GW-A"],
-        ["5s 前",  "Compare", "Runtime evidence missing; no mismatch yet"],
-        ["—",       "Runtime", "尚未回報 attach"]
-      ],
-      confirmTitle: "Send check command 需要",
-      confirmList: ["Engineer role", "明確 confirmation"]
+        ["5s 前", "Central 確認 ED 應在 GW-A"],
+        ["—",     "Runtime 尚未回報 attach"],
+        ["5s 前", "系統判定缺 Runtime 證據，無法比對；建議等候或主動檢查"]
+      ]
     }
   };
 
   const $ = (id) => document.getElementById(id);
   function clear(el) { while (el.firstChild) el.removeChild(el.firstChild); }
-  function row(time, src, ev) {
-    const r = document.createElement("div"); r.className = "tl-row";
-    const t = document.createElement("div"); t.className = "tl-time"; t.textContent = time;
-    const b = document.createElement("div"); b.className = "tl-body";
-    const s = document.createElement("span"); s.className = "src"; s.textContent = src;
-    const e = document.createElement("span"); e.className = "ev"; e.textContent = ev;
-    b.appendChild(s); b.appendChild(e);
-    r.appendChild(t); r.appendChild(b);
-    return r;
-  }
 
   let active = "conflict";
 
@@ -392,10 +445,12 @@
     $("summary-card").className = "summary-card " + s.cls;
     $("state").textContent = s.state;
     $("conclusion").textContent = s.conclusion;
-    $("gate-summary").textContent = s.gateSummary.text;
-    $("gate-summary").className = "v " + s.gateSummary.cls;
-    $("reco-action").textContent = s.recoAction;
+    $("reco-text").textContent = s.reco;
+    $("why-central").textContent = s.why.central;
+    $("why-runtime").textContent = s.why.runtime;
+    $("why-compare").textContent = s.why.compare;
 
+    $("c-summary").textContent = s.central.summary;
     $("c-gw").textContent = s.central.gw;
     $("c-src").textContent = s.central.src;
     $("c-owner").textContent = s.central.owner;
@@ -403,6 +458,7 @@
     $("c-rev").textContent = s.central.rev;
     $("c-updated").textContent = s.central.updated;
 
+    $("r-summary").textContent = s.runtime.summary;
     const rgw = $("r-gw");
     rgw.textContent = s.runtime.gw;
     rgw.className = "v" + (s.runtime.gwClass ? " " + s.runtime.gwClass : "");
@@ -417,17 +473,12 @@
     $("g-mismatch").textContent = s.gate.mismatch;
 
     const tl = $("timeline"); clear(tl);
-    s.timeline.forEach(([t, src, ev]) => tl.appendChild(row(t, src, ev)));
-
-    $("confirm-title").textContent = s.confirmTitle;
-    const cl = $("confirm-list"); clear(cl);
-    (s.confirmList || []).forEach(item => {
-      const li = document.createElement("li");
-      li.textContent = item;
-      cl.appendChild(li);
+    s.timeline.forEach(([t, body]) => {
+      const r = document.createElement("div"); r.className = "tl-row";
+      const ts = document.createElement("div"); ts.className = "tl-time"; ts.textContent = t;
+      const bd = document.createElement("div"); bd.className = "tl-body"; bd.textContent = body;
+      r.appendChild(ts); r.appendChild(bd); tl.appendChild(r);
     });
-    // 沒有 confirmList → 隱藏 ul
-    $("confirm-list").style.display = (s.confirmList && s.confirmList.length) ? "block" : "none";
   }
 
   document.querySelectorAll("#switcher button").forEach(b => {
@@ -437,6 +488,17 @@
       active = b.dataset.scn;
       render();
     });
+  });
+
+  // Per-card engineering details toggle
+  document.querySelectorAll(".ev-eng-toggle").forEach(t => {
+    t.addEventListener("click", () => {
+      const id = t.dataset.target;
+      $(id).classList.toggle("open");
+    });
+  });
+  document.querySelector(".eng-toggle").addEventListener("click", () => {
+    document.getElementById("eng-card").classList.toggle("open");
   });
 
   render();

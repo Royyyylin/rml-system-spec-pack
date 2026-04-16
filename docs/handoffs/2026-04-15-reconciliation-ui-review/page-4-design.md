@@ -4,27 +4,43 @@
 
 ## 定位
 
-- Page 4 是 evidence detail 層，不是主操作頁
-- 由 Page 3「View evidence」進入；raw timestamp / revision / observed_at 在這裡可以攤開
+- Page 4 是 evidence detail 層，但**第一屏先給人話結論與建議**，不是工程 dump
+- raw / internal 欄位（`updated_at` / `observed_at` / `revision` / `can_compare` / `mismatch_field`）一律下移到 Engineering details 折疊區
 - 仍維持 Central canonical vs Runtime observed 邊界，不做等權合併
 
-## 資訊分層
+## 第一屏（human-first）
 
-1. **Summary card**：state badge + 一句結論 + compare gate（Can compare / Cannot compare）+ recommended action
-2. **Central evidence card**（藍底）：assigned gateway / source / owner / sync age / revision / updated_at
-3. **Runtime evidence card**（橘底）：observed gateway / source path / observed age / observed_at / event source
-4. **Compare gate card**（中性灰）：可顯示 internal key（`can_compare` / `reason` / `mismatch_field`）— evidence 層允許
-5. **Recent evidence timeline**：限 3–5 條短事件（時間 + src + 摘要），不做 full log viewer
-6. **Action confirmation hint**：說明 Page 3 的 dangerous action 在實際執行時需要 Engineer role / confirmation / reason / audit
+每個情境都顯示這幾件事：
 
-## 切換情境
+1. **狀態**：`Conflict` / `Not compared` / `Central only`
+2. **一句結論**（中文）
+3. **建議處理**（一句）
+4. **三條「為什麼」**：
+   - Central：幾秒前確認 / 上次同步 / 缺資料
+   - Runtime：幾秒前觀測 / 尚未回報
+   - 比對結果：可比對 / 不可比對 + 短原因
 
-- Conflict：兩側 fresh、值不同；can_compare = true；建議 Recover runtime
-- Not compared：Central reference stale；can_compare = false；建議 Refresh Central
-- Central only：Runtime evidence 缺；can_compare = true 但 mismatch_field = —；建議 Wait for runtime / Send check command
+## 後段資訊分層
+
+5. **Central evidence card**（藍底）：上層人話一句；下層折疊 Engineering details rows
+6. **Runtime evidence card**（橘底）：同樣上層人話；下層折疊 raw rows
+7. **Engineering details · Compare gate**（紫色 ENG tag，預設收合）：露 internal `can_compare` / `reason` / `mismatch_field`
+8. **Recent evidence**：3 條短句（時間 + 人話），不再用 internal key 主導
+9. **Action confirmation hint**：簡化成一句，「執行高風險動作前，會要求工程師確認、填寫原因，並留下 audit record。」
+
+## Compare gate 在各情境的真值
+
+| 情境 | can_compare | reason | mismatch_field |
+|------|-------------|--------|----------------|
+| Conflict | true | both sides fresh | gateway |
+| Not compared | false | stale Central reference | — |
+| Central only | **false** | missing runtime evidence | — |
+
+修正：Central only 缺 Runtime 證據，**沒有兩側可比，所以 cannot compare**；之前 mock 寫成 Can compare 是錯的。
 
 ## 不在本頁做
 
 - 不做 full log viewer / JSON dump
 - 不串真正動作 / 真正 modal；本輪是 mock
 - 不發明 wire field 或新 protocol
+- 不在第一屏放 raw key
