@@ -59,9 +59,10 @@ Runtime 主畫面**只顯示 freshness / quality 結果**（「最後更新 2s �
 - 兩側分明：左側 Central（authoritative · 後台分配）、右側 Runtime（observed · 現場觀測）；視覺上不靜默合併
 - 每側都顯示 freshness（最後更新 / 上次同步）與對應 tag（fresh / stale / last synced / 尚未回報）
 - 5 個切換情境：`converged` / `conflict` / `pending_reconciliation` / `central_only` / `not compared`
-- diff hint 條同步說明 `can_compare` 結論與 reviewer 下一步注意點
+- diff hint 條同步說明 reviewer 下一步注意點；UI 上以「可比對 / 不可比對」呈現，對應 internal `can_compare` gate（不直接寫 `can_compare = true/false`）
+- 主畫面 state label 用人類可讀短詞（Converged / Conflict / Pending sync / Central only / Not compared）；formal enum 留在 spec 與 README，不出現在 phone surface
 - 用詞延用 Page 2 freshness 分層（最後更新 = runtime / 上次同步 = central），不引入新 vocabulary
-- 不在本頁攤開 raw timestamp / revision / observed_at；那些屬 Page 4
+- 不在本頁攤開 raw timestamp / revision / observed_at；證據細節屬 Page 4
 
 ## Rename boundary
 

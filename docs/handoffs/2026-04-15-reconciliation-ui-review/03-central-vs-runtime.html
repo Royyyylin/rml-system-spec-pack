@@ -200,18 +200,18 @@
 <div class="wrap">
 
   <div class="page-hint">
-    <strong>Page 3 / 4 — Central vs Runtime 並列差異</strong>
+    <strong>Page 3 — Central vs Runtime</strong>
     <div class="muted">
-      由 Page 2 的 conflict banner「查看差異」進來。本頁只比 Central 與 Runtime 兩側；想追 raw timestamp / revision，往 Page 4。
+      由 Page 2 的 conflict banner「查看差異」進來。本頁聚焦比對結果；證據細節在 Page 4。
     </div>
   </div>
 
   <div class="switcher" id="switcher">
-    <button data-scn="confirmed" class="active">converged</button>
-    <button data-scn="conflict">conflict</button>
-    <button data-scn="pending">pending_reconciliation</button>
-    <button data-scn="central_only">central_only</button>
-    <button data-scn="not_compared">not compared</button>
+    <button data-scn="confirmed" class="active">Converged</button>
+    <button data-scn="conflict">Conflict</button>
+    <button data-scn="pending">Pending sync</button>
+    <button data-scn="central_only">Central only</button>
+    <button data-scn="not_compared">Not compared</button>
   </div>
 
   <div class="phone">
@@ -222,8 +222,8 @@
     </div>
 
     <div class="state-strip" id="state-strip">
-      <div class="state-name" id="state-name">conflict</div>
-      <div class="state-text" id="state-text">後台與現場都最新，但指向不同 Gateway。需要人工確認。</div>
+      <div class="state-name" id="state-name">Converged</div>
+      <div class="state-text" id="state-text">Central 分配與 Runtime 觀測一致，且皆新鮮。</div>
     </div>
 
     <div class="dual">
@@ -250,12 +250,11 @@
     </div>
 
     <div class="diff-hint" id="diff-hint">
-      <span class="lbl" id="diff-label">差異點</span>　<span id="diff-text">兩側 Gateway 值不同；can_compare = true。</span>
+      <span class="lbl" id="diff-label">目前狀態</span>　<span id="diff-text">可比對：兩側 Gateway 一致。</span>
     </div>
 
     <div class="next-hint">
-      <strong>下一步</strong><br>
-      想追 timestamp / revision / observed_at / evidence → Page 4
+      <strong>下一步</strong>　查看證據細節 → Page 4
     </div>
   </div>
 
@@ -273,31 +272,31 @@
   const scenarios = {
     confirmed: {
       stateClass: "confirmed",
-      stateName: "confirmed",
-      stateText: "Central 分配與 Runtime 觀測一致，皆 fresh。reviewer 不需動作。",
+      stateName: "Converged",
+      stateText: "Central 分配與 Runtime 觀測一致，且皆新鮮。Reviewer 不需動作。",
       central: { gw: "GW-A", time: "2s 前", tag: "fresh", tagText: "fresh" },
       runtime: { gw: "GW-A", time: "1s 前", tag: "fresh", tagText: "fresh" },
-      diff: { cls: "muted", lbl: "目前狀態", text: "兩側 Gateway 一致；can_compare = true。" }
+      diff: { cls: "muted", lbl: "目前狀態", text: "可比對：兩側 Gateway 一致。" }
     },
     conflict: {
       stateClass: "conflict",
-      stateName: "conflict",
+      stateName: "Conflict",
       stateText: "後台與現場都最新，但指向不同 Gateway。需要人工確認，不要自行覆寫任一側。",
       central: { gw: "GW-A", time: "3s 前", tag: "fresh", tagText: "fresh" },
       runtime: { gw: "GW-D", time: "2s 前", tag: "fresh", tagText: "fresh", diff: true },
-      diff: { cls: "danger", lbl: "差異點", text: "兩側 Gateway 值不同；can_compare = true。" }
+      diff: { cls: "danger", lbl: "差異點", text: "可比對：兩側 Gateway 值不同；需人工確認。" }
     },
     pending: {
       stateClass: "pending",
-      stateName: "pending_reconciliation",
-      stateText: "現場剛切換 Gateway（failover），後台尚未同步。屬正常延遲，幾秒內應自動收斂為 confirmed。",
+      stateName: "Pending sync",
+      stateText: "現場剛切換 Gateway（failover），後台尚未同步。屬正常延遲，幾秒內應自動收斂。",
       central: { gw: "GW-A", time: "12s 前", tag: "fresh", tagText: "fresh" },
       runtime: { gw: "GW-B", time: "剛剛", tag: "fresh", tagText: "fresh", diff: true },
       diff: { cls: "warn", lbl: "目前差異", text: "Runtime 已切到 GW-B，Central 仍記錄 GW-A；等同步即可。" }
     },
     central_only: {
       stateClass: "central_only",
-      stateName: "central_only",
+      stateName: "Central only",
       stateText: "後台已分配 Gateway，但現場尚未回報 attach。常見於剛派工或裝置剛上線。",
       central: { gw: "GW-A", time: "5s 前", tag: "fresh", tagText: "fresh" },
       runtime: { gw: "—",   time: "—",     tag: "missing", tagText: "尚未回報", missing: true },
@@ -305,11 +304,11 @@
     },
     not_compared: {
       stateClass: "not_compared",
-      stateName: "not compared / last synced",
+      stateName: "Not compared",
       stateText: "目前沒有 live Central 資料；只能看到上次同步的 reference，不足以判定衝突。",
       central: { gw: "GW-A", time: "45s 前（快取）", tag: "last_synced", tagText: "last synced" },
       runtime: { gw: "GW-B", time: "2s 前", tag: "fresh", tagText: "fresh" },
-      diff: { cls: "muted", lbl: "comparison gate", text: "Central reference 不夠新鮮，can_compare = false；不會升格為 conflict。" }
+      diff: { cls: "muted", lbl: "比對結果", text: "不可比對：Central 只有上次同步 reference；不會升格為衝突。" }
     }
   };
 
