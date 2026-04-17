@@ -15,12 +15,13 @@
 | App cross-repo boundary | `ble_qos_app/docs/handoffs/2026-03-28-app-architecture-brief.md` |
 | Central identity / assignment | `central-device-metadata/docs/specs/data-model.md` |
 | Central alias precedence | `central-device-metadata/docs/specs/alias-sync-spec.md` |
+| GW QoS scheduler tuning contract | `rml-system-spec-pack/shared-spec/feature-gw-qos-scheduler-tuning.md`（contract schema）; `central-device-metadata` DB/API（runtime config SSOT）; `ble_qos_demo_V1.2m/ble_api.yaml`（wire/GATT when apply protocol lands） |
 
 ## Pack Sources
 
 | Layer | Source |
 | :--- | :--- |
-| Upstream intent | `shared-spec/rml-lite.md`, `shared-spec/baseline-target-migration.md`, `shared-spec/capability-ownership.md`, `shared-spec/diagram-authoring-rules.md`, `shared-spec/diagram-templates.md`, `shared-spec/feature-telemetry-roster-visibility.md`, `shared-spec/feature-command-execution-feedback.md`, `shared-spec/feature-identity-alias-metadata-display.md`, `shared-spec/feature-assignment-reconciliation.md`, `shared-spec/requirements.md` |
+| Upstream intent | `shared-spec/rml-lite.md`, `shared-spec/baseline-target-migration.md`, `shared-spec/capability-ownership.md`, `shared-spec/diagram-authoring-rules.md`, `shared-spec/diagram-templates.md`, `shared-spec/feature-telemetry-roster-visibility.md`, `shared-spec/feature-command-execution-feedback.md`, `shared-spec/feature-identity-alias-metadata-display.md`, `shared-spec/feature-assignment-reconciliation.md`, `shared-spec/feature-gw-qos-scheduler-tuning.md`, `shared-spec/requirements.md` |
 | App downstream | `app-spec/architecture.md`, `app-spec/state_machine.md`, `app-spec/sequence_flows.md` |
 | Diagram sources | `shared-spec/feature-telemetry-roster-visibility.d2`, `shared-spec/feature-command-execution-feedback.d2`, `shared-spec/feature-identity-alias-metadata-display.d2`, `shared-spec/feature-assignment-reconciliation.d2`, `app-spec/block_diagram.d2`, `app-spec/state_diagram.mmd`, `app-spec/sequence_diagram.mmd`, `firmware-spec/packet_diagram.d2` |
 | Packet mapping | `firmware-spec/packet_contract.md` |

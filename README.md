@@ -13,17 +13,18 @@
 7. `shared-spec/feature-command-execution-feedback.md`
 8. `shared-spec/feature-identity-alias-metadata-display.md`
 9. `shared-spec/feature-assignment-reconciliation.md`
-10. `shared-spec/requirements.md`
-11. `app-spec/architecture.md`
-12. `app-spec/state_machine.md`
-13. `app-spec/sequence_flows.md`
-14. `firmware-spec/packet_contract.md`
-15. `trace/source_of_truth.md`
-16. `trace/trace_map.yaml`
-17. `trace/change_rules.md`
-18. `app-spec/acceptance_criteria.md`
-19. `app-spec/test_cases.md`
-20. `trace/impact-summary.md`
+10. `shared-spec/feature-gw-qos-scheduler-tuning.md`
+11. `shared-spec/requirements.md`
+12. `app-spec/architecture.md`
+13. `app-spec/state_machine.md`
+14. `app-spec/sequence_flows.md`
+15. `firmware-spec/packet_contract.md`
+16. `trace/source_of_truth.md`
+17. `trace/trace_map.yaml`
+18. `trace/change_rules.md`
+19. `app-spec/acceptance_criteria.md`
+20. `app-spec/test_cases.md`
+21. `trace/impact-summary.md`
 
 ## 這次改動影響的正式檔案
 
@@ -40,6 +41,7 @@
 - `shared-spec/feature-identity-alias-metadata-display.d2`
 - `shared-spec/feature-assignment-reconciliation.md`
 - `shared-spec/feature-assignment-reconciliation.d2`
+- `shared-spec/feature-gw-qos-scheduler-tuning.md`
 - `shared-spec/requirements.md`
 - `app-spec/architecture.md`
 - `app-spec/state_machine.md`
