@@ -15,7 +15,9 @@
 | App cross-repo boundary | `ble_qos_app/docs/handoffs/2026-03-28-app-architecture-brief.md` |
 | Central identity / assignment | `central-device-metadata/docs/specs/data-model.md` |
 | Central alias precedence | `central-device-metadata/docs/specs/alias-sync-spec.md` |
-| GW QoS scheduler tuning contract | `rml-system-spec-pack/shared-spec/feature-gw-qos-scheduler-tuning.md`（contract schema）; `central-device-metadata` DB/API（runtime config SSOT）; `ble_qos_demo_V1.2m/ble_api.yaml`（wire/GATT when apply protocol lands） |
+| GW QoS scheduler tuning — contract semantics | `rml-system-spec-pack/shared-spec/feature-gw-qos-scheduler-tuning.md` |
+| GW QoS scheduler tuning — runtime config truth | `central-device-metadata` DB/API（canonical deployment value per GW） |
+| GW QoS scheduler tuning — wire/GATT apply protocol | `ble_qos_demo_V1.2m/ble_api.yaml`（when apply protocol lands；目前尚無） |
 
 ## Pack Sources
 

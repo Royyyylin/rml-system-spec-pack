@@ -20,7 +20,7 @@
 | `RML-CAP-003` | Human-facing interaction、presentation semantics、pending/error UX、local view state | `App` | publish backend data、execute device command、expose policy result | 把 backend / firmware truth 直接等同 UI truth，或把 local UI state 升格成 system truth |
 | `RML-CAP-004` | GATT / wire contract、opcode、payload field semantics | `Firmware repo SSOT` | derive docs、build parser / UI / ingest logic | 自行發明 wire enum、UUID、opcode、payload meaning |
 | `RML-CAP-005` | Cross-repo planning、dispatch、queue / gate governance、handoff、evidence index | `Conductor` | reference、review、execute repo-local work | 取代 repo SSOT、重寫 repo technical truth、直接擔任 runtime authority |
-| `RML-CAP-006` | GW QoS scheduler deployment tuning（preset / expert override） | `Central`（runtime config）; `Firmware`（execution + guard）| App: role-gated editor UX; Spec-pack: contract schema | App: save invalid config; Central: skip validation; Firmware: silently apply invalid values |
+| `RML-CAP-006` | GW QoS scheduler deployment tuning（preset / expert override） | `Central`（runtime deployment config truth） | Firmware: execute + final validation guard; App: role-gated editor UX; Spec-pack: contract/schema semantics | App: save invalid config; Central: skip validation; Firmware: silently apply invalid values or self-originate config truth |
 
 > `Conductor` 為 `Conductor / AI Orchestration Layer`（RML-ACT-005）的 shorthand。
 

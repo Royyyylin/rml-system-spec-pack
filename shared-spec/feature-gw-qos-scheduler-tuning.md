@@ -61,7 +61,7 @@ Engineering / admin mode 可開放自訂 table：
 | **Spec-pack** | Cross-repo contract: preset definitions, expert override schema, validation rules, ownership boundary |
 | **Central** | Canonical runtime deployment value: stores active preset or override per GW; validation enforcement; audit log |
 | **App** | Role-gated editor UX: preset selector in normal mode, expert override in engineering/admin mode; red error display for invalid config; disabled Save/Apply on validation failure |
-| **Firmware** | Safe application: applies received config to scheduler; final validation guard; rejects invalid values with reason; falls back to `balanced` preset if no config received |
+| **Firmware** | Safe application: applies received config to scheduler; final validation guard; rejects invalid values with reason and keeps last-known-good config; falls back to `balanced` preset only at boot when no valid config has ever been received |
 
 ### Role Model
 

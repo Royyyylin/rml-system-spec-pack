@@ -32,7 +32,7 @@
 1. **Wire protocol**：決定 apply path（CMD_V2 extension / new GATT char / Central sync）
 2. **Apply logic**：`gw_qos_calc_interval()` 改為讀 runtime config 而非 hardcoded table
 3. **Final guard**：firmware-side validate TUNE-VAL-001~005；reject invalid + report reason
-4. **Fallback**：若無 config 或 config invalid → fall back to `balanced` preset
+4. **Fallback**：invalid config → reject + reason + keep last-known-good；boot 時無有效 config → `balanced` preset
 5. **Update `ble_api.yaml`**：若走 GATT path，需新增 characteristic entry
 
 ## Gates
