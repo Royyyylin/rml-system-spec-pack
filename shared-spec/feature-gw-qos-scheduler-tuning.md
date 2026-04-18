@@ -54,6 +54,47 @@ Engineering / admin mode 可開放自訂 table：
 | `TUNE-VAL-005` | Firmware must **reject** invalid applied config and report reason via `CMD_RESULT` or equivalent feedback |
 | `TUNE-VAL-006` | Intervals should be non-decreasing (`i1 <= i2 <= i3 <= i4`）— warning if violated, not hard reject |
 
+## Design Rationale & Use Case
+
+### Motivation（為什麼要做）
+
+本 spec 的起點是 2026-04-17 的 hardcode audit（`findings-missing-config.md` finding #4）。`gw_qos_calc_interval()` 在 `src/gw_qos.c:425-428` 的 step table 硬編碼如下：`n<=3→80, n<=5→160, n<=8→400, else→800`。
+
+核心問題不是「值錯了」，而是 **config coupling**：`n <= 8` 邊界默默假設 `CONFIG_BLE_QOS_MAX_ED = 8`。若 MAX_ED 被改成 12，step table 不會跟著調整，第 9–12 台 ED 會直接落進 800（1 秒 interval）而不觸發任何 warning。
+
+初始分析（AQ3）建議 Option A（BUILD_ASSERT + document）。F-04 升級成 Option B（runtime preset），根本原因是：同一批 firmware 需部署到不同 site，不同 site 對 BLE 回應速度與併發容量有不同的 tradeoff，BUILD_ASSERT 解不了現場調校需求。決策詳見 `--base-dir/docs/decisions/2026-04-18-f04-runtime-preset-over-build-assert.md`。
+
+### Use Case Narrative（使用情境）
+
+Engineer 部署完某 site，實際運行後從 telemetry 發現某台 GW 的 QoS 不理想（ED 短斷線重連、延遲偏高、radio overload）。Engineer 判斷現有的 `balanced` preset 不適合這個 site 的 ED 密度或無線環境，於是用 App 連上該 GW、PIN ENG_UNLOCK 解鎖，切換到 `aggressive` 或 `conservative`。
+
+App 做即時 UX validation（順序錯、範圍錯就顯示紅字並鎖定 Save 按鈕），送得出去的 config 由 Central 記錄 audit + revision，Firmware 收到後做 final guard validation 才真的套用。Engineer 再觀察 telemetry 確認改善。
+
+**目標使用者**：field engineer（L3），需 PIN ENG_UNLOCK 解鎖；L1 巡視人員完全不碰此功能。
+
+### Preset 語意（三個完整 tradeoff）
+
+| Preset | Cutoffs (c1/c2/c3) | Intervals (i1/i2/i3/i4, BLE units) | 適用場景 |
+|---|---|---|---|
+| `balanced` | 3 / 5 / 8 | 80 / 160 / 400 / 800 | 預設值；保持現行 hardcode 行為；boot fallback |
+| `conservative` | 2 / 4 / 6 | 80 / 80 / 160 / 400 | 連線品質優先，短 interval 為主；ED 少、回應要快 |
+| `aggressive` | 4 / 6 / 10 | 80 / 160 / 400 / 400 | 併發容量優先；最高 tier 壓到 400，犧牲少量 ED 低端回應速度 |
+
+### Preset + Expert Override 兩層設計
+
+- **Preset 層**：給不熟悉 BLE scheduling 細節的 engineer 用。三個完整 tradeoff 涵蓋多數現場情境，降低操作錯誤風險
+- **Expert override 層**：給熟悉 domain 的 engineer 用，可自訂 cutoff + interval。但受 App UX validation、Central authority validation、Firmware final guard 三層保護，不會因手誤搞壞系統
+
+### Defense-in-depth 三層（TUNE-VAL-001~006 各層獨立跑）
+
+| 層 | 職責 | 觸發時機 |
+|---|---|---|
+| App | UX validation（紅字 + 鎖定 Save） | 使用者輸入當下 |
+| Central | authority validation + audit + revision | PUT API 進來時 |
+| Firmware | final guard + last-known-good fallback | CMD_V2 0x07 write 進來時 |
+
+同一組 TUNE-VAL 規則在三層各跑一次（defense-in-depth）。
+
 ## Ownership Boundary
 
 | Owner | Responsibility |

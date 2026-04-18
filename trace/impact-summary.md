@@ -161,6 +161,18 @@ P0 bundle — 補 evidence basis、compare gate、trace links；不發明 upstre
 - Async command timeout 暫以 `30s` 作為驗收假設
 - `ROSTER_LIST` 足以支撐 runtime attach 對映；若 firmware schema 擴充，需回寫 `PKT-004`
 
+## F-04 Design Rationale Crystallization (2026-04-18)
+
+### shared-spec/feature-gw-qos-scheduler-tuning.md
+- 新增 `Design Rationale & Use Case` section（位於 Ownership Boundary 之前）
+- 記錄 hardcode audit finding #4 的 config coupling 根因分析
+- 補充 Use Case Narrative（engineer 調校情境）、三個 preset 的完整 tradeoff 語意
+- 明文化 preset + expert override 兩層設計理由
+- 補充 defense-in-depth 三層（App / Central / Firmware）各跑 TUNE-VAL-001~006 的觸發時機
+
+### --base-dir/docs/decisions/2026-04-18-f04-runtime-preset-over-build-assert.md（新建）
+- ADR：記錄 AQ3 Option A（BUILD_ASSERT）→ F-04 Option B（runtime preset）升級的 context、decision、consequences、alternatives
+
 ## TODOs
 
 - 導入 desktop 正式來源後補 `desktop-spec/`
