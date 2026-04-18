@@ -17,7 +17,9 @@
 | Central alias precedence | `central-device-metadata/docs/specs/alias-sync-spec.md` |
 | GW QoS scheduler tuning — contract semantics | `rml-system-spec-pack/shared-spec/feature-gw-qos-scheduler-tuning.md` |
 | GW QoS scheduler tuning — runtime config truth | `central-device-metadata` DB/API（canonical deployment value per GW） |
-| GW QoS scheduler tuning — wire/GATT apply protocol | `ble_qos_demo_V1.2m/ble_api.yaml`（when apply protocol lands；目前尚無） |
+| GW QoS scheduler tuning — wire/GATT apply protocol | `ble_qos_demo_V1.2m/ble_api.yaml`（CMD_V2 opcode 0x07 decided；pending `ble_api.yaml` formal entry） |
+| GW QoS extension boundary（config apply vs telemetry profiling） | `rml-system-spec-pack/shared-spec/feature-gw-qos-extension-boundary.md` |
+| Telemetry Profiling catalog / schema（future） | 未定義 — 未來需獨立 SSOT，不歸 F-04 |
 
 ## Pack Sources
 

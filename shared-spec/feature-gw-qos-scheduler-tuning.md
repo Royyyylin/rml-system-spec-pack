@@ -79,24 +79,17 @@ Engineering / admin mode 可開放自訂 table：
 
 ## Audit Expectation
 
-Preset / override changes should record：
-- Actor（who initiated the change）
-- Timestamp
-- Previous value（preset name or full override table）
-- New value
-- Reason / comment（if available）
-
-Audit canonical owner: **Central**（consistent with `RML-CAP-001`）。
+Preset / override changes record actor, timestamp, previous/new value, reason。Audit canonical owner: **Central**（consistent with `RML-CAP-001`）。
 
 ## Wire / Apply Protocol
 
-目前 firmware 的 interval table 無 wire apply path。當 wire protocol 落地時：
-- Wire SSOT 仍為 `ble_qos_demo_V1.2m/ble_api.yaml`
-- 可能走 `CMD_V2` extension 或新增 dedicated GATT characteristic
-- 本 spec 不預定 wire encoding — 留給 firmware owner 設計
+Firmware owner 決定走 CMD_V2 opcode 0x07 SET_SCHED_TUNE（radio-minimal apply）。Wire SSOT：`ble_api.yaml`。詳見 firmware handoff `f-04-fw-apply-protocol-decision/`。
+
+## Extension Boundary
+
+F-04 限於 scheduler tuning config apply。Telemetry profiling（可選 field / experiment）是獨立 domain。App 只能選 Central catalog predefined fields，Firmware 只接受 known profile_id / bitmask。詳見 [feature-gw-qos-extension-boundary.md](feature-gw-qos-extension-boundary.md)。
 
 ## References
 
 - Firmware audit: `ble_qos_demo_V1.2m/docs/handoffs/2026-04-17-config-ssot-hardcode-audit/`
-- Current implementation: `ble_qos_demo_V1.2m/src/gw_qos.c` `gw_qos_calc_interval()`
 - Capability ownership: [capability-ownership.md](capability-ownership.md)

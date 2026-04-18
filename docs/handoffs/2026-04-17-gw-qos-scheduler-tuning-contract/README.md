@@ -48,3 +48,7 @@
 - App UI 實作
 - Wire encoding 設計
 - Acceptance criteria / test cases（待 contract review 通過後補）
+
+## Future Independent Domain — Telemetry Profiling
+
+PER / channel interference detection / telemetry field selection 是獨立 domain，不可塞進 F-04 CMD_V2 0x07。App 選欄位必須從 Central catalog predefined fields 勾選，Firmware 只接受 known profile_id / bitmask。詳見 `shared-spec/feature-gw-qos-extension-boundary.md`。
