@@ -130,7 +130,22 @@ Firmware owner 決定走 CMD_V2 opcode 0x07 SET_SCHED_TUNE（radio-minimal apply
 
 F-04 限於 scheduler tuning config apply。Telemetry profiling（可選 field / experiment）是獨立 domain。App 只能選 Central catalog predefined fields，Firmware 只接受 known profile_id / bitmask。詳見 [feature-gw-qos-extension-boundary.md](feature-gw-qos-extension-boundary.md)。
 
+## CMD_V2 Timeout Contract
+
+App-side timeout when waiting for CMD_V2 opcode 0x07 SET_SCHED_TUNE `CMD_RESULT` notify:
+
+| Parameter | Value | SSOT |
+|---|---|---|
+| Wait timeout | 10 000 ms | `ble_api.yaml:system_constants.CMD_V2_TIMEOUT_MS` |
+| Retry count | 1 | `ble_api.yaml:system_constants.CMD_V2_RETRY_COUNT` |
+| Retry backoff | 500 ms | `ble_api.yaml:system_constants.CMD_V2_RETRY_BACKOFF_MS` |
+
+Rationale: async operations (CONNECT_ED, DISCONNECT_ED) complete in < 5 s under normal BLE conditions. 10 s provides headroom for congested radio environments. 1 retry covers transient BLE stack glitches. Firmware dedup (per F-04 RAN) prevents duplicate applies when App retries.
+
+Do not hardcode timeout values in App or Central — always reference the generated constants derived from `ble_api.yaml`.
+
 ## References
 
 - Firmware audit: `ble_qos_demo_V1.2m/docs/handoffs/2026-04-17-config-ssot-hardcode-audit/`
 - Capability ownership: [capability-ownership.md](capability-ownership.md)
+- SSOT: `ble_qos_demo_V1.2m/ble_api.yaml` sections `system_constants`, `presets`, `tune_val_rules`
