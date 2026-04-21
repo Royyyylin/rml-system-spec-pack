@@ -1,0 +1,95 @@
+# Market Compliance Matrix — Cross-Repo Responsibility Split
+
+> Firmware profile Kconfig SSOT: firmware repo `Kconfig` —
+> `menu "Market Compliance Profile"`.
+> Firmware spec detail: firmware `docs/specs/market-compliance-profiles.md`.
+
+This file defines **which repo owns which compliance obligation** for each
+standard across the three-repo system (firmware / central / app).
+
+## Responsibility Legend
+
+| Symbol | Meaning |
+|--------|---------|
+| **OWN** | Repo owns the implementation and test gate |
+| **SUP** | Repo supplies data / API that another repo consumes |
+| **PROC** | Company-process obligation; no code change required |
+| **N/A** | Standard does not apply to this repo |
+
+---
+
+## Process Industry (ISA-18.2 + OPC UA A&C + ISA-62443 SL2)
+
+| Obligation | Firmware | Central | App |
+|------------|----------|---------|-----|
+| Alarm priority 4-tier in data payload | **OWN** (EVT characteristic) | SUP (pass-through) | SUP (display) |
+| Alarm acknowledge round-trip | **OWN** (EVT indicate + GATT ack) | **OWN** (persistence) | **OWN** (UI ack button) |
+| OPC UA A&C server translation | SUP (EVT data) | **OWN** (OPC UA server) | N/A |
+| ISA-62443 SL2 authenticated BLE session | **OWN** | N/A | **OWN** (pairing flow) |
+| ISA-62443 SL2 audit log (event timestamps) | **OWN** (NVS ring) | **OWN** (persist + query) | SUP (display) |
+| Alarm rationalization (company SOP) | PROC | PROC | PROC |
+
+---
+
+## Power Substation (+ IEC 61850 + IEC 62351)
+
+| Obligation | Firmware | Central | App |
+|------------|----------|---------|-----|
+| IEC 61850 LN-compatible data naming | **OWN** (field naming in EVT/METRICS) | **OWN** (LN mapping layer) | N/A |
+| IEC 61850 conformance test | PROC | **OWN** (server under test) | N/A |
+| IEC 62351 RBAC — PEER_ROLE values | **OWN** (GATT PEER_ROLE encoding) | **OWN** (role enforcement) | **OWN** (role selection UI) |
+| IEC 62351 penetration test | PROC | PROC | PROC |
+
+---
+
+## Railway SIL 2 (EN 50128 + EN 50155)
+
+| Obligation | Firmware | Central | App |
+|------------|----------|---------|-----|
+| EN 50128 SIL 2 — requirements traceability (RTM) | **OWN** (docs/specs/RTM) | **OWN** | **OWN** |
+| EN 50128 — MISRA-C:2012 compliance | **OWN** (CI scan gate) | N/A | N/A |
+| EN 50128 — unit test coverage ≥ 80% | **OWN** (CI coverage gate) | **OWN** | **OWN** |
+| EN 50155 — watchdog + recovery | **OWN** | N/A | N/A |
+| Independent Safety Assessor (ISA) | PROC | PROC | PROC |
+| NSA type approval | PROC | PROC | PROC |
+
+---
+
+## Automotive Aftermarket (ISO 21434 + UNECE R155)
+
+| Obligation | Firmware | Central | App |
+|------------|----------|---------|-----|
+| FOTA signature verification | **OWN** | SUP (key distribution) | N/A |
+| Build hash in GATT DEVICE_INFO | **OWN** (already impl.) | N/A | N/A |
+| Event log (CSMS audit export) | **OWN** (NVS ring) | **OWN** (CSMS API) | N/A |
+| BLE session idle timeout | **OWN** (GW_CFG timeout field) | N/A | **OWN** (enforce in pairing) |
+| TARA (Threat Analysis and Risk Assessment) | PROC | PROC | PROC |
+| CSMS documentation for UNECE R155 | PROC | PROC | PROC |
+
+---
+
+## Medical Class B (IEC 62304 + IEC 60601-1 + ISO 14971)
+
+| Obligation | Firmware | Central | App |
+|------------|----------|---------|-----|
+| IEC 62304 Class B — anomaly log in NVS | **OWN** | N/A | N/A |
+| IEC 62304 — version traceability (git hash) | **OWN** (FW_VERSION char.) | **OWN** (fleet record) | SUP (display) |
+| IEC 62304 — unit test coverage gate | **OWN** | **OWN** | **OWN** |
+| ISO 14971 — risk file update per change | PROC | PROC | PROC |
+| IEC 60601-1 — electrical safety (HW test) | PROC | N/A | N/A |
+| ISO 13485 QMS | PROC | PROC | PROC |
+| FDA 510(k) / CE MDR submission | PROC | PROC | PROC |
+
+---
+
+## Aerospace DAL D (DO-178C + DO-160)
+
+| Obligation | Firmware | Central | App |
+|------------|----------|---------|-----|
+| DO-178C DAL D — RTM maintenance | **OWN** | **OWN** | **OWN** |
+| DO-178C — code review checklist (PR gate) | **OWN** | **OWN** | **OWN** |
+| DO-178C — Software Accomplishment Summary (SAS) | PROC | PROC | PROC |
+| DO-160 — watchdog + power-loss-safe NVS | **OWN** (already impl.) | N/A | N/A |
+| DO-160 — HW environmental qualification | PROC | N/A | N/A |
+| DER / EASA DOA engagement | PROC | PROC | PROC |
+| Airline LFA / STC | PROC | N/A | N/A |
