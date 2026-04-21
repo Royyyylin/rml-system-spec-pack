@@ -93,3 +93,51 @@ standard across the three-repo system (firmware / central / app).
 | DO-160 — HW environmental qualification | PROC | N/A | N/A |
 | DER / EASA DOA engagement | PROC | PROC | PROC |
 | Airline LFA / STC | PROC | N/A | N/A |
+
+---
+
+## Semiconductor Fab (SECS/GEM + SEMI E10/E30/E37 + ISO 14644)
+
+| Obligation | Firmware | Central | App |
+|------------|----------|---------|-----|
+| E10 RAM state codes in EVT payload | **OWN** (EVT characteristic payload structure) | **OWN** (GEM CEID mapping layer) | N/A |
+| GEM SVID-compatible METRICS field naming | **OWN** (field naming in METRICS characteristic) | **OWN** (HSMS translation) | N/A |
+| SECS-II / HSMS (E37) host connectivity | SUP (data source) | **OWN** (protocol gateway) | N/A |
+| GEM conformance test (E30) | SUP (EVT/METRICS data) | **OWN** (GEM server under test) | N/A |
+| ISO 14644 low-outgassing BOM review | PROC | N/A | N/A |
+| ESD packaging and handling SOP | PROC | N/A | N/A |
+| ISA/IEC 62443 SL 1 — authenticated pairing | **OWN** | N/A | **OWN** (pairing flow) |
+| Firmware version → GEM EC SoftRev | **OWN** (FW_VERSION characteristic) | **OWN** (fleet record) | SUP (display) |
+
+---
+
+## Pharma GMP (FDA 21 CFR Part 11 + GAMP 5 + ISO 13485)
+
+| Obligation | Firmware | Central | App |
+|------------|----------|---------|-----|
+| 21 CFR Part 11 — tamper-evident audit log (append-only) | **OWN** (NVS ring buffer, append-only) | **OWN** (persist + immutable export) | SUP (display) |
+| 21 CFR Part 11 — operator ID in audit log | **OWN** (ENG_UNLOCK PIN as operator token) | **OWN** (full e-signature workflow) | **OWN** (two-factor UI) |
+| 21 CFR Part 11 — timestamp synchronization audit | **OWN** (clock drift anomaly log) | **OWN** (NTP authority) | N/A |
+| 21 CFR Part 11 — e-signature (reason + meaning) | PROC (hook via ENG_UNLOCK PIN) | PROC | **OWN** (full CFR workflow in UI) |
+| Cold-chain excursion alert (EVT indicate) | **OWN** (already supported by EVT alarm path) | **OWN** (persist + notify) | **OWN** (excursion UI + push) |
+| GAMP 5 — FRS / DS document artefacts | PROC | PROC | PROC |
+| GAMP 5 — IQ / OQ / PQ validation | PROC (supplier DS + test records) | PROC | PROC |
+| EU GMP Annex 11 — supplier assessment | PROC | PROC | PROC |
+| ISO 14644 cleanroom class 5-8 packaging | PROC | N/A | N/A |
+| Calibration records (NIST-traceable sensors) | PROC | N/A | N/A |
+
+---
+
+## Oil & Gas ATEX (IECEx Zone 1/2 + ATEX Cat 2/3G + API RP)
+
+| Obligation | Firmware | Central | App |
+|------------|----------|---------|-----|
+| ATEX profile marker in FW_VERSION | **OWN** (version string encoding) | **OWN** (fleet gate: reject non-ATEX build to Zone 1 devices) | N/A |
+| TX power cap within IECEx certified energy limit | **OWN** (QoS Zone TX power cap for ATEX build) | N/A | N/A |
+| Safe-state on fatal error (TX off ≤ 100 ms) | **OWN** | N/A | N/A |
+| FOTA rejection in Zone 1 (hot-work permit gate) | **OWN** (deferred; Kconfig flag only in this release) | **OWN** (hot-work permit API) | **OWN** (permit UI workflow) |
+| ISA/IEC 62443 SL 1 — authenticated pairing | **OWN** | N/A | **OWN** (pairing flow) |
+| ATEX-certified HW module selection | PROC | N/A | N/A |
+| IECEx / ATEX Notified Body assessment | PROC | N/A | N/A |
+| API RP 500 / RP 14C area classification | PROC | N/A | N/A |
+| Intrinsically safe barrier (associated apparatus) | PROC | N/A | N/A |
