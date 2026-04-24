@@ -20,9 +20,9 @@
 
 ---
 
-## 2. A2 實作路線 → 拆 4 Sub-Feature
+## 2. A2 實作路線 → 4 Sub-Feature × 3 Role Matrix（finding-09 更新）
 
-**決定**：A2 拆分為 4 個獨立 sub-feature，按序實作。
+**決定**：A2 拆分為 4 個獨立 sub-feature，按序實作；並區分 GW / ED / CC 三角色的 profile。
 
 | Sub-Feature | 功能 | 依賴 |
 |-------------|------|------|
@@ -31,15 +31,24 @@
 | **F-A2-POLICY** | 多維度決策引擎（channel map / interval / TX power / PHY） | F-A2-METRICS |
 | **F-A2-CONTROL** | SDC API 執行、TX power 聯動 channel manager、FCC 合規強制 | F-A2-POLICY |
 
+**三角色 profile**：優先實作 GW 版本（full），ED / CC 共用 50-100% 的 core framework，
+policy 和 control 依角色差異化（ED 60% 共用，CC 30% 共用）。
+不需要 12 份獨立 spec；整體實作量 ≈ 1.5× 單角色工作量。
+
 **對應第二份報告 10 milestone**：Milestone 1-3（PoC）對應 F-A2-INGEST/METRICS，Milestone 4-7 對應 F-A2-POLICY/CONTROL。
 
 ---
 
-## 3. p99 驗收目標 → 20ms 合理
+## 3. p99 驗收目標 → 20ms（GW 定義，finding-09 補加角色說明）
 
 **決定**：第一代 p99 驗收標準定為 20ms，10ms 列為第二代 stretch goal。
 
-**理由**：
+**角色說明（finding-09 補充）**：
+- **20ms 是 GW-to-Phone/Central system-level p99**：GW 作為 central，管理 8 ED + 1 Phone 連線的端對端延遲
+- **ED p99**：由 GW QoS 決策決定；ED 自身無 p99 authority，不獨立驗收
+- **CC p99**：transport reliability 優先；CC 作為 bridge，指標為 throughput / packet loss，不直接套用 20ms
+
+**共同理由**：
 - 業界傳統 BLE 實測：15-30ms（clean 環境），50-100ms（干擾環境）
 - 20ms 對應 clean 環境下限，需要 A2 主動 QoS 介入才能在有干擾環境達標
 - 10ms 需要 BT 6.2 SCI + nRF54L15，超出第一代硬體能力（見 finding-06、finding-08）
