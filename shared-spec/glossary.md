@@ -10,17 +10,19 @@
 | Central | Backend system | canonical truth (identity, assignment, metadata) | central-device-metadata |
 | Mobile / App | Phone client | local view state + Central offline cache | ble_qos_app |
 
-## 韌體 Role Enum
+## 韌體 Role Enum (NVS 儲存值)
 
-衍生自韌體 `CLAUDE.md` 「角色系統」區塊（NVS 儲存，手機透過 Config GATT Service 寫入）：
+衍生自 `ble_qos_demo_V1.2m/ble_api.yaml:nvs_roles` SSOT（codegen → `src/generated/nvs_roles.h`）：
 
 | Constant | Value | Description |
 |---|---|---|
-| APP_ROLE_UNPROVISIONED | 0 | 尚未配置 |
-| APP_ROLE_END_DEVICE | 1 | ED 角色 |
-| APP_ROLE_GATEWAY | 2 | GW 角色 |
-| APP_ROLE_REPEATER | 3 | reserved |
-| APP_ROLE_CC | 4 | CC bridge 角色 |
+| `NVS_ROLE_END_DEVICE` | 0x00 | ED 角色 |
+| `NVS_ROLE_GATEWAY` | 0x01 | GW 角色 |
+| `NVS_ROLE_REPEATER` | 0x02 | reserved（未實作）|
+| `NVS_ROLE_RESERVED_3` | 0x03 | reserved |
+| `NVS_ROLE_CC` | 0x04 | CC bridge 角色 |
+
+注意：App side 用 `APP_ROLE_*` 命名（值不同，從 0 連續），不可混用。
 
 ## Spec ID 命名規範
 

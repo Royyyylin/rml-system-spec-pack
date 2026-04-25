@@ -22,6 +22,13 @@
 | [[rml-lite\|rml-lite]] | RML Lite | active | spec-pack |
 | [[x1-cross-repo-wire-parity-plan\|X-1-plan]] | X-1 Cross-Repo Wire Parity Plan | active | spec-pack |
 | [[x1-cross-repo-wire-parity-spec\|X-1-spec]] | X-1 Cross-Repo Wire Parity Spec | active | spec-pack |
+| [[market-compliance-matrix\|market-compliance-matrix]] | Market Compliance Matrix — per-market cert & regulatory obligation matrix | active | spec-pack |
+| [[s1-ac-catalog\|s1-ac-catalog]] | S-1 Acceptance Criteria Catalog — system-level AC 條目總覽 | active | spec-pack |
+| [[s2-tc-matrix\|s2-tc-matrix]] | S-2 Test Case Matrix — AC↔TC 對應矩陣 | active | spec-pack |
+| [[s3-cross-repo-trace-strategy\|s3-cross-repo-trace-strategy]] | S-3 Cross-Repo Trace Strategy — requirement→AC→TC→impl 跨 repo 追溯策略 | active | spec-pack |
+
+> ⚠️ bdd-flows.md（2026-04-23 task #23 計畫）— scope 調整 deferred；
+> 跨 repo BDD 範例請參考 firmware `docs/spec/01_firmware/features/F-LOG-BITMAP/bdd/scenarios.feature`
 
 ## Cross-references
 
