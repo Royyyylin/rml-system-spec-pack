@@ -204,11 +204,24 @@ rml-system-spec-pack/shared-spec/feature-gw-qos-scheduler-tuning.md (cross-repo 
 4. Spec-pack owner reviews trace_map.yaml updates from all repos via cross-repo PR review.
 5. `check-trace-coverage.py` is run in CI (non-blocking warning until coverage > 80%).
 
+## Dual-Layer TC Location
+
+TC files live in two complementary locations; both are canonical for their respective scope:
+
+| Layer | Location | Purpose |
+| :--- | :--- | :--- |
+| **System-level TC matrix** | `05_quality-acceptance/tc-matrix.md` (this repo) | cross-repo acceptance requirements, single source of system-wide TC IDs |
+| **Repo-local TC impl** | `<each-repo>/docs/specs/` or `/tests/` | per-repo implementation-level test code; references TC IDs from system layer |
+
+Rules:
+- TC IDs are **assigned in `05_quality-acceptance/tc-matrix.md`** — repo-local files must use the same ID
+- A TC is `repo_done` when repo-local impl passes; `cross_repo_done` only when all consumer repos pass
+- `check-trace-coverage.py` validates that every system TC ID has at least one repo-local reference
+
 ## References
 
-- S-1 AC catalog: `rml-system-spec-pack/shared-spec/s1-ac-catalog.md`
-- S-2 TC matrix: `rml-system-spec-pack/shared-spec/s2-tc-matrix.md`
+- S-1 AC catalog: [../05_quality-acceptance/ac-catalog.md](../05_quality-acceptance/ac-catalog.md)
+- S-2 TC matrix: [../05_quality-acceptance/tc-matrix.md](../05_quality-acceptance/tc-matrix.md)
 - Trace map SSOT: `--base-dir/docs/trace_map.yaml`
 - FW-3A spec trace map: `--base-dir/docs/specs/fw-3a-cmd-v2-length-guard.md#trace-map-req--ac--tc--impl`
-- F-04 spec: `rml-system-spec-pack/shared-spec/feature-gw-qos-scheduler-tuning.md`
 - Coverage tool: `--base-dir/tools/check-trace-coverage.py`
