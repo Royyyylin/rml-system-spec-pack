@@ -15,7 +15,7 @@
 | `expert override` | Custom cutoff/interval table provided by engineer. 16-byte CMD_V2 payload. Validated by TUNE-VAL-001~003. | `feature-gw-qos-scheduler-tuning.md` §Expert Override |
 | `CMD_V2 0x07 SET_SCHED_TUNE` | BLE GATT CMD_V2 opcode for sending preset or expert override to GW. 4B (preset) or 16B (override). | `ble_api.yaml` → opcodes.0x07 |
 | `TUNE-VAL reject code` | CMD_RESULT status code sent by Firmware when TUNE-VAL final guard rejects config. | `ble_api.yaml` → cmd_v2_reject_codes |
-| `NVS last-known-good (LKG)` | NVS key `qos/sched_tune`: persists last accepted preset/override. Restored on boot. Falls back to balanced if corrupt. | `docs/specs/fw4-nvs-last-known-good-fallback.md` |
+| `NVS last-known-good (LKG)` | NVS key `qos/sched_tune`: persists last accepted preset/override. Restored on boot. Falls back to balanced if corrupt. | `ble_qos_demo_V1.2m/docs/02_sdd/firmware-fw4-impl.md` |
 | `gw_qos_calc_interval()` | GW firmware function computing BLE connection interval from ED count using preset step table. Hardcode audit finding #4 origin. | `src/gw_qos.c` |
 | `config coupling` | Root cause of F-04: `gw_qos_calc_interval()` step table implicitly assumed `MAX_ED=8`; changing `MAX_ED` would silently break scheduling. | `feature-gw-qos-scheduler-tuning.md` §Design Rationale |
 

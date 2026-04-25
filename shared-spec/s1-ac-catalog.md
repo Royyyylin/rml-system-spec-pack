@@ -78,7 +78,7 @@ Spec ref: `rml-system-spec-pack/app-spec/acceptance_criteria.md`
 
 ### Central — W26A Failback Command Service
 
-Spec ref: `central-device-metadata/.claude/worktrees/agent-a12f9840/docs/specs/failback-command-service-spec.md`
+Spec ref: `central-device-metadata/docs/specs/failback-command-service-spec.md`
 
 | AC ID | REQ | Description | Owner Repo | Status | TC count |
 |---|---|---|---|---|---|
@@ -144,7 +144,7 @@ Spec ref: `central-device-metadata/docs/specs/c2-integration-test-qos-tuning.md`
 - FW-3A spec: `--base-dir/docs/specs/fw-3a-cmd-v2-length-guard.md`
 - F-04 spec: `rml-system-spec-pack/shared-spec/feature-gw-qos-scheduler-tuning.md`
 - App-spec ACs: `rml-system-spec-pack/app-spec/acceptance_criteria.md`
-- W26A failback spec: `central-device-metadata/docs/specs/failback-command-service-spec.md` (via worktree)
+- W26A failback spec: `central-device-metadata/docs/specs/failback-command-service-spec.md`
 - C-2 integration spec: `central-device-metadata/docs/specs/c2-integration-test-qos-tuning.md`
 - Trace map: `--base-dir/docs/trace_map.yaml`
 - S-2 TC matrix: `rml-system-spec-pack/shared-spec/s2-tc-matrix.md`
