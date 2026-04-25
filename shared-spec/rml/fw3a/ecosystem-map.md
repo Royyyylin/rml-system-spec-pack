@@ -1,7 +1,7 @@
 # Ecosystem Map — FW-3A: CMD_V2 Per-Opcode Length Guard
 
 > Wave: FW-3A (Firmware spec phase; subset of F-04 firmware work)
-> Source: `ble_qos_demo_V1.2m/docs/spec/01_firmware/fw3b-impl.md` §1 Context (FW-3A prerequisite)
+> Source: `ble_qos_demo_V1.2m/docs/02_sdd/firmware-fw3b-impl.md` §1 Context (FW-3A prerequisite)
 > Relationship: FW-3A frozen → FW-3B can start (`0x07` handler)
 
 ```mermaid
