@@ -28,7 +28,7 @@
 | [[s3-cross-repo-trace-strategy\|s3-cross-repo-trace-strategy]] | S-3 Cross-Repo Trace Strategy — requirement→AC→TC→impl 跨 repo 追溯策略 | active | spec-pack |
 
 > ⚠️ bdd-flows.md（2026-04-23 task #23 計畫）— scope 調整 deferred；
-> 跨 repo BDD 範例請參考 firmware `docs/spec/01_firmware/features/F-LOG-BITMAP/bdd/scenarios.feature`
+> 跨 repo BDD 範例請參考 firmware `docs/features/F-LOG-BITMAP/bdd/scenarios.feature`
 
 ## Cross-references
 
