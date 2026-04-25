@@ -1,5 +1,7 @@
 # SDLC Pipeline — BLE QoS Demo 系統規範
 
+> arc42 §4 — Solution Strategy (SDLC pipeline).
+> renamed from: shared-spec/sdlc.md (git mv).
 > 本文定義從行為需求到硬體驗證的七階段開發流程。
 > 數值（timeout、門檻）以引用方式指向 SSOT，不硬編碼。
 

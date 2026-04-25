@@ -1,0 +1,136 @@
+# Machine-readable authority boundary (DDD bounded context, AI/CI queryable)
+# Source of truth: 02_solution-strategy/capability-map.md (human-readable narrative)
+# Usage: yaml.load() query authority per domain; CI vocabulary check
+# Schema version: 1.0
+# Updated: 2026-04-25
+# ADR reference: 99_appendix/decisions/ADR-000-spec-authority-model.md (prescriptive enforcement)
+
+boundaries:
+  - id: RML-CAP-001
+    domain: canonical_identity
+    description: Canonical identity, assignment, metadata, auth, audit, sync truth
+    authority: central
+    consumers:
+      - app
+      - firmware
+      - spec-pack
+    consumers_may:
+      - consume
+      - cache
+      - display
+      - validate
+    must_not:
+      - app
+      - firmware
+    must_not_actions:
+      - redefine gw_id / ed_id
+      - redefine assignment truth
+      - redefine RBAC policy
+
+  - id: RML-CAP-002
+    domain: runtime_observation
+    description: Runtime telemetry, QoS measurement, failover execution, radio behavior, device-side recovery
+    authority: firmware
+    consumers:
+      - app
+      - central
+      - spec-pack
+    consumers_may:
+      - ingest
+      - display
+      - diagnose
+      - correlate
+    must_not:
+      - app
+      - central
+    must_not_actions:
+      - claim first-hand runtime truth
+      - rewrite device observation
+
+  - id: RML-CAP-003
+    domain: interaction_semantics
+    description: Human-facing interaction, presentation semantics, pending/error UX, local view state
+    authority: app
+    consumers:
+      - central
+      - firmware
+    consumers_may:
+      - publish backend data
+      - execute device command
+      - expose policy result
+    must_not:
+      - central
+      - firmware
+    must_not_actions:
+      - equate backend/firmware truth with UI truth
+      - elevate local UI state to system truth
+
+  - id: RML-CAP-004
+    domain: wire_contract
+    description: GATT / wire contract, opcode, payload field semantics
+    authority: firmware
+    ssot: ble_qos_demo_V1.2m/ble_api.yaml
+    consumers:
+      - app
+      - central
+      - spec-pack
+    consumers_may:
+      - derive docs
+      - build parser
+      - build UI
+      - build ingest logic
+    must_not:
+      - app
+      - central
+    must_not_actions:
+      - invent wire enum
+      - invent UUID
+      - invent opcode
+      - invent payload meaning
+
+  - id: RML-CAP-005
+    domain: orchestration
+    description: Cross-repo planning, dispatch, queue/gate governance, handoff, evidence index
+    authority: conductor
+    consumers:
+      - central
+      - app
+      - firmware
+      - spec-pack
+    consumers_may:
+      - reference
+      - review
+      - execute repo-local work
+    must_not:
+      - conductor
+    must_not_actions:
+      - replace repo SSOT
+      - rewrite repo technical truth
+      - act as runtime authority
+
+  - id: RML-CAP-006
+    domain: qos_scheduler_config
+    description: GW QoS scheduler deployment tuning (preset / expert override)
+    authority: central
+    note: Central owns runtime deployment config truth; Firmware executes + validates; App provides role-gated editor UX
+    consumers:
+      - firmware
+      - app
+    consumers_may:
+      firmware:
+        - execute preset
+        - perform final validation guard
+      app:
+        - provide role-gated editor UX
+    must_not:
+      - app
+      - central
+      - firmware
+    must_not_actions:
+      app:
+        - save invalid config
+      central:
+        - skip validation
+      firmware:
+        - silently apply invalid values
+        - self-originate config truth
