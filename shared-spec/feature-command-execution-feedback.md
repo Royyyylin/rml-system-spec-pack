@@ -108,4 +108,4 @@ Diagram render: [feature-command-execution-feedback.svg](/Users/create94520/Proj
 - [app local state](../../ble_qos_app/docs/specs/app-scope/04-local-state.md)
 - [app interface contract](../../ble_qos_app/docs/specs/app-scope/05-interface-contract.md)
 - [central auth sync contract](../../central-device-metadata/docs/specs/central-auth-sync-contract.md)
-- [firmware auth sync contract](../../ble_qos_demo_V1.2m/docs/specs/central-auth-sync-contract.md)
+- [firmware auth sync contract](../../ble_qos_demo_V1.2m/docs/spec/04_protocol/central-auth-sync-contract.md)

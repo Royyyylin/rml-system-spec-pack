@@ -124,4 +124,4 @@ App 至少必須能顯示：
 - [app interface contract](../../ble_qos_app/docs/specs/app-scope/05-interface-contract.md)
 - [central telemetry schema](../../central-device-metadata/docs/specs/telemetry-schema.md)
 - [central auth sync contract](../../central-device-metadata/docs/specs/central-auth-sync-contract.md)
-- [firmware dispatch wire contract](../../ble_qos_demo_V1.2m/docs/specs/dispatch-wire-contract.md)
+- [firmware dispatch wire contract](../../ble_qos_demo_V1.2m/docs/spec/04_protocol/dispatch-wire-contract.md)
