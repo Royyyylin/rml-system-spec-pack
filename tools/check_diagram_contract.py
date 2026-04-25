@@ -8,7 +8,18 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCAN_DIRS = ("shared-spec", "app-spec", "firmware-spec")
+SCAN_DIRS = (
+    "00_introduction-goals",
+    "01_context-scope",
+    "02_solution-strategy",
+    "03_building-blocks",
+    "04_runtime-view",
+    "05_quality-acceptance",
+    "06_crosscutting-integration",
+    "99_appendix",
+    "app-spec",
+    "firmware-spec",
+)
 SUFFIXES = (".d2", ".mmd")
 REQUIRED_KEYS = (
     "ai-diagram",
@@ -87,7 +98,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "paths",
         nargs="*",
-        help="Optional diagram files to check. Defaults to shared-spec/app-spec/firmware-spec.",
+        help="Optional diagram files to check. Defaults to 8 arc42 chapter dirs + app-spec/firmware-spec.",
     )
     return parser.parse_args()
 

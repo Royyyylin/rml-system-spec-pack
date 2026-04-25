@@ -240,7 +240,14 @@ def build_report(
     }
     render_prefix = f"{spec_prefix}renders/"
     source_prefixes = (
-        f"{spec_prefix}shared-spec/",
+        f"{spec_prefix}00_introduction-goals/",
+        f"{spec_prefix}01_context-scope/",
+        f"{spec_prefix}02_solution-strategy/",
+        f"{spec_prefix}03_building-blocks/",
+        f"{spec_prefix}04_runtime-view/",
+        f"{spec_prefix}05_quality-acceptance/",
+        f"{spec_prefix}06_crosscutting-integration/",
+        f"{spec_prefix}99_appendix/",
         f"{spec_prefix}app-spec/",
         f"{spec_prefix}firmware-spec/",
         f"{spec_prefix}trace/",

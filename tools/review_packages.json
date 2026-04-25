@@ -7,7 +7,7 @@
       "diagrams": [
         {
           "id": "01",
-          "source": "shared-spec/system-actors-and-authority.d2",
+          "source": "01_context-scope/system-actors.d2",
           "svg": "renders/system-actors-and-authority.svg",
           "png": "renders/system-actors-and-authority.png",
           "drawio_name": "01-actors-authority-zones.drawio",
@@ -16,7 +16,7 @@
         },
         {
           "id": "02",
-          "source": "shared-spec/session-topology.d2",
+          "source": "03_building-blocks/session-topology.d2",
           "svg": "renders/session-topology.svg",
           "png": "renders/session-topology.png",
           "drawio_name": "02-session-path-topology.drawio",
@@ -25,7 +25,7 @@
         },
         {
           "id": "03",
-          "source": "shared-spec/fea-004-reconciliation-states.d2",
+          "source": "03_building-blocks/FEA-004-assignment-reconciliation/states.d2",
           "svg": "renders/fea-004-reconciliation-states.svg",
           "png": "renders/fea-004-reconciliation-states.png",
           "drawio_name": "03-reconciliation-state-transitions.drawio",
