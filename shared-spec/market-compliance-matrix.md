@@ -2,7 +2,7 @@
 
 > Firmware profile Kconfig SSOT: firmware repo `Kconfig` —
 > `menu "Market Compliance Profile"`.
-> Firmware spec detail: firmware `docs/specs/market-compliance-profiles.md`.
+> Firmware spec detail: `ble_qos_demo_V1.2m/docs/05_verification/compliance/market-profiles/market-compliance-profiles.md`.
 
 This file defines **which repo owns which compliance obligation** for each
 standard across the three-repo system (firmware / central / app).
@@ -46,7 +46,7 @@ standard across the three-repo system (firmware / central / app).
 
 | Obligation | Firmware | Central | App |
 |------------|----------|---------|-----|
-| EN 50128 SIL 2 — requirements traceability (RTM) | **OWN** (docs/specs/RTM) | **OWN** | **OWN** |
+| EN 50128 SIL 2 — requirements traceability (RTM) | **OWN** (RTM — see `--base-dir/docs/trace_map.yaml`) | **OWN** | **OWN** |
 | EN 50128 — MISRA-C:2012 compliance | **OWN** (CI scan gate) | N/A | N/A |
 | EN 50128 — unit test coverage ≥ 80% | **OWN** (CI coverage gate) | **OWN** | **OWN** |
 | EN 50155 — watchdog + recovery | **OWN** | N/A | N/A |

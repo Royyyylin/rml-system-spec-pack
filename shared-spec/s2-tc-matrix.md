@@ -98,7 +98,7 @@ Source spec: `rml-system-spec-pack/app-spec/test_cases.md`
 
 ### Central — W26A Failback Command Service
 
-Source spec: `central-device-metadata/docs/specs/failback-command-service-spec.md` (via worktree)
+Source spec: `central-device-metadata/docs/specs/failback-command-service-spec.md`
 
 | TC ID | AC | Test File (repo-relative) | Test Name | Runner | Status |
 |---|---|---|---|---|---|
