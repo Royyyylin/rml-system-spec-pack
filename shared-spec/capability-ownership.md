@@ -101,4 +101,4 @@
 - [app-scope.md](../../ble_qos_app/docs/specs/app-scope.md)
 - [central-scope.md](../../central-device-metadata/docs/specs/central-scope.md)
 - [firmware-scope.md](../../ble_qos_demo_V1.2m/docs/02_sdd/canonical/boundaries.md)
-- [data-model.md](../../ble_qos_demo_V1.2m/docs/spec/04_protocol/data-model.md)
+- [data-model.md](../../ble_qos_demo_V1.2m/docs/01_definition/02_contract/data-model.md)
