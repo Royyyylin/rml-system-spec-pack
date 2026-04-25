@@ -100,5 +100,5 @@
 - [rml-lite.md](rml-lite.md)
 - [app-scope.md](../../ble_qos_app/docs/specs/app-scope.md)
 - [central-scope.md](../../central-device-metadata/docs/specs/central-scope.md)
-- [firmware-scope.md](../../ble_qos_demo_V1.2m/docs/spec/00_canonical/boundaries.md)
+- [firmware-scope.md](../../ble_qos_demo_V1.2m/docs/02_sdd/canonical/boundaries.md)
 - [data-model.md](../../ble_qos_demo_V1.2m/docs/spec/04_protocol/data-model.md)
