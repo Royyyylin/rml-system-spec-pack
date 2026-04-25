@@ -51,7 +51,7 @@ Reconciliation 依賴 owner repo 提供的 `source_timestamp` 或等價 age evid
 | Side | Evidence Candidates（來自 owner repo SSOT） |
 | :--- | :--- |
 | Central | `updated_at`、`revision`、`assignment_version`、`last_failover_at`（見 `central-device-metadata/docs/specs/data-model.md`）|
-| Firmware | `failover_generation`、`uptime_s`、`EVT.seq`、`GW_CFG_VERSION`、`boot_id`（見 `ble_qos_demo_V1.2m/docs/spec/04_protocol/data-model.md`；Phase 2 `ts_device / ts_gateway / ts_central` 尚未實作）|
+| Firmware | `failover_generation`、`uptime_s`、`EVT.seq`、`GW_CFG_VERSION`、`boot_id`（見 `ble_qos_demo_V1.2m/docs/01_definition/02_contract/data-model.md`；Phase 2 `ts_device / ts_gateway / ts_central` 尚未實作）|
 
 若 owner repo 尚未提供任何 age evidence → App 僅能做保守判定（`can_compare = false`），不得偽裝成可精確 freshness 判定。
 
@@ -138,5 +138,5 @@ Reconciliation 依賴 owner repo 提供的 `source_timestamp` 或等價 age evid
 - [app interface contract](../../ble_qos_app/docs/specs/app-scope/05-interface-contract.md)
 - [app reconciliation plan](../../ble_qos_app/docs/plans/2026-03-28-assignment-reconciliation/plan.md)
 - [central assignment policy](../../central-device-metadata/docs/specs/assignment-policy.md)
-- [firmware data model](../../ble_qos_demo_V1.2m/docs/spec/04_protocol/data-model.md)
-- [firmware failover policy](../../ble_qos_demo_V1.2m/docs/spec/04_protocol/failover-policy.md)
+- [firmware data model](../../ble_qos_demo_V1.2m/docs/01_definition/02_contract/data-model.md)
+- [firmware failover policy](../../ble_qos_demo_V1.2m/docs/01_definition/02_contract/failover-policy.md)

@@ -133,4 +133,4 @@ Diagram render: [feature-identity-alias-metadata-display.svg](/Users/create94520
 - [app alias / qos / role](../../ble_qos_app/docs/specs/app-scope/06-alias-qos-role.md)
 - [central alias sync spec](../../central-device-metadata/docs/specs/alias-sync-spec.md)
 - [central data model](../../central-device-metadata/docs/specs/data-model.md)
-- [firmware data model](../../ble_qos_demo_V1.2m/docs/spec/04_protocol/data-model.md)
+- [firmware data model](../../ble_qos_demo_V1.2m/docs/01_definition/02_contract/data-model.md)
