@@ -43,7 +43,7 @@
 ## F-04 vs FW-3A 命名澄清
 
 - **F-04** GW QoS scheduler tuning：跨三個 repo 的 feature ID。Owner = spec-pack
-  `shared-spec/feature-gw-qos-scheduler-tuning.md`
+  `03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md`
 - **FW-3A** CMD_V2 per-opcode length guard：firmware spec phase，**F-04 韌體工作的子集**。
   Owner = firmware repo。
 - 兩者層次不同，**禁止混用**。Documentation 引用時必須使用完整 prefix。

@@ -1,13 +1,16 @@
 # 99_appendix
 
 > arc42 §9 + §11 + §12 — ADR 決策、術語差異與技術債
-> Status: skeleton (PR #3 將填內容)
+> Status: active (ADR-000 + decisions/ skeleton in place PR#4)
 
-## 預期內容
+## 內容
 
-- decisions/INDEX.md: 6 個 ADR drafts 入口
-- glossary-deltas.md: 術語表差異 (cross-repo 術語變更紀錄)
-- risks-and-debt.md: 風險清單與技術債 (arc42 §11)
+| 路徑 | 說明 |
+|---|---|
+| `decisions/` | ADR 目錄 (Nygard format) |
+| `decisions/ADR-000-spec-authority-model.md` | 已接受：spec-pack prescriptive enforcement model |
+| `glossary-deltas.md` | 術語表差異 (cross-repo 術語變更紀錄) — 待建立 |
+| `risks-and-debt.md` | 風險清單與技術債 (arc42 §11) — 待建立 |
 
 ## decisions/ ADR 預定清單
 

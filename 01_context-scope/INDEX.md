@@ -1,14 +1,16 @@
 # 01_context-scope
 
 > arc42 §3 — 系統邊界、外部角色與統一語言
-> Status: skeleton (PR #3 將填內容)
+> Status: active (content moved from shared-spec/ PR#3)
 
-## 預期內容 (PR #3 fill)
+## 內容
 
-- bounded-context-map.md: DDD Bounded Context 地圖 (4 repo 邊界)
-- system-actors.md: 外部角色與 Authority 層級
-- system-actors.d2: 角色關係圖 (D2 diagram)
-- ubiquitous-language.md: DDD 核心 — 統一語言詞彙表 (← glossary.md)
+| 檔案 | 說明 |
+|---|---|
+| `bounded-context-map.md` | DDD Bounded Context 地圖 (4 repo 邊界) |
+| `system-actors.d2` | 角色關係圖 (D2 diagram, AI Diagram Contract validated) |
+| `ubiquitous-language.md` | DDD canonical vocabulary (← glossary.md) — AI session auto-loaded |
+| `authority-map.yaml` | Machine-readable boundary per capability domain |
 
 ## 對應業界 reference
 

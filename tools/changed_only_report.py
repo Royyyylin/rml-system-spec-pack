@@ -277,7 +277,7 @@ def build_report(
             f"{spec_prefix}app-spec/sequence_flows.md",
             f"{spec_prefix}app-spec/acceptance_criteria.md",
             f"{spec_prefix}app-spec/test_cases.md",
-            f"{spec_prefix}shared-spec/requirements.md",
+            f"{spec_prefix}05_quality-acceptance/requirements.md",
             f"{spec_prefix}app-spec/architecture.md",
         ]
         rule_exceptions = applicable_exceptions(manual_exceptions, "CIR-003", [ble_api])

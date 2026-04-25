@@ -56,7 +56,7 @@ Source spec: `--base-dir/docs/specs/fw-3a-cmd-v2-length-guard.md`
 
 ### Firmware — F-04 GW QoS Scheduler Tuning
 
-Source spec: `rml-system-spec-pack/shared-spec/feature-gw-qos-scheduler-tuning.md`
+Source spec: `rml-system-spec-pack/03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md`
 Trace map: `--base-dir/docs/trace_map.yaml`
 
 | TC ID | AC | Test File (repo-relative) | Test Name | Runner | Status |
@@ -70,7 +70,7 @@ Trace map: `--base-dir/docs/trace_map.yaml`
 
 ### App — A-1 QoS Telemetry Model
 
-Source spec: `rml-system-spec-pack/shared-spec/feature-gw-qos-extension-boundary.md`
+Source spec: `rml-system-spec-pack/03_building-blocks/F-04-gw-qos-scheduler-tuning/extension-boundary.md`
 
 | TC ID | AC | Test File (repo-relative) | Test Name | Runner | Status |
 |---|---|---|---|---|---|
@@ -162,7 +162,7 @@ Source spec: `central-device-metadata/docs/specs/c2-integration-test-qos-tuning.
 
 ## References
 
-- S-1 AC catalog: `rml-system-spec-pack/shared-spec/s1-ac-catalog.md`
+- S-1 AC catalog: `rml-system-spec-pack/05_quality-acceptance/ac-catalog.md`
 - Trace map SSOT: `--base-dir/docs/trace_map.yaml`
-- S-3 trace strategy: `rml-system-spec-pack/shared-spec/s3-cross-repo-trace-strategy.md`
+- S-3 trace strategy: `rml-system-spec-pack/06_crosscutting-integration/cross-repo-trace-strategy.md`
 - FW-3A spec trace map section: `--base-dir/docs/specs/fw-3a-cmd-v2-length-guard.md#trace-map-req--ac--tc--impl`

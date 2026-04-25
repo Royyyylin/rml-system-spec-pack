@@ -185,7 +185,7 @@ ble_api.yaml (firmware SSOT)
   ├── central-device-metadata/app/generated/presets.py
   └── central-device-metadata/app/generated/tune_val_rules.py
 
-rml-system-spec-pack/shared-spec/feature-gw-qos-scheduler-tuning.md (cross-repo contract)
+rml-system-spec-pack/03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md (cross-repo contract)
   ↓ owns
   ├── TUNE-VAL-001~006 rules (validated by all three layers)
   └── Preset table definitions (SSOT for preset names and parameter ranges)

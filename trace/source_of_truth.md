@@ -15,22 +15,22 @@
 | App cross-repo boundary | `ble_qos_app/docs/handoffs/2026-03-28-app-architecture-brief.md` |
 | Central identity / assignment | `central-device-metadata/docs/specs/data-model.md` |
 | Central alias precedence | `central-device-metadata/docs/specs/alias-sync-spec.md` |
-| GW QoS scheduler tuning — contract semantics | `rml-system-spec-pack/shared-spec/feature-gw-qos-scheduler-tuning.md` |
+| GW QoS scheduler tuning — contract semantics | `rml-system-spec-pack/03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md` |
 | GW QoS scheduler tuning — runtime config truth | `central-device-metadata` DB/API（canonical deployment value per GW） |
 | GW QoS scheduler tuning — wire/GATT apply protocol | `ble_qos_demo_V1.2m/ble_api.yaml`（CMD_V2 opcode 0x07 decided；pending `ble_api.yaml` formal entry） |
-| GW QoS extension boundary（config apply vs telemetry profiling） | `rml-system-spec-pack/shared-spec/feature-gw-qos-extension-boundary.md` |
+| GW QoS extension boundary（config apply vs telemetry profiling） | `rml-system-spec-pack/03_building-blocks/F-04-gw-qos-scheduler-tuning/extension-boundary.md` |
 | Telemetry Profiling catalog / schema（future） | 未定義 — 未來需獨立 SSOT，不歸 F-04 |
 
 ## Pack Sources
 
 | Layer | Source |
 | :--- | :--- |
-| Upstream intent | `shared-spec/rml-lite.md`, `shared-spec/baseline-target-migration.md`, `shared-spec/capability-ownership.md`, `shared-spec/diagram-authoring-rules.md`, `shared-spec/diagram-templates.md`, `shared-spec/feature-telemetry-roster-visibility.md`, `shared-spec/feature-command-execution-feedback.md`, `shared-spec/feature-identity-alias-metadata-display.md`, `shared-spec/feature-assignment-reconciliation.md`, `shared-spec/feature-gw-qos-scheduler-tuning.md`, `shared-spec/requirements.md` |
+| Upstream intent | `00_introduction-goals/system-intent.md`, `05_quality-acceptance/baseline-target-migration.md`, `02_solution-strategy/capability-map.md`, `03_building-blocks/FEA-001-telemetry-roster-visibility.md`, `03_building-blocks/FEA-002-command-execution-feedback.md`, `03_building-blocks/FEA-003-identity-alias-metadata-display.md`, `03_building-blocks/FEA-004-assignment-reconciliation/contract.md`, `03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md`, `05_quality-acceptance/requirements.md` |
 | App downstream | `app-spec/architecture.md`, `app-spec/state_machine.md`, `app-spec/sequence_flows.md` |
-| Diagram sources | `shared-spec/feature-telemetry-roster-visibility.d2`, `shared-spec/feature-command-execution-feedback.d2`, `shared-spec/feature-identity-alias-metadata-display.d2`, `shared-spec/feature-assignment-reconciliation.d2`, `app-spec/block_diagram.d2`, `app-spec/state_diagram.mmd`, `app-spec/sequence_diagram.mmd`, `firmware-spec/packet_diagram.d2` |
+| Diagram sources | `03_building-blocks/FEA-001-telemetry-roster-visibility.d2`, `03_building-blocks/FEA-002-command-execution-feedback.d2`, `03_building-blocks/FEA-003-identity-alias-metadata-display.d2`, `03_building-blocks/FEA-004-assignment-reconciliation/context.d2`, `03_building-blocks/FEA-004-assignment-reconciliation/states.d2`, `app-spec/block_diagram.d2`, `app-spec/state_diagram.mmd`, `app-spec/sequence_diagram.mmd`, `firmware-spec/packet_diagram.d2` |
 | Packet mapping | `firmware-spec/packet_contract.md` |
 | Governance | `trace/trace_map.yaml`, `trace/change_rules.md`, `trace/manual_exceptions.yaml`, `trace/impact-summary.md` |
-| Verification | `app-spec/acceptance_criteria.md`, `app-spec/test_cases.md` |
+| Verification | `05_quality-acceptance/ac-catalog.md`, `05_quality-acceptance/tc-matrix.md` |
 
 ## Render Artifacts
 
@@ -47,11 +47,11 @@
 
 ## Required Update Order
 
-1. `shared-spec/rml-lite.md`
-2. `shared-spec/requirements.md`
-3. `shared-spec/*`、`app-spec/*` 與 `firmware-spec/*` 原始碼 / 圖 source
+1. `00_introduction-goals/system-intent.md`
+2. `05_quality-acceptance/requirements.md`
+3. Arc42 chapter dirs (`00_*` ~ `06_*`)、`app-spec/*` 與 `firmware-spec/*` 原始碼 / 圖 source
 4. `trace/trace_map.yaml`
 5. `trace/change_rules.md`
-6. `app-spec/acceptance_criteria.md`
-7. `app-spec/test_cases.md`
+6. `05_quality-acceptance/ac-catalog.md`
+7. `05_quality-acceptance/tc-matrix.md`
 8. `trace/impact-summary.md`

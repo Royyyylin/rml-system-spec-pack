@@ -1,16 +1,21 @@
 # 03_building-blocks
 
 > arc42 §5 — Cross-repo feature contracts 與 session topology
-> Status: skeleton (PR #3 填內容, PR #4 rename/fractal split)
+> Status: active (content moved + renamed PR#3+4)
 
-## 預期內容 (PR #3 fill + PR #4 rename)
+## 內容
 
-- FEA-001-*.md: Feature contract (cross-repo, app-led)
-- FEA-002-*.md: Feature contract (cross-repo, central-led)
-- FEA-003-*.md: Feature contract (cross-repo)
-- FEA-004-*/: Feature contract (fractal split, ≥3 sub-artifacts)
-- F-04-*/: Feature contract (firmware-led, fractal split)
-- session-topology.d2: BLE session topology diagram
+| 檔案/目錄 | Feature | 說明 |
+|---|---|---|
+| `FEA-001-telemetry-roster-visibility.md` | FEA-001 | Telemetry roster visibility contract |
+| `FEA-001-telemetry-roster-visibility.d2` | FEA-001 | Context diagram |
+| `FEA-002-command-execution-feedback.md` | FEA-002 | Command execution feedback contract |
+| `FEA-002-command-execution-feedback.d2` | FEA-002 | Context diagram |
+| `FEA-003-identity-alias-metadata-display.md` | FEA-003 | Identity alias metadata display contract |
+| `FEA-003-identity-alias-metadata-display.d2` | FEA-003 | Context diagram |
+| `FEA-004-assignment-reconciliation/` | FEA-004 | Assignment reconciliation (fractal split) |
+| `F-04-gw-qos-scheduler-tuning/` | F-04 | GW QoS scheduler tuning (firmware-led, fractal split) |
+| `session-topology.d2` | — | BLE session topology |
 
 ## 命名規則
 
