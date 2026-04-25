@@ -1,6 +1,9 @@
-# Capability / Ownership Boundary
+# Capability Map
 
-> 本文件把 `rml-lite.md` 的 actor / authority boundary 往下一層收斂成 cross-repo capability ownership。原則只有一個：每種能力只允許一個 authority owner；其他 repo 可以消費、呈現、快取、索引，但不得重寫真相。
+> arc42 §4 — Solution Strategy (TOGAF capability ownership).
+> renamed from: shared-spec/capability-ownership.md (git mv).
+> Machine-readable boundary → [../01_context-scope/authority-map.yaml](../01_context-scope/authority-map.yaml) (P0, commit 3/8).
+> 本文件把系統 actor / authority boundary 往下一層收斂成 cross-repo capability ownership。原則只有一個：每種能力只允許一個 authority owner；其他 repo 可以消費、呈現、快取、索引，但不得重寫真相。
 
 ## Core Rules
 
