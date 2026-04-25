@@ -42,7 +42,7 @@ Spec ref: `--base-dir/docs/specs/fw-3a-cmd-v2-length-guard.md`
 
 ### Firmware — F-04 GW QoS Scheduler Tuning (Firmware Side)
 
-Spec ref: `rml-system-spec-pack/shared-spec/feature-gw-qos-scheduler-tuning.md`
+Spec ref: `rml-system-spec-pack/03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md`
 
 | AC ID | REQ | Description | Owner Repo | Status | TC count |
 |---|---|---|---|---|---|
@@ -55,7 +55,7 @@ Spec ref: `rml-system-spec-pack/shared-spec/feature-gw-qos-scheduler-tuning.md`
 
 ### App — A-1 QoS Telemetry Schema
 
-Spec ref: `rml-system-spec-pack/shared-spec/feature-gw-qos-extension-boundary.md`
+Spec ref: `rml-system-spec-pack/03_building-blocks/F-04-gw-qos-scheduler-tuning/extension-boundary.md`
 
 | AC ID | REQ | Description | Owner Repo | Status | TC count |
 |---|---|---|---|---|---|
@@ -142,10 +142,10 @@ Spec ref: `central-device-metadata/docs/specs/c2-integration-test-qos-tuning.md`
 ## References
 
 - FW-3A spec: `--base-dir/docs/specs/fw-3a-cmd-v2-length-guard.md`
-- F-04 spec: `rml-system-spec-pack/shared-spec/feature-gw-qos-scheduler-tuning.md`
+- F-04 spec: `rml-system-spec-pack/03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md`
 - App-spec ACs: `rml-system-spec-pack/app-spec/acceptance_criteria.md`
 - W26A failback spec: `central-device-metadata/docs/specs/failback-command-service-spec.md`
 - C-2 integration spec: `central-device-metadata/docs/specs/c2-integration-test-qos-tuning.md`
 - Trace map: `--base-dir/docs/trace_map.yaml`
-- S-2 TC matrix: `rml-system-spec-pack/shared-spec/s2-tc-matrix.md`
-- S-3 trace strategy: `rml-system-spec-pack/shared-spec/s3-cross-repo-trace-strategy.md`
+- S-2 TC matrix: `rml-system-spec-pack/05_quality-acceptance/tc-matrix.md`
+- S-3 trace strategy: `rml-system-spec-pack/06_crosscutting-integration/cross-repo-trace-strategy.md`

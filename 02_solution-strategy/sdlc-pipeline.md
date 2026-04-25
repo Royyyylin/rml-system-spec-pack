@@ -30,7 +30,7 @@ flowchart LR
 | 欄位 | 說明 |
 |------|------|
 | **Stage** | BDD |
-| **Input** | Feature ID（如 F-04）+ `shared-spec/requirements.md` REQ 清單 |
+| **Input** | Feature ID（如 F-04）+ `05_quality-acceptance/requirements.md` REQ 清單 |
 | **Output** | Gherkin scenarios + `bdd/` 下 sequence / state / use-case `.mmd` |
 | **DoD** | 所有 actor 覆蓋 + 每 scenario 至少 trace 到 1 個 REQ |
 | **Gate** | Roy smart review（人工確認場景語意正確） |

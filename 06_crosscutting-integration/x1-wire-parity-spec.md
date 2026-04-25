@@ -224,7 +224,7 @@ THEN `x1-wire-parity-check.py` 自動執行，result 出現在 PR check 列表
 # 待 Phase B 加入 trace/trace_map.yaml
 - req_id: REQ-X-1-001
   description: "x1 wire parity check — 3 repo 7 sections 100% parity"
-  spec: shared-spec/x1-cross-repo-wire-parity-spec.md
+  spec: 06_crosscutting-integration/x1-wire-parity-spec.md
   ac_ids: [AC-X1-001 .. AC-X1-016]
   affected_repos: [firmware, central, app]
 ```

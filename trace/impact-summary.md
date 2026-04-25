@@ -3,23 +3,22 @@
 ## Changed Files
 
 - `README.md`
-- `shared-spec/rml-lite.md`
-- `shared-spec/baseline-target-migration.md`
-- `shared-spec/capability-ownership.md`
-- `shared-spec/diagram-authoring-rules.md`
-- `shared-spec/feature-telemetry-roster-visibility.md`
-- `shared-spec/feature-telemetry-roster-visibility.d2`
-- `shared-spec/feature-command-execution-feedback.md`
-- `shared-spec/feature-command-execution-feedback.d2`
-- `shared-spec/feature-identity-alias-metadata-display.md`
-- `shared-spec/feature-identity-alias-metadata-display.d2`
-- `shared-spec/feature-assignment-reconciliation.md`
-- `shared-spec/feature-assignment-reconciliation.d2`
+- `00_introduction-goals/system-intent.md`
+- `05_quality-acceptance/baseline-target-migration.md`
+- `02_solution-strategy/capability-map.md`
+- `03_building-blocks/FEA-001-telemetry-roster-visibility.md`
+- `03_building-blocks/FEA-001-telemetry-roster-visibility.d2`
+- `03_building-blocks/FEA-002-command-execution-feedback.md`
+- `03_building-blocks/FEA-002-command-execution-feedback.d2`
+- `03_building-blocks/FEA-003-identity-alias-metadata-display.md`
+- `03_building-blocks/FEA-003-identity-alias-metadata-display.d2`
+- `03_building-blocks/FEA-004-assignment-reconciliation/contract.md`
+- `03_building-blocks/FEA-004-assignment-reconciliation/states.d2`
 - `renders/feature-telemetry-roster-visibility.svg`
 - `renders/feature-command-execution-feedback.svg`
 - `renders/feature-identity-alias-metadata-display.svg`
 - `renders/feature-assignment-reconciliation.svg`
-- `shared-spec/requirements.md`
+- `05_quality-acceptance/requirements.md`
 - `app-spec/architecture.md`
 - `app-spec/state_machine.md`
 - `app-spec/sequence_flows.md`
@@ -43,10 +42,10 @@
 
 ## Upstream Feature Additions
 
-- `RML-FEA-001` 已補成 formal feature spec，並新增 source diagram `shared-spec/feature-telemetry-roster-visibility.d2`
-- `RML-FEA-002` 已補成 formal feature spec，並新增 source diagram `shared-spec/feature-command-execution-feedback.d2`
-- `RML-FEA-003` 已補成 formal feature spec，並新增 source diagram `shared-spec/feature-identity-alias-metadata-display.d2`
-- `RML-FEA-004` 已補成 formal feature spec，並新增 source diagram `shared-spec/feature-assignment-reconciliation.d2`
+- `FEA-001` 已補成 formal feature spec (FEA-001)，diagram: `03_building-blocks/FEA-001-telemetry-roster-visibility.d2`
+- `FEA-002` 已補成 formal feature spec (FEA-002)，diagram: `03_building-blocks/FEA-002-command-execution-feedback.d2`
+- `FEA-003` 已補成 formal feature spec (FEA-003)，diagram: `03_building-blocks/FEA-003-identity-alias-metadata-display.d2`
+- `FEA-004` 已補成 formal feature spec (FEA-004)，diagrams: `03_building-blocks/FEA-004-assignment-reconciliation/`
 
 ## Role Vocabulary Alignment (2026-04-12)
 
@@ -82,16 +81,16 @@
 
 P0 bundle — 補 evidence basis、compare gate、trace links；不發明 upstream field、不定新的 runtime policy。
 
-### shared-spec/feature-telemetry-roster-visibility.md
+### 03_building-blocks/FEA-001-telemetry-roster-visibility.md
 - 新增 `FEA-001-BND-007`：freshness 判定必須追溯 owner repo 的 `source_timestamp` 或等價 age evidence；window 數值以 owner contract 為準，未定義則標 migration dependency
 
-### shared-spec/feature-assignment-reconciliation.md
+### 03_building-blocks/FEA-004-assignment-reconciliation/contract.md
 - 新增 `FEA-004-BND-006`：conflict 判斷需 `can_compare == true`
 - 新增 Comparison Evidence 段：列出 Central / Firmware 側可用的 age evidence 候選欄位
 - 新增 Comparison Flow 段：明文化判斷順序（source state → freshness → can_compare → FSM）
 - 明確：`stale` 是 source-level annotation（可與 FSM 並存）；`not compared` 是 gate result（阻止進入 FSM）
 
-### shared-spec/requirements.md
+### 05_quality-acceptance/requirements.md
 - 新增 `REQ-007`（evidence/freshness basis，stage migration）
 - 新增 `REQ-008`（compare gate，stage target）
 - REQ-006 tests 清單補 TC-011（前輪漏登）
@@ -127,8 +126,7 @@ P0 bundle — 補 evidence basis、compare gate、trace links；不發明 upstre
 ## Diagram Governance Updates
 
 - 所有正式 `.d2` / `.mmd` source 現在都要求有 `AI Diagram Contract` comment block
-- 新增 `shared-spec/diagram-authoring-rules.md`，把 prompt contract 與人類可讀限制正式化
-- 新增 `tools/check_diagram_contract.py` 作為最小 lint 入口
+- - 新增 `tools/check_diagram_contract.py` 作為最小 lint 入口
 
 ## Problems Found in Original Description Style
 
@@ -163,7 +161,7 @@ P0 bundle — 補 evidence basis、compare gate、trace links；不發明 upstre
 
 ## F-04 Design Rationale Crystallization (2026-04-18)
 
-### shared-spec/feature-gw-qos-scheduler-tuning.md
+### 03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md
 - 新增 `Design Rationale & Use Case` section（位於 Ownership Boundary 之前）
 - 記錄 hardcode audit finding #4 的 config coupling 根因分析
 - 補充 Use Case Narrative（engineer 調校情境）、三個 preset 的完整 tradeoff 語意

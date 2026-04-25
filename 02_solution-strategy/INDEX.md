@@ -1,12 +1,14 @@
 # 02_solution-strategy
 
 > arc42 §4 — 解決方案策略與能力對照
-> Status: skeleton (PR #3 將填內容)
+> Status: active (content moved from shared-spec/ PR#3)
 
-## 預期內容 (PR #3 fill)
+## 內容
 
-- capability-map.md: TOGAF 能力地圖 — capability ownership 對照 (← capability-ownership.md)
-- sdlc-pipeline.md: 7-stage SDLC pipeline (← sdlc.md)
+| 檔案 | 說明 |
+|---|---|
+| `capability-map.md` | TOGAF 能力地圖 — capability ownership 對照 (← capability-ownership.md) |
+| `sdlc-pipeline.md` | 7-stage SDLC pipeline (← sdlc.md) |
 
 ## 對應業界 reference
 

@@ -1,20 +1,26 @@
 features:
-  RML-FEA-001:
-    spec: shared-spec/feature-telemetry-roster-visibility.md
-    diagram_sources: [shared-spec/feature-telemetry-roster-visibility.d2]
+  FEA-001:
+    spec: 03_building-blocks/FEA-001-telemetry-roster-visibility.md
+    diagram_sources: [03_building-blocks/FEA-001-telemetry-roster-visibility.d2]
     requirements: [REQ-001, REQ-003, REQ-004, REQ-005]
-  RML-FEA-002:
-    spec: shared-spec/feature-command-execution-feedback.md
-    diagram_sources: [shared-spec/feature-command-execution-feedback.d2]
+  FEA-002:
+    spec: 03_building-blocks/FEA-002-command-execution-feedback.md
+    diagram_sources: [03_building-blocks/FEA-002-command-execution-feedback.d2]
     requirements: [REQ-002, REQ-006]
-  RML-FEA-003:
-    spec: shared-spec/feature-identity-alias-metadata-display.md
-    diagram_sources: [shared-spec/feature-identity-alias-metadata-display.d2]
+  FEA-003:
+    spec: 03_building-blocks/FEA-003-identity-alias-metadata-display.md
+    diagram_sources: [03_building-blocks/FEA-003-identity-alias-metadata-display.d2]
     requirements: [REQ-003, REQ-005]
-  RML-FEA-004:
-    spec: shared-spec/feature-assignment-reconciliation.md
-    diagram_sources: [shared-spec/feature-assignment-reconciliation.d2]
+  FEA-004:
+    spec: 03_building-blocks/FEA-004-assignment-reconciliation/contract.md
+    diagram_sources:
+      - 03_building-blocks/FEA-004-assignment-reconciliation/context.d2
+      - 03_building-blocks/FEA-004-assignment-reconciliation/states.d2
     requirements: [REQ-004]
+  F-04:
+    spec: 03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md
+    extension_boundary: 03_building-blocks/F-04-gw-qos-scheduler-tuning/extension-boundary.md
+    requirements: []
 
 requirements:
   REQ-001:
@@ -53,93 +59,93 @@ requirements:
 acceptance:
   AC-001:
     requirement: REQ-001
-    feature: RML-FEA-001
+    feature: FEA-001
     tests: [TC-001, TC-002]
   AC-002:
     requirement: REQ-002
-    feature: RML-FEA-002
+    feature: FEA-002
     tests: [TC-003]
   AC-003:
     requirement: REQ-003
-    feature: RML-FEA-003
+    feature: FEA-003
     tests: [TC-004]
   AC-004:
     requirement: REQ-004
-    feature: RML-FEA-004
+    feature: FEA-004
     tests: [TC-005, TC-009, TC-012]
   AC-005:
     requirement: REQ-005
-    feature: RML-FEA-003
+    feature: FEA-003
     tests: [TC-006, TC-010]
   AC-006:
     requirement: REQ-006
-    feature: RML-FEA-002
+    feature: FEA-002
     tests: [TC-007, TC-008, TC-011]
   AC-007:
     requirement: REQ-007
-    feature: RML-FEA-004
+    feature: FEA-004
     tests: []
 
 tests:
   TC-001:
     acceptance: AC-001
     requirement: REQ-001
-    feature: RML-FEA-001
+    feature: FEA-001
     evidence: [app_screenshot, parsed_telemetry_log]
   TC-002:
     acceptance: AC-001
     requirement: REQ-001
-    feature: RML-FEA-001
+    feature: FEA-001
     evidence: [sparse_payload_capture, stale_state_screenshot]
   TC-003:
     acceptance: AC-002
     requirement: REQ-002
-    feature: RML-FEA-002
+    feature: FEA-002
     evidence: [caps_payload_capture, gated_ui_screenshot]
   TC-004:
     acceptance: AC-003
     requirement: REQ-003
-    feature: RML-FEA-003
+    feature: FEA-003
     evidence: [detail_screen_screenshot, metadata_api_log]
   TC-005:
     acceptance: AC-004
     requirement: REQ-004
-    feature: RML-FEA-004
+    feature: FEA-004
     evidence: [dual_gateway_screenshot, central_snapshot_fixture]
   TC-006:
     acceptance: AC-005
     requirement: REQ-005
-    feature: RML-FEA-003
+    feature: FEA-003
     evidence: [pending_alias_log, conflict_response_fixture]
   TC-007:
     acceptance: AC-006
     requirement: REQ-006
-    feature: RML-FEA-002
+    feature: FEA-002
     evidence: [cmd_v2_write_log, cmd_result_capture]
   TC-008:
     acceptance: AC-006
     requirement: REQ-006
-    feature: RML-FEA-002
+    feature: FEA-002
     evidence: [timeout_log, retry_success_log]
   TC-009:
     acceptance: AC-004
     requirement: REQ-004
-    feature: RML-FEA-004
+    feature: FEA-004
     evidence: [not_compared_screenshot]
   TC-010:
     acceptance: AC-005
     requirement: REQ-005
-    feature: RML-FEA-003
+    feature: FEA-003
     evidence: [no_pending_precedence_screenshot]
   TC-011:
     acceptance: AC-006
     requirement: REQ-006
-    feature: RML-FEA-002
+    feature: FEA-002
     evidence: [cmd_result_capture, permission_error_log]
   TC-012:
     acceptance: AC-004
     requirement: REQ-008
-    feature: RML-FEA-004
+    feature: FEA-004
     evidence: [not_compared_screenshot, stale_reference_fixture]
 
 states:

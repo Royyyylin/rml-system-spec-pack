@@ -1,77 +1,66 @@
-# RML System Spec Pack
+# System Spec Pack
 
-本目錄將原本偏提案式的架構描述，改寫成「規格治理式規劃」。
+Cross-repo system SSOT for the BLE QoS 4-repo workspace (firmware / app / central / spec-pack).
+Structure: arc42 selective + DDD element naming.
 
-## 讀取順序
+> Naming note: "RML" in the repo name is a legacy label. Content uses DDD/arc42 industry terminology.
 
-1. `shared-spec/rml-lite.md`
-2. `shared-spec/baseline-target-migration.md`
-3. `shared-spec/capability-ownership.md`
-4. `shared-spec/diagram-authoring-rules.md`
-5. `shared-spec/diagram-templates.md`
-6. `shared-spec/feature-telemetry-roster-visibility.md`
-7. `shared-spec/feature-command-execution-feedback.md`
-8. `shared-spec/feature-identity-alias-metadata-display.md`
-9. `shared-spec/feature-assignment-reconciliation.md`
-10. `shared-spec/feature-gw-qos-scheduler-tuning.md`
-11. `shared-spec/requirements.md`
-12. `app-spec/architecture.md`
-13. `app-spec/state_machine.md`
-14. `app-spec/sequence_flows.md`
-15. `firmware-spec/packet_contract.md`
-16. `trace/source_of_truth.md`
-17. `trace/trace_map.yaml`
-18. `trace/change_rules.md`
-19. `app-spec/acceptance_criteria.md`
-20. `app-spec/test_cases.md`
-21. `trace/impact-summary.md`
+## arc42 Chapter Map
 
-## 這次改動影響的正式檔案
+| Chapter | arc42 | Contents |
+|---|---|---|
+| `00_introduction-goals/` | §1+§2 | System intent, goals, constraints, risks, stakeholders |
+| `01_context-scope/` | §3 | Bounded context map, system actors, ubiquitous language (DDD) |
+| `02_solution-strategy/` | §4 | Capability map (TOGAF), SDLC pipeline |
+| `03_building-blocks/` | §5 | FEA-001~004 feature contracts + F-04 (firmware-led) |
+| `04_runtime-view/` | §6 | 6 sequence diagrams (CMD_V2, cache, HA, reconnect) |
+| `05_quality-acceptance/` | §10 | Requirements, AC catalog, TC matrix, BDD scenarios |
+| `06_crosscutting-integration/` | §8 | Cross-repo trace strategy, wire parity, compliance matrix |
+| `99_appendix/` | §9+§11 | ADRs (decisions/), glossary deltas, risks and debt |
 
-- `shared-spec/rml-lite.md`
-- `shared-spec/baseline-target-migration.md`
-- `shared-spec/capability-ownership.md`
-- `shared-spec/diagram-authoring-rules.md`
-- `shared-spec/diagram-templates.md`
-- `shared-spec/feature-telemetry-roster-visibility.md`
-- `shared-spec/feature-telemetry-roster-visibility.d2`
-- `shared-spec/feature-command-execution-feedback.md`
-- `shared-spec/feature-command-execution-feedback.d2`
-- `shared-spec/feature-identity-alias-metadata-display.md`
-- `shared-spec/feature-identity-alias-metadata-display.d2`
-- `shared-spec/feature-assignment-reconciliation.md`
-- `shared-spec/feature-assignment-reconciliation.d2`
-- `shared-spec/feature-gw-qos-scheduler-tuning.md`
-- `shared-spec/requirements.md`
-- `app-spec/architecture.md`
-- `app-spec/state_machine.md`
-- `app-spec/sequence_flows.md`
-- `app-spec/block_diagram.d2`
-- `app-spec/state_diagram.mmd`
-- `app-spec/sequence_diagram.mmd`
-- `firmware-spec/packet_contract.md`
-- `firmware-spec/packet_diagram.d2`
-- `trace/source_of_truth.md`
-- `trace/trace_map.yaml`
-- `trace/change_rules.md`
-- `app-spec/acceptance_criteria.md`
-- `app-spec/test_cases.md`
-- `trace/impact-summary.md`
+## Use-Case Entry Points
 
-## 修改流程
+### (a) New engineer — sequential reading
 
-1. 先改上游：`rml-lite.md`、feature spec、`requirements.md`
-2. 再改 diagram source：shared-spec / app-spec / firmware-spec，並維護 `AI Diagram Contract`
-3. 再改下游：block / state / sequence / packet
-4. 再改 trace：`source_of_truth.md`、`trace_map.yaml`、`change_rules.md`
-5. 再改驗收：`acceptance_criteria.md`
-6. 再改測試：`test_cases.md`
-7. 最後更新：`trace/impact-summary.md`
+`00_introduction-goals/system-intent.md` → `01_context-scope/ubiquitous-language.md`
+→ `02_solution-strategy/capability-map.md` → `03_building-blocks/` → `05_quality-acceptance/`
 
-## 規則
+### (b) AI session — cross-repo impact
 
-- PNG 不是 source of truth
-- 所有 `.d2` / `.mmd` source 都必須帶 `AI Diagram Contract` comment block
-- `renders/` 為 derived artifacts，原則上禁止手改；若因展示或工具缺口暫時手改，必須補回對應 source / tool 變更
-- 若本 spec pack 與 repo SSOT 衝突，以 repo SSOT 為準
-- `desktop-spec/` 目前沒有足夠來源，本輪不建立正式內容
+Jump to `06_crosscutting-integration/cross-repo-trace-strategy.md`
+then `trace/trace_map.yaml` for machine-readable feature-to-artifact mapping.
+
+### (c) Compliance audit
+
+`05_quality-acceptance/` (AC catalog + TC matrix + BDD scenarios)
++ `06_crosscutting-integration/market-compliance-matrix.md`
++ `06_crosscutting-integration/x1-wire-parity-spec.md`
+
+### (d) Dispute resolution (who owns what)
+
+`03_building-blocks/FEA-NNN-*/` or `03_building-blocks/F-04-*/` per feature
++ `02_solution-strategy/capability-map.md` (TOGAF capability ownership)
++ `01_context-scope/authority-map.yaml` (machine-readable boundary)
+
+## Feature ID Classification
+
+| Prefix | Meaning | Examples |
+|---|---|---|
+| `FEA-NNN` | Cross-repo feature (App-led / Central-led / 4-owner) | FEA-001~004 |
+| `F-NN` | Firmware-led feature (firmware runtime behavior primary) | F-04 |
+
+## Modification Order
+
+1. `00_introduction-goals/system-intent.md` (upstream intent)
+2. `05_quality-acceptance/requirements.md`
+3. Arc42 chapter docs + diagram sources (`.d2` / `.mmd`)
+4. `trace/trace_map.yaml` + `trace/change_rules.md`
+5. `05_quality-acceptance/ac-catalog.md` + `tc-matrix.md`
+6. `trace/impact-summary.md`
+
+## Rules
+
+- Repo SSOT wins over spec-pack if conflict
+- All `.d2` / `.mmd` sources must carry `AI Diagram Contract` comment block
+- `renders/` are derived artifacts — do not edit directly
+- `shared-spec/` is archived (legacy); use arc42 chapter paths

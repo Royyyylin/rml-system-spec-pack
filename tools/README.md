@@ -59,14 +59,14 @@ python3 rml-system-spec-pack/tools/check_diagram_contract.py
 
 ```bash
 python3 rml-system-spec-pack/tools/check_diagram_contract.py \
-  rml-system-spec-pack/shared-spec/feature-telemetry-roster-visibility.d2
+  rml-system-spec-pack/03_building-blocks/FEA-001-telemetry-roster-visibility.d2
 ```
 
 用途：
 - 檢查 `.d2` / `.mmd` 開頭是否有 `AI Diagram Contract`
 - 檢查 `template_id` 是否為正式登記模板，且 `diagram_type` / `max_nodes` / `max_groups` 不越界
 - 確保後續 AI 續改 diagram source 時，不是只靠臨場 prompt
-- 預設只掃 `shared-spec/`、`app-spec/`、`firmware-spec/`
+- 預設掃 8 個 arc42 chapter dirs（`00_introduction-goals/` ~ `99_appendix/`）＋ `app-spec/`、`firmware-spec/`
 
 review package 同步（generic）：
 
