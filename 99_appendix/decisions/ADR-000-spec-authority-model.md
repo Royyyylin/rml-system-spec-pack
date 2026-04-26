@@ -25,7 +25,7 @@ spec-pack 是 **prescriptive enforcement** authority, 而非純 descriptive refe
 + 跨 repo 改 spec 必先 register canonical list (ubiquitous-language.md)
 + 4 P0 artefact (本 ADR + authority-map.yaml + feature-design-guide + check_vocabulary): half-redesign 起點
 - 工程量 +3-4 hr vs 純 reorganize
-- 4 repo CI vocabulary check 是 advisory 起步, 後升 blocking
+- 4 repo CI vocabulary check blocking active as of 2026-04-25 (sub-plan C)
 
 ## Alternatives
 
