@@ -1,12 +1,13 @@
 # Machine-readable authority boundary (DDD bounded context, AI/CI queryable)
 # Source of truth: 02_solution-strategy/capability-map.md (human-readable narrative)
 # Usage: yaml.load() query authority per domain; CI vocabulary check
-# Schema version: 1.0
-# Updated: 2026-04-25
+# Schema version: 2.0
+# Updated: 2026-04-27
+# L3 refactor (2026-04-27): id field migrated from RML-CAP-NNN opaque schema → name-canonical (per task-b L3 D1, see capability-map.md ## ID Schema Migration Mapping). Domain field unchanged.
 # ADR reference: 99_appendix/decisions/ADR-000-spec-authority-model.md (prescriptive enforcement)
 
 boundaries:
-  - id: RML-CAP-001
+  - id: canonical-identity-authority
     domain: canonical_identity
     description: Canonical identity, assignment, metadata, auth, audit, sync truth
     authority: central
@@ -27,7 +28,7 @@ boundaries:
       - redefine assignment truth
       - redefine RBAC policy
 
-  - id: RML-CAP-002
+  - id: runtime-observation-authority
     domain: runtime_observation
     description: Runtime telemetry, QoS measurement, failover execution, radio behavior, device-side recovery
     authority: firmware
@@ -47,7 +48,7 @@ boundaries:
       - claim first-hand runtime truth
       - rewrite device observation
 
-  - id: RML-CAP-003
+  - id: interaction-semantics-authority
     domain: interaction_semantics
     description: Human-facing interaction, presentation semantics, pending/error UX, local view state
     authority: app
@@ -65,7 +66,7 @@ boundaries:
       - equate backend/firmware truth with UI truth
       - elevate local UI state to system truth
 
-  - id: RML-CAP-004
+  - id: wire-contract-authority
     domain: wire_contract
     description: GATT / wire contract, opcode, payload field semantics
     authority: firmware
@@ -88,7 +89,7 @@ boundaries:
       - invent opcode
       - invent payload meaning
 
-  - id: RML-CAP-005
+  - id: orchestration-governance-authority
     domain: orchestration
     description: Cross-repo planning, dispatch, queue/gate governance, handoff, evidence index
     authority: conductor
@@ -108,7 +109,7 @@ boundaries:
       - rewrite repo technical truth
       - act as runtime authority
 
-  - id: RML-CAP-006
+  - id: qos-scheduler-tuning-authority
     domain: qos_scheduler_config
     description: GW QoS scheduler deployment tuning (preset / expert override)
     authority: central

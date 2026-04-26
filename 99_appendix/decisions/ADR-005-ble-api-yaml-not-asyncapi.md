@@ -26,7 +26,7 @@ The Phase 1 audit found three blockers:
 
 Retain `ble_api.yaml` in its current project-specific YAML format in the firmware repo. Do not convert to AsyncAPI 3.0.
 
-The spec-pack's role with respect to `ble_api.yaml` is: reference and derive documentation. The firmware repo is the sole SSOT authority (RML-CAP-004). The spec-pack `06_crosscutting-integration/x1-wire-parity-spec.md` documents the derived wire contract view without duplicating the source.
+The spec-pack's role with respect to `ble_api.yaml` is: reference and derive documentation. The firmware repo is the sole SSOT authority (`Wire-Contract-Authority` per [capability-map.md](../../02_solution-strategy/capability-map.md)). The spec-pack `06_crosscutting-integration/x1-wire-parity-spec.md` documents the derived wire contract view without duplicating the source.
 
 Re-evaluate if: an official GATT/BLE binding for AsyncAPI is merged into the AsyncAPI specification repository, or if a new codegen tool emerges that supports both Dart and NCS/Zephyr C output from AsyncAPI source.
 
@@ -59,4 +59,4 @@ The `x1-wire-parity-spec.md` and cross-repo-trace-strategy.md provide a human-re
 - x1-wire-parity-spec.md: derived wire contract documentation
 - ble_api.yaml SSOT: `ble_qos_demo_V1.2m/ble_api.yaml` (firmware repo)
 - AsyncAPI specification: https://www.asyncapi.com/docs/reference/specification/v3.0.0
-- RML-CAP-004: Wire contract authority boundary (capability-map.md)
+- `Wire-Contract-Authority`: wire contract authority boundary, see [capability-map.md](../../02_solution-strategy/capability-map.md) (legacy ID schema migration history per `## ID Schema Migration Mapping` preamble)
