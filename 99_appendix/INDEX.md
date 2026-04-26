@@ -9,8 +9,8 @@
 |---|---|
 | `decisions/` | ADR 目錄 (Nygard format) |
 | `decisions/ADR-000-spec-authority-model.md` | 已接受：spec-pack prescriptive enforcement model |
-| `glossary-deltas.md` | 術語表差異 (cross-repo 術語變更紀錄) — 待建立 |
-| `risks-and-debt.md` | 風險清單與技術債 (arc42 §11) — 待建立 |
+| `glossary-deltas.md` | 術語表差異 (cross-repo 術語變更紀錄) — arc42 §12 |
+| `risks-and-debt.md` | 風險清單與技術債 (arc42 §11) — 6 risk entries, 5 debt items |
 
 ## decisions/ ADR 預定清單
 
