@@ -90,6 +90,7 @@ NCS_HOME:=$HOME/ncs/v2.9.2   # 見 dev.sh line ~32
 | gateway_id | `gateway_id` | `gatewayId` | `gateway_id` | GW 的邏輯識別碼，由 Central 維護 | central-device-metadata |
 | assignmentSyncState / assignment_sync_state | `assignmentSyncState` (Dart/JS), `assignment_sync_state` (Python/C) | `assignmentSyncState` | `assignment_sync_state` | App 與 Central 的指派同步狀態機（IDLE / SYNCING / IN_SYNC / CONFLICT） | ble_qos_app |
 | assignment_state | `assignment_state` | `assignmentState` | `assignment_state` | Central 側裝置指派狀態（UNASSIGNED / ASSIGNED / PENDING_REMOVAL） | central-device-metadata |
+| syncState | `syncState` | `syncState` | `sync_state` | App 與 Central 之間資料同步狀態的通用詞彙（superseded by domain-specific terms: assignmentSyncState 等）；跨 repo 討論時使用此通用詞，具體實作使用 domain-specific form | ble_qos_app |
 
 ## Alias 詞彙（Alias）
 
@@ -141,3 +142,5 @@ NCS_HOME:=$HOME/ncs/v2.9.2   # 見 dev.sh line ~32
 | discovery | `discovery` | `discovery` | `discovery` | App 掃描並識別 GW/ED 服務的流程 | firmware |
 | advertising | `advertising` | `advertising` | `advertising` | 裝置廣播 BLE adv packet 的行為 | firmware |
 | scanning | `scanning` | `scanning` | `scanning` | App / GW 掃描附近裝置的行為 | ble_qos_app (primary) |
+| mac | `mac` | `mac` | `mac` | BLE 裝置硬體位址（MAC address, 6 bytes）；App/firmware 用於識別掃描到的對端；非永久識別碼（隨機可變），不得當 stable identity 使用 | firmware (primary) |
+| connectionState | `connectionState` | `connectionState` | `connection_state` | App 端追蹤 BLE 連線生命週期的狀態機（IDLE / CONNECTING / CONNECTED / DISCONNECTING）；由 App BLE 層管理，不持久化 | ble_qos_app |
