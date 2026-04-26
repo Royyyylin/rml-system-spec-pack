@@ -38,3 +38,32 @@ The four bounded contexts in this system:
 | **Runtime Observation** | Firmware / Gateway | telemetry、QoS measurement、failover execution |
 | **Interaction Semantics** | App | human-facing UX、view state、role-gated UI |
 | **Orchestration** | Conductor | cross-repo planning、dispatch、evidence index |
+
+## DDD Strategic Design — Context Relationships (Evans 2003)
+
+> Annotations per Eric Evans, _Domain-Driven Design_ (2003), Chapter 14: Maintaining Model Integrity.
+> Each relationship describes how the downstream context consumes the upstream context's model.
+
+### Relationship Map
+
+| Upstream Context | Downstream Context | Evans Pattern | Rationale |
+| :--- | :--- | :--- | :--- |
+| **Wire Contract** (Firmware) | **Canonical Identity** (Central) | Anti-Corruption Layer | Central translates incoming GATT wire events (raw BLE MAC, opcode payloads) into its own domain model (`stableId`, `assignment_state`) via an explicit translation layer — never importing Firmware domain objects directly. This prevents Firmware's low-level GATT vocabulary from leaking into Central's identity domain. |
+| **Canonical Identity** (Central) | **Interaction Semantics** (App) | Open-Host Service (OHS) | Central publishes a stable REST API (identity, assignment, metadata endpoints) as a well-defined Open-Host Service. App is a consumer of this published service; Central's API is versioned and documented independently of App's internal model. Multiple downstream consumers (App, future monitoring dashboards) can consume the same OHS without Central coupling to any one consumer. |
+| **Canonical Identity** (Central) | **Interaction Semantics** (App) | Customer-Supplier | In addition to the OHS relationship, App acts as Customer and Central as Supplier for the assignment reconciliation flow (FEA-004). App drives the reconciliation use case requirements; Central prioritizes its API surface to satisfy App's assignment-conflict visibility needs (quality-goals.md Goal 1). This Customer-Supplier relationship is formalized in the FEA-004 feature spec and AC catalog. |
+| **Wire Contract** (Firmware) | **Orchestration** (Conductor) | Conformist | The Conductor / AI orchestration layer must accept Firmware's `ble_api.yaml` wire contract as-is, without attempting to influence its design. Conductor is Conformist: it derives its understanding of wire semantics from `ble_api.yaml` (cross-repo-trace-strategy.md) and adapts its governance artifacts to match, not the reverse. This enforces RML-AUT-005 (Conductor does not override runtime truth). |
+
+### Pattern Definitions (Reference)
+
+| Evans Pattern | Definition |
+| :--- | :--- |
+| **Anti-Corruption Layer** | A translation layer that insulates a downstream bounded context from an upstream model, converting upstream concepts into downstream domain objects. Prevents upstream vocabulary from polluting the downstream model. |
+| **Open-Host Service (OHS)** | An upstream context publishes a well-defined, versioned API (the "published language") for multiple downstream consumers. Changes to the upstream internal model do not break consumers as long as the OHS contract is preserved. |
+| **Customer-Supplier** | Downstream (Customer) drives requirements; upstream (Supplier) commits to delivering an API surface that satisfies Customer needs. Requires explicit negotiation and prioritization. |
+| **Conformist** | Downstream context accepts the upstream model as-is, without translation. Used when the upstream is authoritative and the downstream has no leverage to change the upstream design. |
+
+### Notes
+
+- **Runtime Observation → Interaction Semantics**: App ingests telemetry from Firmware via GW uplink. This is also a Conformist relationship (App adapts to Firmware telemetry schema, defined in `ble_api.yaml`). Not listed separately above to avoid duplication with the Wire Contract → Orchestration Conformist entry; both share the same upstream SSOT.
+- **Orchestration → all contexts**: Conductor is Conformist to all four upstream bounded contexts. It cannot modify any upstream model; it can only read, reference, and govern.
+- Evans relationships are annotations on existing authority boundaries (RML-AUT-001~006); they do not change authority ownership.
