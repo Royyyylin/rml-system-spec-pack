@@ -9,6 +9,7 @@
 | ADR | 主題 | Status |
 |---|---|---|
 | ADR-000 | Spec Authority Model — prescriptive enforcement (機器可執行) | proposed (PR#4 content) |
+<<<<<<< HEAD
 | ADR-001 | Living Doc HTML publish defer | accepted (2026-04-26) |
 | ADR-002 | Wardley Mapping defer | accepted (2026-04-26) |
 | ADR-003 | C4 standard syntax defer (D2 already sufficient) | accepted (2026-04-26) |
@@ -21,6 +22,16 @@
 | ADR-010 | GW↔Central Uplink — CC Bridge Relay for Prototype (resolves F7-OQ2) | accepted (2026-04-26) |
 | ADR-011 | ENG_UNLOCK Fail Policy — Immediate Lock on Wrong PIN (resolves F6-OQ1) | accepted (2026-04-26) |
 | ADR-012 | PIN Rotation → Central Notification — Synchronous App-Side Push (resolves F6-OQ2) | accepted (2026-04-26) |
+=======
+| ADR-001 | Living Doc HTML publish defer | draft (PR#4) |
+| ADR-002 | Wardley Mapping defer | draft (PR#4) |
+| ADR-003 | C4 standard syntax defer (D2 already sufficient) | draft (PR#4) |
+| ADR-004 | spec-kit 不採用 | draft (PR#4) |
+| ADR-005 | ble_api.yaml 不轉 AsyncAPI | draft (PR#4) |
+| ADR-006 | spec-pack repo rename defer (Q3 2026) | draft (PR#4) |
+| ADR-007 | AC ID naming defer (AC-FW-3A-001 vs AC-001) | deferred per plan Decision 2 |
+| ADR-008 | Task A Completion Strategy — Real Enforcement Activation (4 audit + 4 review) | accepted (2026-04-26) |
+>>>>>>> b92a0d2 (docs(adr): ADR-008 Task A Completion Strategy — real enforcement activation)
 
 ## 格式規範
 
