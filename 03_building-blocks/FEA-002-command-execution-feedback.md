@@ -1,7 +1,7 @@
-# Feature Spec — RML-FEA-002 Command Execution & Feedback
+# Feature Spec — FEA-002 Command Execution & Feedback
 
 Status: formal
-Feature ID: `RML-FEA-002`
+Feature ID: `FEA-002`
 Primary Stage: `target`
 
 ## Purpose

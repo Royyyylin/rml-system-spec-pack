@@ -1,6 +1,6 @@
 # Glossary Deltas — W31: Auto-Grouping + WebSocket Refinement + Adaptive Layout
 
-> Cross-links master glossary: `shared-spec/glossary.md`
+> Cross-links master glossary: `01_context-scope/ubiquitous-language.md`
 > New terms introduced in App Wave 31A.
 
 ## New Terms

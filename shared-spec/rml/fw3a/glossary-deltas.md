@@ -1,6 +1,6 @@
 # Glossary Deltas — FW-3A: CMD_V2 Per-Opcode Length Guard
 
-> Cross-links master glossary: `shared-spec/glossary.md`
+> Cross-links master glossary: `01_context-scope/ubiquitous-language.md`
 > New terms introduced in FW-3A CMD_V2 Per-Opcode Length Guard.
 
 ## New Terms

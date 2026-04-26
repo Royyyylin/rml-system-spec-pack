@@ -63,4 +63,4 @@ then `trace/trace_map.yaml` for machine-readable feature-to-artifact mapping.
 - Repo SSOT wins over spec-pack if conflict
 - All `.d2` / `.mmd` sources must carry `AI Diagram Contract` comment block
 - `renders/` are derived artifacts — do not edit directly
-- `shared-spec/` is archived (legacy); use arc42 chapter paths
+- The legacy `shared-spec` directory (content migrated to arc42 chapters, PR#3); navigate via chapter paths above

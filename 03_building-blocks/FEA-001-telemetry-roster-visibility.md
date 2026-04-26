@@ -1,7 +1,7 @@
-# Feature Spec — RML-FEA-001 Telemetry & Roster Visibility
+# Feature Spec — FEA-001 Telemetry & Roster Visibility
 
 Status: formal
-Feature ID: `RML-FEA-001`
+Feature ID: `FEA-001`
 Primary Stage: `target`
 
 ## Purpose

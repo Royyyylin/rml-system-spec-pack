@@ -21,10 +21,12 @@ UBIQUITOUS_LANG = SPEC_PACK / "01_context-scope" / "ubiquitous-language.md"
 
 # Deprecated terms — must NOT appear in non-archive context
 # Each tuple: (regex_pattern, human_readable_reason)
+# Note: S-\d+ / X-\d+ patterns use negative lookbehind to avoid matching
+# legitimate REQ domain prefix occurrences like REQ-S-001 / REQ-X-001.
 DEPRECATED_PATTERNS: list[tuple[str, str]] = [
     (r"\bRML-FEA-\d+\b", "use FEA-NNN- prefix instead"),
-    (r"\bS-\d+\b", "use F-NN or FEA-NNN prefix instead"),
-    (r"\bX-\d+\b", "use chapter-scoped ID instead (e.g. x1-)"),
+    (r"(?<!REQ-)\bS-\d+\b", "use F-NN or FEA-NNN prefix instead"),
+    (r"(?<!REQ-)\bX-\d+\b", "use chapter-scoped ID instead (e.g. x1-)"),
     (r"shared-spec/", "use arc42 chapter path (e.g. 01_context-scope/) instead"),
 ]
 
@@ -40,6 +42,7 @@ TARGET_REPOS: list[Path] = [
 EXCLUDE_DIRS: set[str] = {
     ".git",
     "archive",
+    "handoffs",  # historical handoff docs — intentional legacy references
     ".claude",
     "node_modules",
     ".code-review-graph",
@@ -48,6 +51,13 @@ EXCLUDE_DIRS: set[str] = {
     "build",
     ".dart_tool",
     "renders",
+}
+
+# Files to skip — intentional references (e.g. vocabulary canonical list, this script itself)
+EXCLUDE_FILES: set[str] = {
+    "check_vocabulary_alignment.py",  # this file — patterns appear as regex strings
+    "CLAUDE.md",  # vocabulary canonical list — deprecated terms appear as intentional reference
+    "ubiquitous-language.md",  # DDD canonical vocabulary — Spec ID Naming table shows legacy prefixes as examples
 }
 
 # File extensions to scan
@@ -63,8 +73,10 @@ INCLUDE_EXT: set[str] = {
 
 
 def is_excluded(path: Path) -> bool:
-    """Return True if any part of the path is in EXCLUDE_DIRS."""
-    return any(part in EXCLUDE_DIRS for part in path.parts)
+    """Return True if any part of the path is in EXCLUDE_DIRS or filename is in EXCLUDE_FILES."""
+    if any(part in EXCLUDE_DIRS for part in path.parts):
+        return True
+    return path.name in EXCLUDE_FILES
 
 
 def scan_repo(repo: Path) -> list[str]:

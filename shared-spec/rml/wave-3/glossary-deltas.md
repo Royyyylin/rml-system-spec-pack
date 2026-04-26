@@ -1,6 +1,6 @@
 # Glossary Deltas — Wave 3: Verification + Convergence
 
-> Cross-links master glossary: `shared-spec/glossary.md`
+> Cross-links master glossary: `01_context-scope/ubiquitous-language.md`
 > New terms introduced in Firmware Phase 3 Wave 3.
 
 ## New Terms

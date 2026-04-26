@@ -1,11 +1,11 @@
-# X-1 Cross-Repo Wire Parity Check — Implementation Plan
+# x1 Cross-Repo Wire Parity Check — Implementation Plan
 
 Status: draft
 Spec: [x1-cross-repo-wire-parity-spec.md](x1-cross-repo-wire-parity-spec.md)
 
 ## Goal
 
-在 3 個 repo（firmware / central / app）部署 X-1 wire parity check：
+在 3 個 repo（firmware / central / app）部署 x1 wire parity check：
 1. 各 repo codegen 新增 `_canonical_wire.json` target
 2. spec-pack `tools/` 新增 `x1-wire-parity-check.py`
 3. 各 repo `.github/workflows/x1-parity.yml` CI 整合
@@ -88,7 +88,7 @@ python3 tools/x1-wire-parity-check.py \
 **Logic**（函數 ≤ 40 行）:
 1. Load 3 JSON → validate schema version match
 2. Per section（S1–S7）：deep-equal compare；collect mismatches
-3. Print `[X-1 PASS] N/7 sections OK` or `[X-1 FAIL]` with structured diff
+3. Print `[x1 PASS] N/7 sections OK` or `[x1 FAIL]` with structured diff
 4. Exit 0 if all pass, exit 1 if any section mismatches
 
 **Constraints**:

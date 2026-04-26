@@ -1,6 +1,6 @@
 # Glossary Deltas — Wave 1: Data Classification + Uplink Buffer
 
-> Cross-links master glossary: `shared-spec/glossary.md`
+> Cross-links master glossary: `01_context-scope/ubiquitous-language.md`
 > New terms introduced in Firmware Phase 3 Wave 1.
 
 ## New Terms

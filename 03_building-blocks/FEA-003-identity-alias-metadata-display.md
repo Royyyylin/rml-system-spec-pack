@@ -1,7 +1,7 @@
-# Feature Spec — RML-FEA-003 Identity, Alias, and Metadata Display
+# Feature Spec — FEA-003 Identity, Alias, and Metadata Display
 
 Status: formal
-Feature ID: `RML-FEA-003`
+Feature ID: `FEA-003`
 Primary Stage: `target`
 
 ## Purpose

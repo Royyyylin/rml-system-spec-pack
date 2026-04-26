@@ -1,4 +1,4 @@
-# S-3 Cross-Repo Trace Strategy
+# Cross-Repo Trace Strategy
 
 > Status: active
 > Last updated: 2026-04-19
@@ -85,9 +85,9 @@ for existence checks.
 | `blocked` | Blocked on external dependency (noted in `blocked_by` field) |
 | `deprecated` | REQ retired; ID not reused |
 
-### TC status (in S-2 TC matrix)
+### TC status (in TC matrix)
 
-See S-2 TC matrix for TC-level status semantics (GREEN / RED / spec_pending / not_implemented / TBD).
+See TC matrix for TC-level status semantics (GREEN / RED / spec_pending / not_implemented / TBD).
 
 ## Trace Coverage Formula
 
@@ -220,8 +220,8 @@ Rules:
 
 ## References
 
-- S-1 AC catalog: [../05_quality-acceptance/ac-catalog.md](../05_quality-acceptance/ac-catalog.md)
-- S-2 TC matrix: [../05_quality-acceptance/tc-matrix.md](../05_quality-acceptance/tc-matrix.md)
+- AC catalog: [../05_quality-acceptance/ac-catalog.md](../05_quality-acceptance/ac-catalog.md)
+- TC matrix: [../05_quality-acceptance/tc-matrix.md](../05_quality-acceptance/tc-matrix.md)
 - Trace map SSOT: `--base-dir/docs/trace_map.yaml`
 - FW-3A spec trace map: `--base-dir/docs/specs/fw-3a-cmd-v2-length-guard.md#trace-map-req--ac--tc--impl`
 - Coverage tool: `--base-dir/tools/check-trace-coverage.py`

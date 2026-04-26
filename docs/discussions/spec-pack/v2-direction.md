@@ -20,7 +20,7 @@ V2 的目的不是重做 spec pack，而是補齊以下能力：
 
 ## V1 Known Gaps
 
-1. 目前主結構仍偏 `shared-spec/`、`app-spec/`、`firmware-spec/` 的領域切分，尚未真正收斂到 `docs/`、`diagrams/`、`schemas/`、`trace/`、`renders/`、`tools/`。
+1. 目前主結構（v1 時期）仍偏領域切分（`app-spec/`、`firmware-spec/`），尚未真正收斂到 arc42 章節切分（`00_introduction-goals/`~`06_crosscutting-integration/`）。
 2. `changed_only_report` 目前是治理要求，不是已存在的工具。
 3. `schema-first` 候選已提出，但 `packet_schema.yaml`、`enum_definitions.yaml`、`pin_map.yaml` 尚未成為正式內容。
 4. `renders/` 已定義為 derived artifacts，且原則上禁止手改，但例外註記與檢查流程仍未具體化。

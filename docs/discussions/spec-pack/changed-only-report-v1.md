@@ -110,7 +110,7 @@ Should review:
 - `app-spec/sequence_flows.md`
 - `app-spec/acceptance_criteria.md`
 - `app-spec/test_cases.md`
-- `shared-spec/requirements.md`
+- `05_quality-acceptance/requirements.md`
 - `app-spec/architecture.md`
 
 Report behavior:

@@ -1,4 +1,4 @@
-# X-1 Cross-Repo Wire Parity Test Spec
+# x1 Cross-Repo Wire Parity Test Spec
 
 Status: draft
 Primary Stage: `target`
@@ -14,7 +14,7 @@ Spec ID: `REQ-X-1`
 
 **漂移風險**：各 repo 獨立 codegen。`ble_api.yaml` 改一個 byte → 若任一 repo 未重跑 codegen，或 codegen 邏輯有 bug，wire format 在三端靜默不一致。範例：opcode `0x07` valid_lens firmware `[4,8,16]` vs central/app `[4,16]` → central 拒絕合法 8-byte payload，無 error log。
 
-X-1 自動驗 3 repo wire parity，CI 阻擋任何漂移進 main。
+x1 自動驗 3 repo wire parity，CI 阻擋任何漂移進 main。
 
 ---
 
@@ -98,7 +98,7 @@ CI: tools/x1-wire-parity-check.py
 ### Failure Output Format
 
 ```
-[X-1 FAIL] Section: cmd_v2_dispatch — opcode 0x07 valid_lens mismatch
+[x1 FAIL] Section: cmd_v2_dispatch — opcode 0x07 valid_lens mismatch
   firmware : [4, 8, 16]
   central  : [4, 16]
   app      : [4, 16]
@@ -209,7 +209,7 @@ THEN exit 1，報 `system_constants mismatch: CMD_V2_TIMEOUT_MS — central=1500
 **AC-X1-015**
 GIVEN 3 repo 均 sync 至最新 `ble_api.yaml`，7 sections 全一致
 WHEN `x1-wire-parity-check.py` 執行
-THEN exit 0，stdout 印 `[X-1 PASS] 7/7 sections OK`
+THEN exit 0，stdout 印 `[x1 PASS] 7/7 sections OK`
 
 **AC-X1-016**
 GIVEN PR 修改 `ble_api.yaml`

@@ -33,6 +33,6 @@ flowchart TD
 **說明**：流程展示 F-04 scheduler tuning 的端對端路徑。Central 是第一道驗證關卡（TUNE-VAL），Firmware 是最終 guard。CMD_RESULT 成功後 App UI 才轉為 `confirmed` 狀態。Busy guard（0xFD reject）見 [`seq-cmd-v2-reject-busy.md`](../sequence/seq-cmd-v2-reject-busy.md)。
 
 **Reference**：
-- Spec: [`../../../shared-spec/feature-gw-qos-scheduler-tuning.md`](../../feature-gw-qos-scheduler-tuning.md)
+- Spec: [`03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md`](../../../03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md)
 - Validation rules: `TUNE-VAL-001` ~ `TUNE-VAL-006`
 - ADR: `--base-dir/docs/decisions/2026-04-18-f04-runtime-preset-over-build-assert.md`

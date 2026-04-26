@@ -1,7 +1,7 @@
 # 04_runtime-view
 
 > arc42 §6 — Runtime 行為：CMD_V2 / cache / HA / reconnect 時序圖
-> Status: active (6 sequence diagrams moved from shared-spec/diagrams/sequence/ PR#3)
+> Status: active (6 sequence diagrams migrated to arc42 structure PR#3)
 
 ## 內容
 

@@ -28,10 +28,10 @@
 
 | ID | Feature |
 | :--- | :--- |
-| `RML-FEA-001` | Telemetry & roster visibility ([detail](feature-telemetry-roster-visibility.md)) |
-| `RML-FEA-002` | Command execution & feedback ([detail](feature-command-execution-feedback.md)) |
-| `RML-FEA-003` | Identity, alias, and metadata display ([detail](feature-identity-alias-metadata-display.md)) |
-| `RML-FEA-004` | Assignment reconciliation ([detail](feature-assignment-reconciliation.md)) |
+| `FEA-001` | Telemetry & roster visibility ([detail](../03_building-blocks/FEA-001-telemetry-roster-visibility.md)) |
+| `FEA-002` | Command execution & feedback ([detail](../03_building-blocks/FEA-002-command-execution-feedback.md)) |
+| `FEA-003` | Identity, alias, and metadata display ([detail](../03_building-blocks/FEA-003-identity-alias-metadata-display.md)) |
+| `FEA-004` | Assignment reconciliation ([detail](../03_building-blocks/FEA-004-assignment-reconciliation/contract.md)) |
 
 ## Constraints
 

@@ -1,7 +1,7 @@
 # 00_introduction-goals
 
 > arc42 §1 — 系統意圖、目標、約束與利害關係人
-> Status: active (content moved from shared-spec/ PR#3)
+> Status: active (content migrated to arc42 structure PR#3)
 
 ## 內容
 

@@ -1,7 +1,7 @@
 # Ecosystem Map — Wave 1: Data Classification + Uplink Buffer
 
 > Wave: Firmware Phase 3 Wave 1
-> Source: `shared-spec/rml-lite.md` actors/authority, `firmware-phase3-reliability.md` Wave 1
+> Source: `00_introduction-goals/system-intent.md` actors/authority, `firmware-phase3-reliability.md` Wave 1
 
 ```mermaid
 flowchart TB

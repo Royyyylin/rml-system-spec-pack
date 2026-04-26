@@ -1,7 +1,7 @@
 # Ubiquitous Language
 
 > arc42 §3 + DDD core. Canonical vocabulary for all 4 repos.
-> renamed from: shared-spec/glossary.md (git mv, rename detect preserved).
+> renamed from: glossary.md (git mv to arc42 location, PR#3).
 > Machine-readable authority boundary → [authority-map.yaml](authority-map.yaml) (commit 3/8).
 
 ## 角色（Roles）
