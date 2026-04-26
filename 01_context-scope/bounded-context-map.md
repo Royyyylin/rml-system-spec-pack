@@ -25,6 +25,42 @@
 | `RML-SCP-003` | In scope: cross-repo orchestration、queue / gate governance、handoff、evidence index、project-level acceptance model。 |
 | `RML-SCP-004` | Out of scope: 讓 AI orchestration layer 直接成為 runtime control authority，或在 `--base-dir` 複製 repo-level technical SSOT。 |
 
+## System Actors
+
+> **L3 Source-Level Refactor 2026-04-27**: System-type actors migrated from `stakeholders.md` (廢 `RML-ACT-*` ID schema) to this section. Entity-name canonical (NO `ACTOR-NN` ID). Cross-ref to [system-intent.md#strategic-goals](../00_introduction-goals/system-intent.md#strategic-goals) by goal name (per D3).
+> Human + AI Agent roles → see [stakeholders.md#roles](../00_introduction-goals/stakeholders.md#roles).
+
+### Gateway / Edge Nodes
+
+**Entity**: Gateway (GW) + End Device (ED) — firmware runtime layer (nRF52833 DK hardware).
+
+**Responsibility**: 產生 runtime truth，執行 QoS、uplink、HA、local coordination 與裝置側行為。GW 擁有 local QoS 排程、local failover 觸發與 radio behavior 的第一手 truth；ED 負責 runtime measurement 與 device-side behavior。Central 與 App 不得假裝擁有這層 truth（`RML-AUT-003`）。
+
+**Strategic Goal Cross-Ref**:
+- [SSOT-Driven-UI-Semantics](../00_introduction-goals/system-intent.md#strategic-goals) — wire semantics 必須衍生自 firmware SSOT，GW/ED 是 wire semantics 的 originating authority。
+- [Two-Layer-Operating-Model](../00_introduction-goals/system-intent.md#strategic-goals) — repo-level technical truth 由 firmware / Gateway 層持有；project-level orchestration truth 由 Conductor 持有，兩層不得混用。
+
+### Central System
+
+**Entity**: Central — backend system (FastAPI + PostgreSQL).
+
+**Responsibility**: 維護 canonical identity、assignment、metadata、auth、audit、sync 與 global truth。App、Firmware、Conductor 不得自行重定 canonical identity、assignment 或 auth truth（`RML-AUT-004`）。
+
+**Strategic Goal Cross-Ref**:
+- [Three-Layer-Identity-Separation](../00_introduction-goals/system-intent.md#strategic-goals) — Central 是 `stableId` / `central_ref` / BLE MAC 三層身分邊界的 canonical authority。
+- [Authority-Mismatch-Observability](../00_introduction-goals/system-intent.md#strategic-goals) — Central 維護 assignment 權威狀態，與 firmware runtime attach 不一致時必須可追查。
+
+### Conductor (AI Orchestration Layer)
+
+**Entity**: Conductor — AI orchestration layer (cross-repo planning, dispatch, evidence index).
+
+**Responsibility**: 管理 planning、dispatch、handoff、queue、evidence 與 cross-repo governance。不直接介入 real-time control loop，不覆寫 runtime truth，不取代 Central 或 Firmware 的權威邊界（`RML-AUT-005`）。`--base-dir` 只承接 cross-repo formal control docs，不承接 repo-level technical SSOT（`RML-AUT-006`）。
+
+**Strategic Goal Cross-Ref**:
+- [AI-Continuable-Traceability](../00_introduction-goals/system-intent.md#strategic-goals) — Conductor 負責確保 cross-repo spec 可被後續 AI / automation layer 穩定接續。
+- [Tri-Stage-Spec-Lifecycle](../00_introduction-goals/system-intent.md#strategic-goals) — Conductor 管理 baseline / target / migration stage 模型的 queue 與 acceptance 流程。
+- [Two-Layer-Operating-Model](../00_introduction-goals/system-intent.md#strategic-goals) — Conductor 持有 project-level orchestration truth，不得侵入 repo-level technical truth。
+
 ## Bounded Context Diagram
 
 Diagram source: [system-actors.d2](system-actors.d2)
