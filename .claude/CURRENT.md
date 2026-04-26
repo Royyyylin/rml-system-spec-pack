@@ -1,9 +1,10 @@
 # CURRENT — rml-system-spec-pack
 
-最後更新：2026-04-26
+最後更新：2026-04-27
 
 ## 進度快照
 
+- **Task B L3 真源頭 RML schema 重構達成 — J3 score 98/100** (Task A J FINAL 96 → +2: Vocab+Trace 14→15 / Portable+Staleness 8→9; ADR-013 lock-in 廢 11 RML ID schema, name-canonical + chapter-position-canonical per Backstage/C4/arc42)
 - **Task A 真重新建構達成 — J FINAL score 96/100** (was 28 baseline → +68 跳, master 95+ target ✅)
 - **4-Phase delivery 完整 closed** (multi-CC orchestration, master 寫 plan + Verifier / executor 執行 + paste-back, 14 sub-plan files /wbs decompose dogfood):
   - Phase 1 E (6 step blocker): symlink rm + portable @import + spec-pack PUBLIC + 4 Rulesets + Stream B refactor
@@ -12,9 +13,22 @@
   - Phase 2c (Ia/Ib): V-Model docs (app + central) + IMPL FREEZE
   - Phase 3 J (initial 82/100 + FINAL re-audit 96/100, adversarial)
   - Phase 4 K (K1 partial workspace ruleset + staleness blocking; K2 §2 §7 expand; K3-α/β workspace mirror + trace reconcile CI; K4 ADR-009~012 + V-Model OQ resolve)
-- **13 ADR accepted (ADR-000~012)** 全 Nygard format
+- **14 ADR accepted (ADR-000~013)** 全 Nygard format (ADR-013 RML cleanup L3 lock-in)
 - **arc42 8 chapter coverage 滿分 25/25** (§1~§7 + §9 + §11 + §12)
-- 25+ PR merged 跨 5 repo (spec-pack/firmware/app/central/workspace), 5 GitHub Rulesets active
+- 34+ PR merged 跨 5 repo (Task A 25+ + Task B 8 spec-pack (#43-#48 主線 + #50 J3 + #51 ADR-013 patch) + cross-repo central #39, dummy #49 closed unmerged 不計), 5 GitHub Rulesets active
+
+## cc-bridge Multi-CC Orchestration Real Test
+
+Task B L3 後段透過 `~/cc-bridge/` master↔executor 雙向 inbox + HMAC-signed XML protocol (DISPATCH/RESULT/ACK/STATUS) 跑真 multi-CC orchestration。Verified mechanisms:
+
+- **TO routing** (`<TO role="..."/>`) 正確 dispatch 到 inbox/<role>/
+- **HMAC sign** by `${BRIDGE_DIR}/state/hmac.key` (send-to.sh atomic write)
+- **Polling Monitor** (5s interval) 替代 fswatch (macOS 預設無 fswatch)
+- **Adversarial sub-agent** spawn for true independent verification (per /wbs Mechanism #5, 防同 agent 自審)
+- **Executor 先 REVIEW + flag concerns** (master 數字 hallucination: 17 ADR / 28+ PR 都被 executor 抓出修正)
+- **/loop dynamic mode + ScheduleWakeup** 1500s fallback heartbeat (cache-window aware)
+
+Real test 跨 J3 score audit + ADR-013 patch + EOD final 三 dispatch round, 全部 master Verifier 驗證 + Roy gate 通過。
 
 ## 下一步（按優先序）
 
