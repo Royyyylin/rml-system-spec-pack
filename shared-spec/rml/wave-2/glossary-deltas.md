@@ -1,6 +1,6 @@
 # Glossary Deltas — Wave 2: Replay + Event Coverage
 
-> Cross-links master glossary: `shared-spec/glossary.md`
+> Cross-links master glossary: `01_context-scope/ubiquitous-language.md`
 > New terms introduced in Firmware Phase 3 Wave 2.
 
 ## New Terms

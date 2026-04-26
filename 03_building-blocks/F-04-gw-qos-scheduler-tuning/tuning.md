@@ -7,7 +7,7 @@ Primary Stage: `target`
 
 定義 GW QoS scheduler connection interval table 的**部署調校模型**。GW 依據連線 ED 數量動態決定 BLE connection interval；本 spec 規範這張 interval table 如何被 preset / expert override 管理，以及跨 repo 的 ownership boundary。
 
-本 spec 不是 `RML-FEA-004`（Assignment Reconciliation），而是 firmware executor-side 的 scheduler tuning contract。
+本 spec 不是 `FEA-004`（Assignment Reconciliation），而是 firmware executor-side 的 scheduler tuning contract。
 
 ## Background
 

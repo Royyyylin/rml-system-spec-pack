@@ -1,7 +1,7 @@
 # RML Wave Diagram Index — Master MOC
 
 > Cross-repo RML (Rich Modeling Language) documents per wave.
-> Format follows `shared-spec/rml-lite.md` actors/authority/scope model.
+> Format follows `00_introduction-goals/system-intent.md` actors/authority/scope model.
 > Each wave has 5 documents: ecosystem-map / capability-matrix / event-storming / context-map / glossary-deltas.
 
 ## Wave Inventory

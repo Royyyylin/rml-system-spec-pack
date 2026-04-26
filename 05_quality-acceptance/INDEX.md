@@ -1,14 +1,14 @@
 # 05_quality-acceptance
 
 > arc42 §10 — 驗收標準、測試目錄與 BDD 場景
-> Status: active (content moved from shared-spec/ PR#3)
+> Status: active (content migrated to arc42 structure PR#3)
 
 ## 內容
 
 | 檔案 | 說明 |
 |---|---|
-| `requirements.md` | REQ-001~008 系統需求 (← shared-spec/requirements.md) |
-| `baseline-target-migration.md` | 基線→目標遷移計畫 (← shared-spec/baseline-target-migration.md) |
+| `requirements.md` | REQ-001~008 系統需求 (migrated PR#3) |
+| `baseline-target-migration.md` | 基線→目標遷移計畫 (migrated PR#3) |
 | `ac-catalog.md` | Acceptance Criteria 目錄 (← s1-ac-catalog.md) |
 | `tc-matrix.md` | Test Case matrix (← s2-tc-matrix.md) |
 | `bdd-scenarios.md` | Gherkin BDD 場景 (← bdd-flows.md, NOT event-storming) |

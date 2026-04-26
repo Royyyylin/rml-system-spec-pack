@@ -1,7 +1,7 @@
 # 02_solution-strategy
 
 > arc42 §4 — 解決方案策略與能力對照
-> Status: active (content moved from shared-spec/ PR#3)
+> Status: active (content migrated to arc42 structure PR#3)
 
 ## 內容
 

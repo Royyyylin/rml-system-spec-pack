@@ -1,7 +1,7 @@
-# Feature Spec — RML-FEA-004 Assignment Reconciliation
+# Feature Spec — FEA-004 Assignment Reconciliation
 
 Status: formal
-Feature ID: `RML-FEA-004`
+Feature ID: `FEA-004`
 Primary Stage: `target`
 
 ## Purpose

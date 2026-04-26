@@ -1,9 +1,9 @@
-# S-2 TC Matrix — Cross-Repo Test Case Mapping
+# TC Matrix — Cross-Repo Test Case Mapping
 
 > Status: active
 > Last updated: 2026-04-19
 > Owner: spec-pack (system level)
-> Companion: S-1 AC Catalog (`s1-ac-catalog.md`), Trace map (`--base-dir/docs/trace_map.yaml`)
+> Companion: AC Catalog (`ac-catalog.md`), Trace map (`--base-dir/docs/trace_map.yaml`)
 
 ## Purpose
 
@@ -155,14 +155,14 @@ Source spec: `central-device-metadata/docs/specs/c2-integration-test-qos-tuning.
 
 | Metric | Count |
 |---|---|
-| ACs in S-1 catalog | 44 |
+| ACs in AC catalog | 44 |
 | ACs with at least 1 TC | 34 |
 | ACs without TC (gap) | 10 |
 | Total TCs | 50 |
 
 ## References
 
-- S-1 AC catalog: `rml-system-spec-pack/05_quality-acceptance/ac-catalog.md`
+- AC catalog: `rml-system-spec-pack/05_quality-acceptance/ac-catalog.md`
 - Trace map SSOT: `--base-dir/docs/trace_map.yaml`
-- S-3 trace strategy: `rml-system-spec-pack/06_crosscutting-integration/cross-repo-trace-strategy.md`
+- Trace strategy: `rml-system-spec-pack/06_crosscutting-integration/cross-repo-trace-strategy.md`
 - FW-3A spec trace map section: `--base-dir/docs/specs/fw-3a-cmd-v2-length-guard.md#trace-map-req--ac--tc--impl`

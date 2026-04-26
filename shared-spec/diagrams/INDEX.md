@@ -48,7 +48,7 @@
 | [`architecture/arch-firmware-modules.md`](architecture/arch-firmware-modules.md) | ble_port / qos_service / role_* / nvs / ha / uplink / cmd_v2_dispatch 分層 | `ble_qos_demo_V1.2m` |
 | [`architecture/arch-central-layers.md`](architecture/arch-central-layers.md) | presentation / application / domain / infrastructure 四層 | `central-device-metadata/` |
 | [`architecture/arch-app-layers.md`](architecture/arch-app-layers.md) | UI / state(Riverpod) / domain / data(BLE+HTTP) 四層 | `ble_qos_app/` |
-| [`architecture/arch-ble-wire.md`](architecture/arch-ble-wire.md) | `ble_api.yaml` → codegen → Firmware / Central / App，X-1 drift check | [`../x1-cross-repo-wire-parity-spec.md`](../x1-cross-repo-wire-parity-spec.md) |
+| [`architecture/arch-ble-wire.md`](architecture/arch-ble-wire.md) | `ble_api.yaml` → codegen → Firmware / Central / App，x1 drift check | [`../x1-cross-repo-wire-parity-spec.md`](../x1-cross-repo-wire-parity-spec.md) |
 
 ---
 

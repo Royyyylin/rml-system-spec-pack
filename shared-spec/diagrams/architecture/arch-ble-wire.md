@@ -13,7 +13,7 @@ avoid: GATT UUID列表、具體codegen指令、CI pipeline細節
 
 # BLE Wire SSOT 架構圖
 
-**主訊息**：`ble_api.yaml` 是三端 BLE wire format 的唯一來源，各 repo 獨立執行 codegen，X-1 CI 驗 drift。
+**主訊息**：`ble_api.yaml` 是三端 BLE wire format 的唯一來源，各 repo 獨立執行 codegen，x1 CI 驗 drift。
 
 ```mermaid
 flowchart LR
@@ -37,7 +37,7 @@ flowchart LR
         AP_JSON[_canonical_wire.json]
     end
 
-    CI[X-1 Parity Check\ntools/x1-wire-parity-check.py\nCI: diff 3 × canonical JSON]
+    CI[x1 Parity Check\ntools/x1-wire-parity-check.py\nCI: diff 3 × canonical JSON]
 
     YAML --> FW_GEN --> FW_H
     YAML --> CT_GEN --> CT_PY
@@ -51,9 +51,9 @@ flowchart LR
     CI -->|drift detected| FAIL[CI FAIL\n阻擋 merge]
 ```
 
-**說明**：三端各自執行 codegen，漂移風險來自「某端忘記重跑 codegen」或「codegen 邏輯不一致」。X-1 透過 canonical JSON diff 在 CI 自動驗 7 個 wire section 的 parity。SSOT 改動需重跑三端 codegen。
+**說明**：三端各自執行 codegen，漂移風險來自「某端忘記重跑 codegen」或「codegen 邏輯不一致」。x1 透過 canonical JSON diff 在 CI 自動驗 7 個 wire section 的 parity。SSOT 改動需重跑三端 codegen。
 
 **Reference**：
 - Wire SSOT: `ble_qos_demo_V1.2m/ble_api.yaml`
-- X-1 spec: [`../../x1-cross-repo-wire-parity-spec.md`](../../x1-cross-repo-wire-parity-spec.md)
+- x1 spec: [`../../x1-cross-repo-wire-parity-spec.md`](../../x1-cross-repo-wire-parity-spec.md)
 - Plan: [`../../x1-cross-repo-wire-parity-plan.md`](../../x1-cross-repo-wire-parity-plan.md)

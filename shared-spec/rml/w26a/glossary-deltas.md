@@ -1,6 +1,6 @@
 # Glossary Deltas — W26A: Shift Reporting & Dashboard Customization
 
-> Cross-links master glossary: `shared-spec/glossary.md`
+> Cross-links master glossary: `01_context-scope/ubiquitous-language.md`
 > New terms introduced in App Wave 26A.
 
 ## New Terms

@@ -1,13 +1,13 @@
 # Glossary Deltas — F-04: GW QoS Scheduler Tuning
 
-> Cross-links master glossary: `shared-spec/glossary.md`
+> Cross-links master glossary: `01_context-scope/ubiquitous-language.md`
 > New terms introduced in F-04 GW QoS Scheduler Deployment Tuning.
 
 ## New Terms
 
 | Term | Definition | Canonical Location |
 |---|---|---|
-| `TUNE-VAL` | QoS scheduler preset parameter validation rule set (TUNE-VAL-001~006). Enforced by App (client guard) and Firmware (final guard). | `shared-spec/feature-gw-qos-scheduler-tuning.md` §Validation Rules |
+| `TUNE-VAL` | QoS scheduler preset parameter validation rule set (TUNE-VAL-001~006). Enforced by App (client guard) and Firmware (final guard). | `03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md` §Validation Rules |
 | `preset` | Named QoS scheduler configuration: `balanced` / `conservative` / `aggressive`. Each has defined cutoff and interval values. | `ble_api.yaml` → presets |
 | `balanced preset` | Default preset; matches current hardcode baseline. Used as boot fallback. `cutoffs: 3/5/8`, `intervals: 80/160/400/800 BLE units`. | `ble_api.yaml` → presets |
 | `conservative preset` | Connection quality priority. `cutoffs: 2/4/6`, `intervals: 80/80/160/400 BLE units`. | `ble_api.yaml` → presets |

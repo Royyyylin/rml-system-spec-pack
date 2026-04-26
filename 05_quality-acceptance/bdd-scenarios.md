@@ -1,7 +1,7 @@
 # BDD Scenarios — BLE QoS Demo 系統行為場景
 
 > **Status: deferred** — Gherkin scenarios (arc42 §10 / BDD). NOT event-storming (Brandolini EventStorming ≠ Gherkin).
-> renamed from: shared-spec/bdd-flows.md (semantic correction per Reconciliation Table).
+> renamed from: bdd-flows.md (semantic correction per Reconciliation Table, PR#3).
 > 本文定義 8 個核心 BDD 場景（Given/When/Then），供 `/spec-bdd` 執行時對照驗證。
 > 角色定義見 [../01_context-scope/ubiquitous-language.md](../01_context-scope/ubiquitous-language.md)；REQ 編號見 [requirements.md](requirements.md)。
 

@@ -1,7 +1,7 @@
 # 06_crosscutting-integration
 
 > arc42 §8 — 跨 repo trace 策略、Wire Parity 與合規矩陣
-> Status: active (content moved from shared-spec/ PR#3)
+> Status: active (content migrated to arc42 structure PR#3)
 
 ## 內容
 

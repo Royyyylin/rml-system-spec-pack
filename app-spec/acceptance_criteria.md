@@ -3,7 +3,7 @@
 ## `AC-001` Telemetry Display
 
 Requirement: `REQ-001`
-Feature: `RML-FEA-001`
+Feature: `FEA-001`
 
 - 對 `STATUS` / `METRICS_V2` 解析出的數值，`present` / `stale` 顯示數值，`sparse` / `unknown` / `not_synced` 顯示 `--`
 - `sparse` 必須顯示為正常資料狀態，不得顯示為 error
@@ -13,7 +13,7 @@ Feature: `RML-FEA-001`
 ## `AC-002` Capability Gate
 
 Requirement: `REQ-002`
-Feature: `RML-FEA-002`
+Feature: `FEA-002`
 
 - `CAPS_V2` 存在時，功能 gating 必須以 `CAPS_V2` 為準
 - `CAPS_V2` 不存在時，App 必須 fallback `CAP`
@@ -22,7 +22,7 @@ Feature: `RML-FEA-002`
 ## `AC-003` Identity Boundary
 
 Requirement: `REQ-003`
-Feature: `RML-FEA-003`
+Feature: `FEA-003`
 
 - App 內部裝置主鍵顯示與儲存以 `stableId` 為主；`central_ref` 僅作 Central metadata 對應鍵
 - 若畫面顯示 MAC，必須標示它是 transport identity
@@ -32,7 +32,7 @@ Feature: `RML-FEA-003`
 ## `AC-004` Assignment Reconciliation
 
 Requirement: `REQ-004`, `REQ-008`
-Feature: `RML-FEA-004`
+Feature: `FEA-004`
 
 - Central 與 runtime gateway 一致時，不顯示 reconciliation badge
 - 不一致時，detail / roster 必須可見 `assignmentSyncState`
@@ -43,7 +43,7 @@ Feature: `RML-FEA-004`
 ## `AC-005` Alias Precedence
 
 Requirement: `REQ-005`
-Feature: `RML-FEA-003`
+Feature: `FEA-003`
 
 - 有 pending op 時：`local_pending > central > cached > DEVICE_ALIAS > adv_name`
 - 無 pending op 時：`central > cached > DEVICE_ALIAS > adv_name`
@@ -52,7 +52,7 @@ Feature: `RML-FEA-003`
 ## `AC-006` Command Round Trip
 
 Requirement: `REQ-006`
-Feature: `RML-FEA-002`
+Feature: `FEA-002`
 
 - current live peer 必須先決定合法 command path：`CC bridge -> Central-side path`；`Gateway / End Device -> Firmware-side path`
 - `Firmware-side path` 的新 app action 必須透過 `CMD_V2` 送出非零 `txn_id`
@@ -65,7 +65,7 @@ Feature: `RML-FEA-002`
 ## `AC-007` Comparison Evidence Visibility
 
 Requirement: `REQ-007`
-Feature: `RML-FEA-004`
+Feature: `FEA-004`
 
 - 使用者在 detail / debug / evidence-visible surface 上必須可檢視 Central 與 Firmware 兩側的 freshness hint（例如「fresh」/「stale」/「last synced Xs ago」）
 - 當 App 顯示 `not compared` / `last synced` 時，必須可檢視 last-synced reference 的來源與相對時間

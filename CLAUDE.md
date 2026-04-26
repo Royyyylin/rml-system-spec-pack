@@ -9,7 +9,7 @@
 
 | Deprecated | Canonical | Notes |
 |---|---|---|
-| `shared-spec/<file>` | `NN_<chapter>/<file>` | Use arc42 chapter path |
+| `shared-spec/` prefix paths | `NN_<chapter>/<file>` | Use arc42 chapter path (legacy dir migrated PR#3) |
 | `RML-FEA-*` | `FEA-NNN-` | FEA-NNN mandatory, non-archive contexts |
 | `S-N` | `F-NN` or `FEA-NNN` | Use feature ID prefix |
 | `X-N` | chapter-scoped ID (e.g. `x1-`) | Use chapter-scoped naming |

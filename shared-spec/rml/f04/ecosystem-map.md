@@ -2,7 +2,7 @@
 
 > Feature: F-04 GW QoS Scheduler Deployment Tuning
 > Cross-repo feature (Spec-pack owner). Related: FW-3A, FW-3B, FW-4, FW-5 (Firmware); A-1~A-6 (App); C-1 (Central)
-> Source: `shared-spec/feature-gw-qos-scheduler-tuning.md`, `capability-ownership.md` RML-CAP-006
+> Source: `03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md`, `02_solution-strategy/capability-map.md` RML-CAP-006
 
 ```mermaid
 flowchart TB

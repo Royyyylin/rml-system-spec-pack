@@ -1,7 +1,7 @@
 # 01_context-scope
 
 > arc42 §3 — 系統邊界、外部角色與統一語言
-> Status: active (content moved from shared-spec/ PR#3)
+> Status: active (content migrated to arc42 structure PR#3)
 
 ## 內容
 

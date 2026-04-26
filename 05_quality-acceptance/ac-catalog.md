@@ -1,4 +1,4 @@
-# S-1 AC Catalog — Cross-Repo Acceptance Criteria Index
+# AC Catalog — Cross-Repo Acceptance Criteria Index
 
 > Status: active
 > Last updated: 2026-04-19
@@ -147,5 +147,5 @@ Spec ref: `central-device-metadata/docs/specs/c2-integration-test-qos-tuning.md`
 - W26A failback spec: `central-device-metadata/docs/specs/failback-command-service-spec.md`
 - C-2 integration spec: `central-device-metadata/docs/specs/c2-integration-test-qos-tuning.md`
 - Trace map: `--base-dir/docs/trace_map.yaml`
-- S-2 TC matrix: `rml-system-spec-pack/05_quality-acceptance/tc-matrix.md`
-- S-3 trace strategy: `rml-system-spec-pack/06_crosscutting-integration/cross-repo-trace-strategy.md`
+- TC matrix: `rml-system-spec-pack/05_quality-acceptance/tc-matrix.md`
+- Trace strategy: `rml-system-spec-pack/06_crosscutting-integration/cross-repo-trace-strategy.md`
