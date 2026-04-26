@@ -19,13 +19,13 @@ chronological order. It is NOT the canonical vocabulary — use
 ### 2026-04-25 — `glossary.md` renamed to `ubiquitous-language.md` (PR#3)
 
 - **Change type**: RENAME + RELOCATE
-- **From**: `shared-spec/glossary.md` (legacy path)
+- **From**: `glossary.md` (legacy filename, located in the old chapter-less directory — now migrated)
 - **To**: `01_context-scope/ubiquitous-language.md` (arc42 §3 canonical location)
 - **Rationale**: Aligns with arc42 §3 (Context and Scope), DDD Ubiquitous Language pattern, and
   spec-pack directory convention (`NN_<chapter>/`). The old name "glossary" implied a static
   dictionary; "ubiquitous-language" signals the DDD intent of shared, enforced vocabulary.
-- **Consumer impact**: Any external doc or CI script referencing `glossary.md` or
-  `shared-spec/glossary.md` must update to the new path. CLAUDE.md Vocabulary Canonical List
+- **Consumer impact**: Any external doc or CI script referencing the old `glossary.md`
+  filename must update to `01_context-scope/ubiquitous-language.md`. CLAUDE.md Vocabulary Canonical List
   now maps `glossary.md → ubiquitous-language.md` as a session-level guard.
 - **Cross-link**: [ubiquitous-language.md](../01_context-scope/ubiquitous-language.md) — header
   notes `renamed from: glossary.md (git mv to arc42 location, PR#3)`.
