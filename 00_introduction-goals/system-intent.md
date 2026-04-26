@@ -59,3 +59,4 @@ BLE QoS Demo 同時承擔三條互相獨立但無法分離的 intent — 任何�
 - **Command-Timeout-Or-Error** — 已遷出, 見 [risks-and-debt.md](../99_appendix/risks-and-debt.md)
 - **Project-Vs-Repo-Truth-Mixing** — 已遷出, 見 [risks-and-debt.md](../99_appendix/risks-and-debt.md)
 - **AI-Orchestration-Authority-Overreach** — 已遷出, 見 [risks-and-debt.md](../99_appendix/risks-and-debt.md)
+<!-- DUMMY VIOLATION TEST: RML-OBJ-999 should be blocked by vocab-check (ADR-013 enforcement test, do NOT merge) -->
