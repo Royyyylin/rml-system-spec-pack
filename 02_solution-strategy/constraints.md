@@ -86,14 +86,16 @@
 | 限制 | 說明 |
 |------|------|
 | arc42 章節結構 | 所有系統 spec 必須遵循 arc42 10-chapter 結構（`00_introduction-goals/` ～ `11_risks-and-debt/`）；不得在結構外放 spec 文件 |
-| 詞彙管制 | 新 cross-repo 術語必須先在 `01_context-scope/ubiquitous-language.md` 登錄（Spec Hygiene Rule 13）；廢棄詞彙（`RML-FEA-*`、`shared-spec/`）觸發 CI vocab-check 失敗 |
+| 詞彙管制 | 新 cross-repo 術語必須先在 `01_context-scope/ubiquitous-language.md` 登錄（Spec Hygiene Rule 13）；廢棄詞彙前綴（如舊版路徑前綴、舊 feature ID 格式）觸發 CI vocab-check 失敗 |
 | 圖表 contract | 所有 `.d2` / `.mmd` 圖表必須帶 AI Diagram Contract comment block；render artifact（PNG）不是 SSOT |
 | 文件大小限制 | 每個 `.md` 檔 ≤ 300 行（doc-size-limit hook 強制）；超過必須 fractal split |
 
 ### 3.3 Vocab-Check CI Ruleset
 
-CI pipeline 包含 `vocab-check` linter（`scripts/vocab-check.sh`），會 grep 全 repo 掃描：
-- 禁止詞彙：`RML-FEA-`、`shared-spec/`、`S-[0-9]`（standalone）、`X-[0-9]`（standalone）
+CI pipeline 包含 `vocab-check` linter（`tools/check_vocabulary_alignment.py`），掃描規則：
+- 禁止：已廢棄的舊 feature ID 格式（`RML-FEA-\d+`）
+- 禁止：已廢棄的舊路徑前綴（legacy dir — 已由 arc42 章節路徑取代）
+- 禁止：單獨出現的 `S-\d+` / `X-\d+`（應使用 F-NN 或 FEA-NNN）
 - 強制出現：新 feature 必須使用 `FEA-NNN-` 或 `F-NN` 前綴
 - CI gate 失敗 → PR 不得 merge
 
