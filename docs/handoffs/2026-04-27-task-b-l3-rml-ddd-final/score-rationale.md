@@ -16,7 +16,7 @@ GitHub Rulesets unchanged from J FINAL (4 repo all `enforcement=active`, vocab-c
 ### arc42 Chapter Coverage — 25/25 (was 25, +0)
 
 8 arc42 chapter 仍全 coverage。L3 內容 quality 提升:
-- §1 system-intent.md: opaque ID table → narrative + name-canonical 6 strategic goals + 7 engineering invariants table (industry-aligned per Backstage / arc42)
+- §1 system-intent.md: opaque ID table → narrative + name-canonical 6 strategic goals + 7 engineering invariants table (industry-aligned per Backstage / C4 / arc42)
 - §3 bounded-context-map.md: `## Authority Boundaries` 6 RML-AUT IDs → 6 boundary names; `## Scope` 4 RML-SCP IDs → 4 scope-type names
 - §3 stakeholders.md: unified role table (human + AI Agent), system actors moved to bounded-context-map
 - §2 capability-map.md: TOGAF capability hierarchy + `## ID Schema Migration Mapping` audit trail
