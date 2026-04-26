@@ -1,0 +1,33 @@
+name: trace-map-reconcile-check
+
+on:
+  pull_request:
+    paths:
+      - "trace/trace_map.yaml"
+      - "tools/check_trace_reconcile.py"
+      - ".github/workflows/trace-map-reconcile-check.yml"
+  schedule:
+    # Weekly on Monday at 07:00 UTC
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+jobs:
+  reconcile:
+    name: Dual trace_map reconcile (advisory)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate workflow YAML
+        run: |
+          python3 -c "import yaml; yaml.safe_load(open('.github/workflows/trace-map-reconcile-check.yml'))"
+          echo "workflow yaml valid"
+
+      - name: Validate spec-pack trace_map.yaml
+        run: |
+          python3 -c "import yaml; yaml.safe_load(open('trace/trace_map.yaml'))"
+          echo "spec-pack trace_map.yaml valid"
+
+      - name: Run dual trace_map reconcile check
+        run: python3 tools/check_trace_reconcile.py
+        # advisory: always exits 0 -- warnings surfaced via ::warning:: annotation
