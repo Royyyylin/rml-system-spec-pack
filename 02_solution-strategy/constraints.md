@@ -8,6 +8,24 @@
 
 ---
 
+## Engineering Invariants (Cross-Reference)
+
+This file covers the **legal / regulatory / hardware / organizational constraint layer** — external limitations imposed on the system. It does NOT contain architectural enforcement rules.
+
+Architectural invariants (internal rules that the system enforces upon itself — e.g. wire-semantic ownership, identity boundary separation, diagram authority) live in [`system-intent.md#engineering-invariants`](../00_introduction-goals/system-intent.md#engineering-invariants). Readers who need to understand *why* a constraint exists in terms of system architecture should start there.
+
+The 7 engineering invariants defined in `system-intent.md#engineering-invariants` are:
+
+- **Wire-Semantics-From-SSOT** — GATT UUID / wire format / opcode may only be derived from `ble_api.yaml`
+- **Single-Active-BLE-Connection** — App uses task-scoped BLE; only one device connected at a time
+- **Sparse-Telemetry-Is-Normal** — `P0 sparse` is a valid data state, not an error
+- **Source-Diagram-Authority** — PNG render artifacts are not authoritative; only source `.md`/`.mmd`/`.d2`/`.yaml` governs
+- **Base-Dir-Cross-Repo-Only** — `--base-dir` carries only cross-repo formal control docs; per-repo technical truth stays in each repo SSOT
+- **AI-Orchestration-Non-Authority** — Conductor/AI layer may manage planning and governance; it must not replace Central, Firmware, or App authority boundaries
+- **AI-Diagram-Contract-Mandatory** — All `.d2`/`.mmd` sources must carry an `AI Diagram Contract` comment block
+
+---
+
 ## 1. 法規限制（Legal / Regulatory）
 
 ### 1.1 無線電認證
