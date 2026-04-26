@@ -7,11 +7,12 @@ Fail if:
   - Used deprecated term (e.g. RML-FEA-* in non-archive context)
   - Used cross-repo term not registered in canonical list
 
-Advisory level (起步), 後升 blocking.
+Blocking mode active as of 2026-04-25. Exit 1 on violations.
 """
 
 from __future__ import annotations
 
+import argparse
 import re
 import sys
 from pathlib import Path
@@ -30,8 +31,8 @@ DEPRECATED_PATTERNS: list[tuple[str, str]] = [
     (r"shared-spec/", "use arc42 chapter path (e.g. 01_context-scope/) instead"),
 ]
 
-# Cross-repo paths (4 repo)
-TARGET_REPOS: list[Path] = [
+# Cross-repo paths (4 repo) — default when no --repo arg is given
+DEFAULT_TARGET_REPOS: list[Path] = [
     SPEC_PACK,
     SPEC_PACK.parent / "ble_qos_demo_V1.2m",
     SPEC_PACK.parent / "ble_qos_app",
@@ -124,16 +125,32 @@ def check_ubiquitous_lang_exists() -> bool:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Check cross-repo vocabulary alignment vs spec-pack ubiquitous-language.md."
+    )
+    parser.add_argument(
+        "--repo",
+        metavar="PATH",
+        action="append",
+        dest="repos",
+        help="Repo path to scan. May be given multiple times. Default: all 4 repos.",
+    )
+    args = parser.parse_args()
+
+    target_repos: list[Path] = (
+        [Path(r).resolve() for r in args.repos] if args.repos else DEFAULT_TARGET_REPOS
+    )
+
     check_ubiquitous_lang_exists()
 
     all_violations: list[str] = []
-    for repo in TARGET_REPOS:
+    for repo in target_repos:
         violations = scan_repo(repo)
         all_violations.extend(violations)
 
     if all_violations:
         print(
-            f"WARNING: Vocabulary alignment violations ({len(all_violations)}):",
+            f"ERROR: Vocabulary alignment violations ({len(all_violations)}):",
             file=sys.stderr,
         )
         for violation in all_violations[:50]:
@@ -144,11 +161,10 @@ def main() -> int:
                 file=sys.stderr,
             )
         print(
-            "\nAdvisory only (exit 0). Upgrade to blocking: change sys.exit(0) → sys.exit(1).",
+            "\nFix deprecated terms per CLAUDE.md Vocabulary Canonical List.",
             file=sys.stderr,
         )
-        # Advisory level — exit 0 (upgrade to exit 1 when promoting to blocking)
-        sys.exit(0)
+        sys.exit(1)
 
     print("Vocabulary alignment OK")
     sys.exit(0)

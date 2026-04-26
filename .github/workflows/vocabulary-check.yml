@@ -1,0 +1,21 @@
+name: Vocabulary Check
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  vocabulary-check:
+    name: Vocabulary alignment check (blocking)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run vocabulary alignment check (spec-pack only)
+        run: python3 tools/check_vocabulary_alignment.py --repo .
