@@ -21,6 +21,34 @@ features:
     spec: 03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md
     extension_boundary: 03_building-blocks/F-04-gw-qos-scheduler-tuning/extension-boundary.md
     requirements: []
+    sub_features:
+      F-04-FW-3A:
+        description: "CMD_V2 opcode 0x07 SET_SCHED_TUNE per-opcode length guard (firmware)"
+        spec: 03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md
+        seq: 04_runtime-view/seq-cmd-v2-success.md
+        owner_repo: ble_qos_demo_V1.2m
+      F-04-TUNE-VAL:
+        description: "TUNE-VAL-001~006 validation rules: App UX / Central authority / Firmware final guard"
+        spec: 03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md
+        seq: 04_runtime-view/seq-cmd-v2-reject-tune-val.md
+        owner_repo: all
+      F-04-PRESET:
+        description: "Runtime preset selector: conservative / balanced / aggressive"
+        spec: 03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md
+        owner_repo: ble_qos_demo_V1.2m
+      F-04-EXPERT-OVERRIDE:
+        description: "Expert override table (cutoff1~3 / interval1~4) in engineering/admin mode"
+        spec: 03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md
+        owner_repo: ble_qos_app
+      F-04-BUSY-GUARD:
+        description: "Concurrency reject-if-busy: second CMD_V2 in-flight returns 0xFD BUSY"
+        spec: 03_building-blocks/F-04-gw-qos-scheduler-tuning/tuning.md
+        seq: 04_runtime-view/seq-cmd-v2-reject-busy.md
+        owner_repo: ble_qos_demo_V1.2m
+      F-04-EXTENSION-BOUNDARY:
+        description: "Extension boundary separating config apply (CMD_V2 0x07) from telemetry profiling"
+        spec: 03_building-blocks/F-04-gw-qos-scheduler-tuning/extension-boundary.md
+        owner_repo: all
 
 requirements:
   REQ-001:
