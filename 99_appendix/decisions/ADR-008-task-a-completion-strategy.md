@@ -8,7 +8,7 @@ Decided by: Roy (post 4 audit + 4 sub-agent review)
 
 ADR-000 (X-修正) 宣告 spec-pack prescriptive enforcement, sub-plan A/B/C/D 完成後宣稱 redesign 28→70+. 4 paranoid audit 揭露真完成度 **50-55%**: branch protection 沒設 (CI cosmetic, dummy PR `RML-FEA-XYZ` 仍 mergeable) / firmware live symlink 仍指 deprecated / @import 本機絕對路徑 / 漏 ADR 實體 / V-Model docs empty.
 
-4 sub-agent review (Phased / Scope / Risk / Alt) 揭露額外結構問題: F+G hidden dep (F§1→G), I 該升 Phase 2c, 「主 repo 沒裝 vocab-check」真因是 local pull stale + 2 INDEX hard ref miss + central CLAUDE @shared-spec/glossary.md miss; Step 5 "branch protection" 該升 GitHub Rulesets (2025).
+4 sub-agent review (Phased / Scope / Risk / Alt) 揭露額外結構問題: F+G hidden dep (F§1→G), I 該升 Phase 2c, 「主 repo 沒裝 vocab-check」真因是 local pull stale + 2 INDEX hard ref miss + central CLAUDE.md @import 指 legacy glossary 路徑 miss; Step 5 "branch protection" 該升 GitHub Rulesets (2025).
 
 ## Decision
 
@@ -21,7 +21,7 @@ Task A 完成採 4 strategic choice:
 
 ## Consequences
 
-+ enforcement 真 active (dummy PR mergeable=false 驗證, NOT 只 CI red)
++ enforcement 真 active (dummy PR mergeStateStatus=BLOCKED 驗證 — mergeable 是 git-conflict 層, mergeStateStatus 才是 ruleset enforcement 層; NOT 只 CI red)
 + Phase 1 E blocker → 防 F/G/H/I 建在錯地基
 + Phase 4 K 把 maturity 從 ad-hoc reorganize 升 Living Doc level (industry alignment)
 + ADR durable, plan 死後 rationale 不消失 (符合知識捕獲三層架構)
