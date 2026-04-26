@@ -1,7 +1,7 @@
 # System Intent
 
 > arc42 §1 — Introduction & Goals.
-> **L3 Source-Level Refactor 2026-04-27** (per `~/.claude/plans/task-b-rml-ddd-refactor.md`): RML-INT / RML-OBJ / RML-CST / RML-RSK 等 opaque ID schema 已廢除, 改 name-canonical narrative + chapter-position-canonical (per Backstage / C4 / arc42 reference). Cross-ref by `file.md#section-anchor` (D3).
+> **L3 Source-Level Refactor 2026-04-27** (per `~/.claude/plans/task-b-rml-ddd-refactor.md`): opaque ID schema 已廢除 per ADR-013, 改 name-canonical narrative + chapter-position-canonical (per Backstage / C4 / arc42 reference). Cross-ref by `file.md#section-anchor` (D3).
 > Actors + Authority Boundaries + Human Operational Roles + Scope → see [stakeholders.md](./stakeholders.md), [bounded-context-map.md](../01_context-scope/bounded-context-map.md).
 > 細部 capability ownership → [capability-map.md](../02_solution-strategy/capability-map.md); stage 模型見 [baseline-target-migration.md](../05_quality-acceptance/baseline-target-migration.md).
 
@@ -15,16 +15,16 @@ BLE QoS Demo 同時承擔三條互相獨立但無法分離的 intent — 任何�
 
 ## Strategic Goals
 
-下表 6 條為 system-level strategic goal, 對應 [quality-goals.md](./quality-goals.md) 7 條 ISO 25010 operational quality scenario; 兩者層次不同 (strategic intent vs operational quality scenario) 不可混用。Stakeholder 欄位指 primary owner role, 完整 stakeholder map 見 [stakeholders.md#first-level-actors](./stakeholders.md#first-level-actors)。
+下表 6 條為 system-level strategic goal, 對應 [quality-goals.md](./quality-goals.md) 8 條 ISO 25010 operational quality scenario; 兩者層次不同 (strategic intent vs operational quality scenario) 不可混用。Stakeholder 欄位指 primary owner role, 完整 stakeholder map 見 [stakeholders.md#roles](./stakeholders.md#roles)。
 
 | Goal Name | Description | Quality Goal Cross-Ref | Stakeholder |
 |---|---|---|---|
-| **SSOT-Driven-UI-Semantics** | App 顯示的 telemetry、roster、command 結果必須衍生自現行 repo SSOT, 不可自行發明 wire semantics。 | [quality-goals.md#goal-3-wire-contract-stability--gatt-ssot-enforcement](./quality-goals.md#goal-3-wire-contract-stability--gatt-ssot-enforcement) | Mobile / App |
-| **Three-Layer-Identity-Separation** | 系統必須同時保留 App `stableId`、Central `central_ref`、BLE MAC 三種身分邊界, 不得混用。 | [quality-goals.md#goal-4-identity-boundary-integrity--three-layer-non-confusion](./quality-goals.md#goal-4-identity-boundary-integrity--three-layer-non-confusion) | Central |
-| **Authority-Mismatch-Observability** | 當 Central 權威分配與 firmware runtime attach 不一致時, UI 必須可見且可追查。 | [quality-goals.md#goal-1-observability--telemetry--conflict-visibility](./quality-goals.md#goal-1-observability--telemetry--conflict-visibility) | Mobile / App |
-| **AI-Continuable-Traceability** | 規格內容必須可被下一個 AI 或腳本續維護, 並能追蹤需求到驗收與測試。 | [quality-goals.md#goal-2-spec-traceability--requirements-to-acceptance-chain](./quality-goals.md#goal-2-spec-traceability--requirements-to-acceptance-chain) | AI Continuator |
-| **Two-Layer-Operating-Model** | cross-repo operating model 必須明確區分 repo-level technical truth 與 project-level orchestration truth, 不得混為同一層。 | [quality-goals.md#goal-7-authority-boundary-enforcement--no-orchestration-overreach](./quality-goals.md#goal-7-authority-boundary-enforcement--no-orchestration-overreach) | All Repos |
-| **Tri-Stage-Spec-Lifecycle** | 規格、requirements、queue、acceptance 必須共享 `baseline / target / migration` stage 模型, 避免現況、目標與過渡期混寫。 | [quality-goals.md#goal-6-governance-automation--ai-continuable-spec-lifecycle](./quality-goals.md#goal-6-governance-automation--ai-continuable-spec-lifecycle) | All Repos |
+| **SSOT-Driven-UI-Semantics** | App 顯示的 telemetry、roster、command 結果必須衍生自現行 repo SSOT, 不可自行發明 wire semantics。 | [quality-goals.md#compatibility--wire-contract-stability-gatt-ssot-enforcement](./quality-goals.md#compatibility--wire-contract-stability-gatt-ssot-enforcement) | Mobile / App |
+| **Three-Layer-Identity-Separation** | 系統必須同時保留 App `stableId`、Central `central_ref`、BLE MAC 三種身分邊界, 不得混用。 | [quality-goals.md#functional-suitability--identity-boundary-integrity](./quality-goals.md#functional-suitability--identity-boundary-integrity) | Central |
+| **Authority-Mismatch-Observability** | 當 Central 權威分配與 firmware runtime attach 不一致時, UI 必須可見且可追查。 | [quality-goals.md#usability--observability-telemetry--conflict-visibility](./quality-goals.md#usability--observability-telemetry--conflict-visibility) | Mobile / App |
+| **AI-Continuable-Traceability** | 規格內容必須可被下一個 AI 或腳本續維護, 並能追蹤需求到驗收與測試。 | [quality-goals.md#maintainability--spec-traceability-requirements-to-acceptance-chain](./quality-goals.md#maintainability--spec-traceability-requirements-to-acceptance-chain) | AI Continuator |
+| **Two-Layer-Operating-Model** | cross-repo operating model 必須明確區分 repo-level technical truth 與 project-level orchestration truth, 不得混為同一層。 | [quality-goals.md#security--authority-boundary-enforcement-no-orchestration-overreach](./quality-goals.md#security--authority-boundary-enforcement-no-orchestration-overreach) | All Repos |
+| **Tri-Stage-Spec-Lifecycle** | 規格、requirements、queue、acceptance 必須共享 `baseline / target / migration` stage 模型, 避免現況、目標與過渡期混寫。 | [quality-goals.md#portability--governance-automation-ai-continuable-spec-lifecycle](./quality-goals.md#portability--governance-automation-ai-continuable-spec-lifecycle) | All Repos |
 
 ## Feature Tree
 
@@ -43,11 +43,11 @@ BLE QoS Demo 同時承擔三條互相獨立但無法分離的 intent — 任何�
 |---|---|---|---|
 | **Wire-Semantics-From-SSOT** | GATT UUID、wire format、opcode 只可從 firmware repo `ble_api.yaml` 衍生。 | codegen pipeline + CI vocab-check rule | [02_solution-strategy/constraints.md](../02_solution-strategy/constraints.md) |
 | **Single-Active-BLE-Connection** | App 採 task-scoped BLE connection; 同一時間只連一台裝置。 | App `connectionState` 狀態機 (IDLE / CONNECTING / CONNECTED / DISCONNECTING) | [01_context-scope/ubiquitous-language.md](../01_context-scope/ubiquitous-language.md), [03_building-blocks/FEA-002-command-execution-feedback.md](../03_building-blocks/FEA-002-command-execution-feedback.md) |
-| **Sparse-Telemetry-Is-Normal** | `P0 sparse` 是正常資料狀態, 不得視為錯誤。 | telemetry render rule + reconciliation badge logic | [03_building-blocks/FEA-001-telemetry-roster-visibility.md](../03_building-blocks/FEA-001-telemetry-roster-visibility.md) |
-| **Source-Diagram-Authority** | PNG / render artifact 不可直接編修; 原始碼 `.md` / `.mmd` / `.d2` / `.yaml` 才是治理來源。 | pre-commit hook + CI render-only-from-source check | [04_runtime-deployment/diagram-authoring-rules.md](../04_runtime-deployment/diagram-authoring-rules.md) |
+| **Sparse-Telemetry-Is-Normal** | `P0 sparse` 是正常資料狀態, 不得視為錯誤。 | App ViewModel render rule (ble_qos_app — no CI test enforcement; K6-008 backlog: add P0-sparse render unit test) | [03_building-blocks/FEA-001-telemetry-roster-visibility.md](../03_building-blocks/FEA-001-telemetry-roster-visibility.md) |
+| **Source-Diagram-Authority** | PNG / render artifact 不可直接編修; 原始碼 `.md` / `.mmd` / `.d2` / `.yaml` 才是治理來源。 | pre-commit hook + CI render-only-from-source check | (canonical authoring guide pending — see K6 backlog in `docs/handoffs/2026-04-27-task-b-l3-rml-ddd-final/next-steps.md`) |
 | **Base-Dir-Cross-Repo-Only** | `--base-dir` 只承接 cross-repo formal control docs; repo-level technical truth 仍以各 repo SSOT 為準。 | conductor base-dir scoping + per-repo CLAUDE.md authority list | [02_solution-strategy/capability-map.md](../02_solution-strategy/capability-map.md) |
 | **AI-Orchestration-Non-Authority** | `Conductor / AI orchestration layer` 可管理 planning 與 governance, 但不得直接取代 Central、Firmware 或 App 的權威邊界。 | authority-map.yaml runtime check + ADR governance rule | [01_context-scope/authority-map.yaml](../01_context-scope/authority-map.yaml), [99_appendix/decisions/](../99_appendix/decisions/) |
-| **AI-Diagram-Contract-Mandatory** | 所有 `.d2` / `.mmd` source 必須帶 `AI Diagram Contract` comment block, 並遵守 `diagram-authoring-rules.md` 與 `diagram-templates.md` 的可讀性限制。 | diagram-lint CI + pre-commit hook | [04_runtime-deployment/diagram-authoring-rules.md](../04_runtime-deployment/diagram-authoring-rules.md), [04_runtime-deployment/diagram-templates.md](../04_runtime-deployment/diagram-templates.md) |
+| **AI-Diagram-Contract-Mandatory** | 所有 `.d2` / `.mmd` source 必須帶 `AI Diagram Contract` comment block, 並遵守將來建立的 diagram-authoring-rules / diagram-templates 規範。 | diagram-lint CI + pre-commit hook | (canonical authoring guide + templates pending — see K6 backlog in `docs/handoffs/2026-04-27-task-b-l3-rml-ddd-final/next-steps.md`) |
 
 ## Risks & Recovery
 

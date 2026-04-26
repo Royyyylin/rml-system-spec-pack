@@ -60,6 +60,12 @@ Task B L3 closure 後 maturity 從 96 → 98。要進 99+ / 100 需動 staleness
 - **Why**: capability-map.md migration table 是 section, 不是整檔。Section-level 更精確, 防誤用。
 - **Effort**: tool refactor + migration mapping table 加 pragma marker + EXCLUDE_FILES 移除 capability-map.md
 
+#### K6-008: Sparse-Telemetry-Is-Normal invariant CI test
+
+- **Goal**: 為 `Sparse-Telemetry-Is-Normal` engineering invariant (system-intent.md `## Engineering Invariants` 段) 加入 App ViewModel render unit test, currently no CI enforcement (P0 sparse 不視為 error 是 UI 渲染 rule, 沒 CI test backstop)。
+- **Why**: 該 invariant statement 目前只靠 honest naming (`App ViewModel render rule (ble_qos_app — no CI test enforcement; K6-008 backlog)`) 標示, 沒實際 CI gate 防 regression。
+- **Effort**: ble_qos_app `lib/.../viewmodel/` 加 unit test for sparse telemetry rendering; CI 跑該 test on PR; 完成後 update system-intent.md Sparse-Telemetry row enforcement mechanism 移除 K6-008 backlog 標。
+
 ## EOD Recommendation
 
 - 短期 (this session 後): Roy `/eod` 寫 final handoff doc, J3 score 98 + Task B L3 closed

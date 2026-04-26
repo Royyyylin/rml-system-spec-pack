@@ -32,7 +32,7 @@ What is the wire/API contract?
 
 - **BLE wire** (GATT opcodes, characteristics): defined in `ble_qos_demo_V1.2m/ble_api.yaml`
 - **HTTP API** (Central endpoints): defined in `central-device-metadata/` OpenAPI
-- **App events / state**: defined in `app-spec/`
+- **App events / state**: defined in `../ble_qos_app/docs/02_sdd/`
 - **Feature spec**: create `03_building-blocks/FEA-NNN-<name>/contract.md` or flat `.md`
 
 Apply fractal split (subdirectory) if >= 3 sub-artifacts or contains state diagram.
@@ -59,10 +59,11 @@ Each TC must reference: acceptance criterion, requirement, evidence type.
 Add feature entry to `trace/trace_map.yaml`:
 
 ```yaml
-FEA-NNN:
-  spec: 03_building-blocks/FEA-NNN-<name>/contract.md
-  diagram_sources: [03_building-blocks/FEA-NNN-<name>/<name>.d2]
-  requirements: [REQ-NNN]
+features:
+  FEA-NNN:
+    spec: 03_building-blocks/FEA-NNN-<name>/contract.md
+    diagram_sources: [03_building-blocks/FEA-NNN-<name>/<name>.d2]
+    requirements: [REQ-NNN]
 ```
 
 ## Step 7: Propagate to Consumer Repos
