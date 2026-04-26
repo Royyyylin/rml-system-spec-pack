@@ -16,6 +16,11 @@
 | ADR-005 | ble_api.yaml 不轉 AsyncAPI | accepted (2026-04-26) |
 | ADR-006 | spec-pack repo rename defer (Q3 2026) | accepted (2026-04-26) |
 | ADR-007 | AC ID naming defer (AC-FW-3A-001 vs AC-001) | accepted (2026-04-26) |
+| ADR-008 | Task A Completion Strategy — Real Enforcement Activation | accepted (2026-04-26) |
+| ADR-009 | CC↔Central Transport — USB-Serial Host Bridge (resolves F7-OQ1) | accepted (2026-04-26) |
+| ADR-010 | GW↔Central Uplink — CC Bridge Relay for Prototype (resolves F7-OQ2) | accepted (2026-04-26) |
+| ADR-011 | ENG_UNLOCK Fail Policy — Immediate Lock on Wrong PIN (resolves F6-OQ1) | accepted (2026-04-26) |
+| ADR-012 | PIN Rotation → Central Notification — Synchronous App-Side Push (resolves F6-OQ2) | accepted (2026-04-26) |
 
 ## 格式規範
 
