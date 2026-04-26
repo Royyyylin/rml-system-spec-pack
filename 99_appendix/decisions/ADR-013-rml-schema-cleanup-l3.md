@@ -46,13 +46,13 @@ L3 master plan: `~/.claude/plans/task-b-rml-ddd-refactor.md` (5 sub-plans)。
 - AI continuator zero learning cost — 不用學 RML 命名規範, 直接讀 narrative
 - 認知負擔下降 — name 即內容, 不需 ID→name 反查
 - Cross-ref 用 Markdown native anchor — 編輯器原生支援, 不需自定工具
-- vocab-check enforce 防復發 — 6 RML deprecated pattern 進 CI blocking, dummy PR 驗證 mergeStateStatus=BLOCKED
+- vocab-check enforce 防復發 — 新增 6 RML deprecated patterns (cover 11 prefix) 進 CI blocking, dummy PR 驗證 mergeStateStatus=BLOCKED
 - ADR + Migration Mapping table 保留 audit trail — 歷史 ID 仍可追溯
 
 **Negative:**
 
 - 一次性 disruption — 4 PR (C1-C4) + cleanup PR (#47) 共 5 PR landed 2026-04-26~27, 期間下游 reader 需切換認知
-- ADR-013 + capability-map.md migration table 成為文件記憶 — 法 retire (但體積很小)
+- ADR-013 + capability-map.md migration table 成為文件記憶 — 無法 retire (但體積很小)
 - vocab-check 增 6 regex pattern — 微量 CI 時間增加 (< 5% scan time)
 
 **Compensating control:**
@@ -75,7 +75,7 @@ L3 master plan: `~/.claude/plans/task-b-rml-ddd-refactor.md` (5 sub-plans)。
 - C2 PR: #44 (stakeholders + bounded-context)
 - C3 PR: #46 (quality-goals + capability-map)
 - C4 PR: #45 (constraints + risks + requirements)
-- Wave 1 cleanup PR: #47 (5 file cross-pack inbound refs)
+- Wave 1 cleanup PR: #47 (13 cross-pack inbound refs across 5 files (4 chapter dirs: 01/03/05/99))
 - Spec Hygiene Rule 13: `~/.claude/spec-hygiene-rules.md` (VOCABULARY_CANONICAL)
 - Industry references: [Backstage System catalog](https://backstage.io/docs/features/software-catalog/descriptor-format) / [C4 model](https://c4model.com/) / [arc42 template](https://arc42.org/overview)
 - ADR-008: Task A Completion Strategy (parent context — J FINAL 96/100 audit driver)
