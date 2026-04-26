@@ -4,49 +4,36 @@
 
 ## 進度快照
 
-- **arc42 v7 X-修正 全 12 PR merged** (#19~#28 spec-pack + 4 cross-repo PR for vocabulary CI)
-  - 8 chapter (00_introduction-goals / 01_context-scope / 02_solution-strategy / 03_building-blocks / 04_runtime-view / 05_quality-acceptance / 06_crosscutting-integration / 99_appendix)
-  - DDD/業界命名 (取代 RML 自創): bounded-context-map / capability-map (TOGAF) / ubiquitous-language / event-storming
-  - FEA-NNN- prefix + F-04 fractal split (FEA-001~004 + F-04 + extension-boundary)
-  - ADR-000 Spec Authority Model (prescriptive enforcement)
-  - authority-map.yaml (machine-readable, P0 X-修正 #2)
-  - feature-design-guide.md (P0 X-修正 #3)
-  - check_vocabulary_alignment.py blocking exit 1 (P0 X-修正 #4)
-- **spec-pack-critical-fix 4 sub-plan 全完成** (`/wbs decompose` dogfood):
-  - A spec-pack self-cleanup #25 (113→0 violations)
-  - B ubiquitous-language expand #26 (15→80% canonical, 25→61 entry)
-  - C enforcement CI #27 (5 repo dummy PR FAILURE 證 active blocking)
-  - D workspace cleanup #16 (23→0 hits)
-- **/wbs skill 全域 build** (`~/.claude/skills/wbs/`, 6 mechanism, 補位 conductor)
+- **Task A 真重新建構達成 — J FINAL score 96/100** (was 28 baseline → +68 跳, master 95+ target ✅)
+- **4-Phase delivery 完整 closed** (multi-CC orchestration, master 寫 plan + Verifier / executor 執行 + paste-back, 14 sub-plan files /wbs decompose dogfood):
+  - Phase 1 E (6 step blocker): symlink rm + portable @import + spec-pack PUBLIC + 4 Rulesets + Stream B refactor
+  - Phase 2a (F1/F6/F7/H): arc42 quality-goals + crosscutting concepts + deployment-topology + ubiq+trace expand
+  - Phase 2b (G/F11-12): ADR-001~007 materialize + DDD Evans relationships + risks-and-debt + glossary-deltas
+  - Phase 2c (Ia/Ib): V-Model docs (app + central) + IMPL FREEZE
+  - Phase 3 J (initial 82/100 + FINAL re-audit 96/100, adversarial)
+  - Phase 4 K (K1 partial workspace ruleset + staleness blocking; K2 §2 §7 expand; K3-α/β workspace mirror + trace reconcile CI; K4 ADR-009~012 + V-Model OQ resolve)
+- **13 ADR accepted (ADR-000~012)** 全 Nygard format
+- **arc42 8 chapter coverage 滿分 25/25** (§1~§7 + §9 + §11 + §12)
+- 25+ PR merged 跨 5 repo (spec-pack/firmware/app/central/workspace), 5 GitHub Rulesets active
 
 ## 下一步（按優先序）
 
-1. **Re-audit redesign score** (從 28/100 → ≥ 70 確認)
-2. arc42 §11 risks-and-debt.md 補完 (99_appendix/)
-3. ADR-001~007 實體寫 (INDEX 列 draft 但 main 無檔)
-4. arc42 §7 Deployment View 補 (4 DK + Pixel + Mac mini topology)
-5. DDD Context Map relationships 標註 (Anti-Corruption Layer / OHS / Customer-Supplier per Evans)
-6. sub-plan E V-Model docs 推 ble_qos_app + central
-7. F-04 0x07 handler impl / A2 Phase 1 BDD / NCS v3.2.0
+1. **Phase K backlog Issue #88 firmware**: `.clang-format` adoption / 30+ function-length violations / docs/archive triage / sync-spec.sh rewrite-relative-link
+2. **Trace reconcile CI 升 enforce**: workspace 加 PAT secret 後 raw fetch 真比對 (K3-β advisory only 因 workspace private)
+3. **Staleness Ruleset enrollment**: 5 ruleset 加 staleness 為 required check + workspace staleness 升 exit 1
+4. K1 admin bypass=[] removal (per Roy "部分 GO" deferred, admin lockout risk; Phase K6 範疇)
+5. K6 (C4 model + Strategic Domain Foundation Doc) defer 後續 session
+6. ADR-013 candidate: master/executor/Roy gate boundary 形式化
 
-## 已知問題 / 待回收
+## 已知問題
 
-- redesign 從 audit 28/100 升 (預估 ≥70, 待 re-audit verify)
-- ADR-001~007 INDEX 列但實體未寫 (P1 backlog)
-- §7 Deployment View / §11 Risks 完全跳 (audit P0)
-- sub-agent hallucinate + AI 幫圓謊 toxic pattern → /wbs 6 mechanism 已解
-- App / Firmware / Central V-Model 5 章 docs 未推 (sub-plan E backlog)
+- spec-pack visibility=PUBLIC 但 docs/handoffs/2026-04-17-gw-qos-scheduler-tuning-contract/review.html 仍 untracked (歷史 artifact, 待清)
+- Pre-existing baseline tech debt 跨 4 consumer repo: dangerfile.ts TS-syntax / central integration alembic NOT NULL drift / Dart Lint
+- workspace staleness CI 為 advisory (exit 0), Phase K6 升 blocking
 
 ## 環境備註
 
-- 全域 `~/.claude/skills/wbs/` 就位 (SKILL.md 84 + templates/{master,sub})
-- 全域 `~/.claude/scripts/check-doc-size.sh` +2 classify (plans/sub-plans size budget)
-- 全域 `~/.claude/CLAUDE.md` 111 行 +Plan Management hard rule
-- 全域 `~/.claude/spec-hygiene-rules.md` 14 條 (+Rule 13 VOCABULARY +Rule 14 PLAN_SIZE)
-- 5 repo `.github/workflows/vocabulary-check.yml` 全 active blocking
-- spec-pack origin/main commit `1bb8cdd` (vocabulary blocking active)
-
-## 主要 handoff 入口
-
-- `docs/handoffs/2026-04-26-12-arc42-x-mod-wbs-build.md` — 本次 EOD (arc42 v7 + /wbs + sub-plan A/B/C/D)
-- `docs/handoffs/2026-04-15-upstream-evidence-audit.md` — 較早 SSOT evidence 盤點
+- spec-pack 14:01:23Z 翻 PUBLIC (ADR-008 option C)
+- 5 GitHub Rulesets active: spec-pack(main-vocab-check-required) / firmware / app / central / workspace(id=15567076 K1 partial)
+- Local main: spec-pack at 11514fe (J FINAL #41 merged at 14:58:18Z)
+- Master plan canonical SSOT: `~/.claude/plans/task-a-real-enforcement.md` + 14 sub-plan dir + 5 PHASE-*-REVIEW conclusion files
