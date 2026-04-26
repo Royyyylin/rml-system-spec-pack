@@ -1,46 +1,46 @@
 ---
-title: "Task A — Phase K Hand-Off Next Steps"
+title: "Task A — Post-Phase K Next Steps"
 date: 2026-04-26
 ---
 
-## Phase K Action List (priority order)
+## Phase K Closure Statement
 
-| Priority | Action | Repo | Blocks |
+Phase K (Foundation Review) is COMPLETE. All 9 K sub-deliverables verified on
+origin/main. Score: 96/100 (threshold 95). Master signal: PASS.
+
+## Remaining Backlog (priority order)
+
+| Priority | Action | Repo | Addresses |
 |---|---|---|---|
-| 1 | Merge ADR-008 PR #29 | spec-pack | Gap 2 |
-| 2 | Close firmware #88 sub-task (a): adopt `.clang-format` | firmware | Gap 1 |
-| 3 | Close firmware #88 sub-task (b): fix 30+ function-length violations | firmware | Gap 1 |
-| 4 | Close firmware #88 sub-task (c): `docs/archive/` triage | firmware | Gap 1 |
-| 5 | Resolve dual trace_map ownership ADR | spec-pack + workspace | Gap 3 |
-| 6 | Promote staleness check to blocking Ruleset (firmware + central) | firmware, central | Gap 4 |
-| 7 | Add staleness check to workspace repo | workspace | Gap 4 |
-| 8 | Create GitHub Rulesets for firmware/app/central | firmware, app, central | Gap 5 |
-| 9 | Close V-Model OQs (app + central) before IMPL FREEZE lift | app, central | Gap 6 |
-| 10 | Add `01_context-scope/constraints.md` (arc42 §2) | spec-pack | Gap 7 |
+| 1 | Enroll staleness check as Ruleset required_status_checks on firmware/app/central | firmware, app, central | Gap 3 |
+| 2 | Upgrade workspace staleness script to exit 1 on drift | workspace | Gap 3 |
+| 3 | Elevate trace reconcile CI to blocking OR consolidate trace_map SSOT | spec-pack + workspace | Gap 2 |
+| 4 | Firmware Issue #88 (a): `.clang-format` adoption decision | firmware | Gap 1 |
+| 5 | Firmware Issue #88 (b): fix 30+ function-length violations | firmware | Gap 1 |
+| 6 | Firmware Issue #88 (c): `docs/archive/` dead-link triage | firmware | Gap 1 |
 
-## Lessons from Task A
+## Pre-existing Baseline (out of scope)
 
-1. **Sub-plan atomicity works**: each PR was small, reviewable, and independently
-   mergeable. No rollbacks required across 16 sub-plan rows.
-2. **Adversarial auditing finds gaps missed by self-Verifier**: admin bypass path,
-   advisory-only staleness, workspace missing governance — all missed in prior reviews.
-3. **Dual trace_map sources create invisible divergence**: single SSOT is preferred;
-   enforce via CI rather than convention.
-4. **V-model OQ sections must be populated**: empty sections give false completion signal.
-5. **Ruleset scope must match governance intent**: deploying to one repo while 3 others
-   remain unprotected leaves the enforcement chain incomplete.
+These were NOT in Task A scope and remain as separate tracks:
+- FEA-001~004 IMPL FREEZE lift (blocked on OQ resolution — OQs now have owners)
+- FW-3B-5 / W26A.1 impl (frozen per spec-only mandate)
+- NCC / FCC / BLE SIG certification testing
 
-## Environment Notes
+## Key Lessons (Phase K additions)
 
-- Local spec-pack: `/Users/create94520/Projects/ble_qos_demo/rml-system-spec-pack`
+1. **Ruleset bypass_actors=[] is the correct admin bypass fix** — prior gap was
+   legacy branch protection `enforce_admins=false`; Rulesets bypass none by default.
+2. **Exit 1 ≠ Ruleset required** — script enforcement and Ruleset enforcement are
+   two independent layers; both are needed for true mechanical blocking.
+3. **ADR OQ resolution (ADR-009~012) closes V-model gates** — 4 OQs that stalled
+   V-model sign-off now have canonical decisions on main.
+4. **arc42 §2 is a frequently missed chapter** — constraints are often scattered
+   across repos; centralizing in spec-pack provides single audit point.
+
+## Environment (unchanged)
+
+- Spec-pack: `/Users/create94520/Projects/ble_qos_demo/rml-system-spec-pack`
 - Firmware: `/Users/create94520/Projects/ble_qos_demo/ble_qos_demo_V1.2m`
-  - Remote: `git@github.com:Royyyylin/ble_qos_demo_V1.2m-openclaw.git`
 - App: `/Users/create94520/Projects/ble_qos_demo/ble_qos_app`
-  - Remote: `git@github.com:Royyyylin/ble_qos_app-openclaw.git`
 - Central: `/Users/create94520/Projects/ble_qos_demo/central-device-metadata`
-  - Remote: `git@github.com:Royyyylin/central-device-metadata-openclaw.git`
 - Workspace: `/Users/create94520/Projects/ble_qos_demo/--base-dir`
-  - Remote: `git@github.com:Royyyylin/ble-qos-demo-workspace.git`
-- ADR-008 PR #29: https://github.com/Royyyylin/rml-system-spec-pack/pull/29 (OPEN)
-- Enforcement Ruleset: id=15563210 on rml-system-spec-pack (spec-pack only)
-- Phase J worktree: `docs/handoff-task-a-final` branch

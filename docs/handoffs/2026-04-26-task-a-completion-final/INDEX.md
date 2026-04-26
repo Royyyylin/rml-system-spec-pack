@@ -1,45 +1,35 @@
 ---
-title: "Task A Completion Final Synthesis — Index"
+title: "Task A Completion Final Synthesis — Index (post-Phase 4 K)"
 date: 2026-04-26
-author: Phase-J Adversarial Auditor
+author: Phase-J-FINAL Adversarial Auditor
 status: PASS
-score: 82/100
+score: 96/100
 ---
 
 ## Summary
 
-Task A (BLE QoS Demo spec-pack enforcement redesign, Phase 1 through Phase 2c) is
-COMPLETE and scores **82/100**. All 16 sub-plan rows shipped to origin/main across
-4 repos. Enforcement chain live (GitHub Ruleset active, vocab-check CI blocking).
-Residual gaps tracked for Phase K Foundation Review.
+Task A (BLE QoS Demo spec-pack enforcement redesign) through Phase K is COMPLETE
+and scores **96/100**. All 25 sub-deliverables (16 original + 9 Phase K) verified
+on origin/main across 5 repos. Enforcement chain now extends to all 4 repos (was
+spec-pack only). V-Model OQs resolved. ADR-001~012 accepted. arc42 §2 added.
 
-## Score Breakdown (82/100)
+## Score Breakdown (96/100)
 
-| Category | Score | Max |
-|---|---|---|
-| Enforcement chain real (Ruleset + vocab-check blocking) | 16 | 20 |
-| arc42 chapter coverage (§1/§3/§6/§8/§11/§12 + decisions) | 21 | 25 |
-| ADR system materialized (ADR-001~007 + format) | 13 | 15 |
-| V-Model docs (app + central, 5 stages + IMPL FREEZE) | 14 | 15 |
-| Vocab + trace coverage (ubiq-lang + trace_map SEQ) | 13 | 15 |
-| Portable @import + sync staleness governance | 5 | 10 |
-| **TOTAL** | **82** | **100** |
+| Category | Score | Max | Delta |
+|---|---|---|---|
+| Enforcement chain (Ruleset 4 repos + staleness exit 1 + no bypass) | 19 | 20 | +3 |
+| arc42 coverage (§1/§2/§3/§6/§7/§8/§11/§12 + decisions) | 25 | 25 | +4 |
+| ADR system (ADR-000~012, 13 accepted, Nygard format) | 15 | 15 | +2 |
+| V-Model docs (OQ Owner+Timeline, 5 stages + IMPL FREEZE) | 15 | 15 | +1 |
+| Vocab + trace (ubiq-lang + SEQ- + reconcile CI) | 14 | 15 | +1 |
+| Portable @import + staleness governance | 8 | 10 | +3 |
+| **TOTAL** | **96** | **100** | **+14** |
 
-**Gate: PASS** (threshold ≥70). Master may signal Phase K.
+**Gate: PASS** (threshold ≥95). Phase K CLOSED.
 
 ## Contents
 
-- [audit-table.md](audit-table.md) — 16-row independent re-audit (no REVIEW.md cheat)
+- [audit-table.md](audit-table.md) — 25-row independent re-audit (no REVIEW.md)
 - [score-rationale.md](score-rationale.md) — per-category deduction rationale
-- [gaps.md](gaps.md) — 7 residual gaps for Phase K Foundation Review
-- [next-steps.md](next-steps.md) — Phase K hand-off action list + environment notes
-
-## Environment Notes
-
-- Local spec-pack: `/Users/create94520/Projects/ble_qos_demo/rml-system-spec-pack`
-- Firmware: `/Users/create94520/Projects/ble_qos_demo/ble_qos_demo_V1.2m`
-- App: `/Users/create94520/Projects/ble_qos_demo/ble_qos_app`
-- Central: `/Users/create94520/Projects/ble_qos_demo/central-device-metadata`
-- Workspace: `/Users/create94520/Projects/ble_qos_demo/--base-dir`
-- ADR-008 PR #29: https://github.com/Royyyylin/rml-system-spec-pack/pull/29 (OPEN)
-- Enforcement Ruleset: id=15563210, spec-pack only
+- [gaps.md](gaps.md) — 3 residual gaps remaining post-K
+- [next-steps.md](next-steps.md) — post-K backlog (Issue #88, staleness Ruleset)
