@@ -24,11 +24,22 @@ UBIQUITOUS_LANG = SPEC_PACK / "01_context-scope" / "ubiquitous-language.md"
 # Each tuple: (regex_pattern, human_readable_reason)
 # Note: S-\d+ / X-\d+ patterns use negative lookbehind to avoid matching
 # legitimate REQ domain prefix occurrences like REQ-S-001 / REQ-X-001.
+#
+# RML opaque ID schema (OBJ/INT/CST/RSK/ACT/ROL/CAP/OWN/HOF/AUT/SCP) deprecated by
+# task-b L3 refactor (2026-04-27) per ADR-013. Use name-canonical primary key +
+# chapter-position-canonical (per Backstage / C4 / arc42 reference). Cross-ref by
+# `file.md#section-anchor`, NOT opaque ID prefix.
 DEPRECATED_PATTERNS: list[tuple[str, str]] = [
     (r"\bRML-FEA-\d+\b", "use FEA-NNN- prefix instead"),
     (r"(?<!REQ-)\bS-\d+\b", "use F-NN or FEA-NNN prefix instead"),
     (r"(?<!REQ-)\bX-\d+\b", "use chapter-scoped ID instead (e.g. x1-)"),
     (r"shared-spec/", "use arc42 chapter path (e.g. 01_context-scope/) instead"),
+    (r"\bRML-OBJ-\d+\b", "廢 ADR-013 — use Strategic Goal name in system-intent.md#strategic-goals"),
+    (r"\bRML-INT-\d+\b", "廢 ADR-013 — use System Intent name in system-intent.md#system-intent"),
+    (r"\bRML-CST-\d+\b", "廢 ADR-013 — use Engineering Invariant name in system-intent.md#engineering-invariants (architectural) or constraints.md (legal/regulatory)"),
+    (r"\bRML-RSK-\d+\b", "廢 ADR-013 — use risk name in 99_appendix/risks-and-debt.md"),
+    (r"\bRML-(ACT|ROL)-\d+\b", "廢 ADR-013 — use unified role name in stakeholders.md (human/AI roles) or bounded-context-map.md System Actors (system entities)"),
+    (r"\bRML-(CAP|OWN|HOF|AUT|SCP)-\d+\b", "廢 ADR-013 — use TOGAF capability-name / DDD aggregate root name in 02_solution-strategy/capability-map.md"),
 ]
 
 # Cross-repo paths (4 repo) — default when no --repo arg is given
@@ -59,6 +70,8 @@ EXCLUDE_FILES: set[str] = {
     "check_vocabulary_alignment.py",  # this file — patterns appear as regex strings
     "CLAUDE.md",  # vocabulary canonical list — deprecated terms appear as intentional reference
     "ubiquitous-language.md",  # DDD canonical vocabulary — Spec ID Naming table shows legacy prefixes as examples
+    "capability-map.md",  # contains the canonical "## ID Schema Migration Mapping" preamble — RML-CAP/OWN/HOF appear as Legacy ID column entries by design (per ADR-013)
+    "ADR-013-rml-schema-cleanup-l3.md",  # ADR-013 itself documents the deprecated patterns as reference
 }
 
 # File extensions to scan

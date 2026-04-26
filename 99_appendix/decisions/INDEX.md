@@ -21,6 +21,7 @@
 | ADR-010 | GW↔Central Uplink — CC Bridge Relay for Prototype (resolves F7-OQ2) | accepted (2026-04-26) |
 | ADR-011 | ENG_UNLOCK Fail Policy — Immediate Lock on Wrong PIN (resolves F6-OQ1) | accepted (2026-04-26) |
 | ADR-012 | PIN Rotation → Central Notification — Synchronous App-Side Push (resolves F6-OQ2) | accepted (2026-04-26) |
+| ADR-013 | RML Opaque ID Schema Cleanup — L3 Source-Level Refactor (廢 11 RML prefix, name-canonical + chapter-position-canonical) | accepted (2026-04-27) |
 
 ## 格式規範
 

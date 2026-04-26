@@ -200,9 +200,11 @@ packets:
   PKT-006:
     sequences: [SEQ-002, SEQ-003]
 
+# SSOT references — repo-relative paths (cross-repo siblings under ble_qos_demo/ workspace).
+# Replaces L3-pre absolute /Users/... paths (per task-b-rml-ddd-refactor C5 D2 chapter-position-canonical).
 ssot:
-  firmware: /Users/create94520/Projects/ble_qos_demo/ble_qos_demo_V1.2m/ble_api.yaml
-  app_architecture: /Users/create94520/Projects/ble_qos_demo/ble_qos_app/docs/architecture/APP_ARCHITECTURE.md
-  app_boundary: /Users/create94520/Projects/ble_qos_demo/ble_qos_app/docs/handoffs/2026-03-28-app-architecture-brief.md
-  central_identity: /Users/create94520/Projects/ble_qos_demo/central-device-metadata/docs/specs/data-model.md
-  central_alias: /Users/create94520/Projects/ble_qos_demo/central-device-metadata/docs/specs/alias-sync-spec.md
+  firmware: ../ble_qos_demo_V1.2m/ble_api.yaml
+  app_architecture: ../ble_qos_app/docs/architecture/APP_ARCHITECTURE.md
+  app_boundary: ../ble_qos_app/docs/handoffs/2026-03-28-app-architecture-brief.md
+  central_identity: ../central-device-metadata/docs/specs/data-model.md
+  central_alias: ../central-device-metadata/docs/specs/alias-sync-spec.md
