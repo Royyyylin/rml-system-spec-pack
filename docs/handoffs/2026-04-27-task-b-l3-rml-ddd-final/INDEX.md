@@ -38,7 +38,7 @@ Task B L3 (RML opaque ID schema cleanup, source-level refactor per Backstage / C
 
 ## Audit Evidence
 
-- Independent paranoid grep `RML-11-prefix-\d+` exclude migration table + ADR-013 = 0 hit
+- Independent paranoid grep (full regex `RML-(OBJ|INT|CST|RSK|ACT|ROL|CAP|OWN|HOF|AUT|SCP)-\d+`) exclude migration table + ADR-013 = 0 hit
 - 4-repo vocab-check: `Vocabulary alignment OK`
 - spec-pack vocab-check `--repo .`: exit 0
 - Dummy PR #49 (`RML-OBJ-999` injection): vocab-check FAILURE + mergeStateStatus=BLOCKED ✅
