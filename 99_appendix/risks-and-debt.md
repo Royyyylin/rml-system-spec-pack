@@ -95,6 +95,90 @@ Each entry has 5 dimensions: likelihood / impact / mitigation / owner / status.
 
 ---
 
+### GATT-Contract-Drift — GATT Contract Drift (Migrated from system-intent.md C1)
+
+| Dimension | Value |
+|---|---|
+| **Likelihood** | med |
+| **Impact** | high — GATT UUID / opcode / packet format divergence between `ble_api.yaml` and impl repos causes silent wire-semantic breakage |
+| **Mitigation** | `ble_api.yaml` is SSOT; any wire-semantic change must backpropagate to packet spec / sequence diagrams / AC / TC in spec-pack; codegen pipeline enforces derivation; CI vocab-check blocks undeclared opcodes |
+| **Owner** | firmware repo maintainer (ble_api.yaml) + spec-pack maintainer (cascade) |
+| **Status** | Migrated from system-intent.md C1 |
+
+**Risk description**: If firmware, app, or central independently evolve their interpretation of GATT UUIDs, wire formats, or opcodes without updating `ble_api.yaml` first, the shared wire contract drifts. Recovery requires coordinated re-sync across all 4 repos.
+
+---
+
+### Identity-Drift — Identity Layer Confusion (Migrated from system-intent.md C1)
+
+| Dimension | Value |
+|---|---|
+| **Likelihood** | med |
+| **Impact** | high — mixing `stableId` / `central_ref` / MAC causes incorrect device matching, phantom roster entries, and unrecoverable identity collisions |
+| **Mitigation** | Three-layer separation enforced in `ubiquitous-language.md`; App UI must label MAC as transport identity; Central owns `stableId` assignment; `identity-boundary-rules.md` codifies non-confusion rules |
+| **Owner** | central-device-metadata (stableId authority) + ble_qos_app (UI labeling) |
+| **Status** | Migrated from system-intent.md C1 |
+
+**Risk description**: The system maintains three distinct identity layers: App `stableId`, Central `central_ref`, and BLE MAC (transport). Collapsing any two layers — especially presenting MAC as a stable device identity — breaks cross-session traceability and Central reconciliation.
+
+---
+
+### Authority-Runtime-Mismatch — Central Authority vs Runtime Inconsistency (Migrated from system-intent.md C1)
+
+| Dimension | Value |
+|---|---|
+| **Likelihood** | med |
+| **Impact** | high — if Central assignment authority diverges from firmware runtime attach state, UI shows contradictory gateway ownership without a resolution path |
+| **Mitigation** | App must show dual-source gateway display + `assignmentSyncState` reconciliation badge; `FEA-004` defines the reconciliation flow; `can_compare` gate guards conflict derivation |
+| **Owner** | ble_qos_app (UI reconciliation) + central-device-metadata (assignment authority) |
+| **Status** | Migrated from system-intent.md C1 |
+
+**Risk description**: Central assigns devices to gateways authoritatively. Firmware runtime may attach differently (e.g. after failover or power cycle). When these diverge, the UI must surface the mismatch rather than silently presenting either source as definitive.
+
+---
+
+### Command-Timeout-Or-Error — CMD_V2 Transaction Failure Recovery (Migrated from system-intent.md C1)
+
+| Dimension | Value |
+|---|---|
+| **Likelihood** | med |
+| **Impact** | med — unrecovered command transactions leave the system in an ambiguous state; user sees no feedback and may retry blindly |
+| **Mitigation** | App must model retryable / failed states explicitly; transaction record + evidence must be preserved for audit; CMD_V2_TIMEOUT_MS enforced; UI must show observable state for success / failure / timeout / retry |
+| **Owner** | ble_qos_app (state machine) + firmware (CMD_RESULT characteristic) |
+| **Status** | Migrated from system-intent.md C1 |
+
+**Risk description**: BLE command execution via `CMD_V2` / `CMD_RESULT` is inherently unreliable at the transport layer. Without explicit retry/failure state modeling in the App, timeouts silently swallow user intent and the device state becomes unobservable.
+
+---
+
+### Project-Vs-Repo-Truth-Mixing — Project-Level vs Repo-Level Truth Confusion (Migrated from system-intent.md C1)
+
+| Dimension | Value |
+|---|---|
+| **Likelihood** | low |
+| **Impact** | high — conflating cross-repo orchestration truth (base-dir) with per-repo technical truth (each repo SSOT) causes authority boundary violations and spec drift |
+| **Mitigation** | `Base-Dir-Cross-Repo-Only` invariant enforced: `--base-dir` carries only cross-repo formal control docs; per-repo technical truth (firmware `ble_api.yaml`, Central schema, App models) stays in each repo SSOT; `capability-map.md` codifies ownership |
+| **Owner** | spec-pack maintainer + all repo tech leads |
+| **Status** | Migrated from system-intent.md C1 |
+
+**Risk description**: The conductor/orchestration layer manages planning and cross-repo governance via `--base-dir`. Allowing implementation truth (wire semantics, DB schemas, App models) to live in base-dir instead of the owning repo breaks the repo-as-authority model defined in ADR-000.
+
+---
+
+### AI-Orchestration-Authority-Overreach — AI Conductor Acting as Domain Authority (Migrated from system-intent.md C1)
+
+| Dimension | Value |
+|---|---|
+| **Likelihood** | med |
+| **Impact** | high — if Conductor directly controls Central assignment, firmware flashing, or App state without going through repo authority owners, cross-repo governance collapses |
+| **Mitigation** | `AI-Orchestration-Non-Authority` invariant: Conductor role is planning / delegation / acceptance / handoff only; direct control loops (e.g. auto-assigning gateways, auto-pushing firmware) are prohibited; authority-map.yaml encodes the prohibition |
+| **Owner** | spec-pack maintainer (governance) + Roy (orchestration operator) |
+| **Status** | Migrated from system-intent.md C1 |
+
+**Risk description**: AI orchestration layers (Conductor, sub-agents) have broad write access to spec and can issue commands across repos. Without a hard boundary that keeps Conductor in planning/governance and out of domain authority, it can silently take over decisions that belong to Central, Firmware, or App owners.
+
+---
+
 ## Known Technical Debt
 
 | Debt Item | Severity | Target Resolution |
