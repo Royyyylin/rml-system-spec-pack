@@ -51,7 +51,7 @@ All new D2 diagram files MUST include the AI Diagram Contract comment block (AGE
 
 - **Structurizr DSL + Structurizr CLI in CI**: Rejected — Docker image size increase, external rendering dependency, duplicates existing D2 CI path
 - **PlantUML with C4-PlantUML extension**: Rejected — PlantUML requires Java runtime; CI already excludes Java from spec-pack toolchain
-- **D2 + Structurizr DSL dual-source**: Rejected — two sources of truth for the same diagram violates SSOT principle (RML-OWN-001)
+- **D2 + Structurizr DSL dual-source**: Rejected — two sources of truth for the same diagram violates SSOT principle (`Single-Owner-Rule`, see [capability-map.md](../../02_solution-strategy/capability-map.md))
 - **Mermaid C4 diagrams**: Evaluated — GitHub renders Mermaid natively, but Mermaid C4 support is limited to Context level only; insufficient for Building Blocks (§5) component views
 
 ## References

@@ -120,7 +120,7 @@ App 做即時 UX validation（順序錯、範圍錯就顯示紅字並鎖定 Save
 
 ## Audit Expectation
 
-Preset / override changes record actor, timestamp, previous/new value, reason。Audit canonical owner: **Central**（consistent with `RML-CAP-001`）。
+Preset / override changes record actor, timestamp, previous/new value, reason。Audit canonical owner: **Central**（consistent with [`Canonical-Identity-Authority`](../../02_solution-strategy/capability-map.md)）。
 
 ## Wire / Apply Protocol
 
