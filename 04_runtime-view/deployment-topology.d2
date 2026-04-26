@@ -1,0 +1,114 @@
+# AI Diagram Contract
+# primary_message: BLE QoS Demo 部署拓撲 — 4× nRF52833 DK (GW/ED×2/CC) + Pixel 7a App + Mac mini Central
+# reader: engineer
+# template_id: deployment-topology
+# diagram_type: deployment
+# layout: top-down
+# max_nodes: 10
+# keep: GW, ED, CC, App, Central, BLE PHY lanes (1M/2M/Coded), IP links, dev host
+# avoid: GATT UUID detail, NVS internals, packet payloads
+
+direction: right
+
+# ─── Hardware nodes ────────────────────────────────────────────────────────────
+
+gw: {
+  label: "GW\nnRF52833 DK\n(Gateway × 1)"
+  shape: rectangle
+  style.fill: "#dbeafe"
+}
+
+ed1: {
+  label: "ED-1\nnRF52833 DK\n(End Device)"
+  shape: rectangle
+  style.fill: "#dcfce7"
+}
+
+ed2: {
+  label: "ED-2\nnRF52833 DK\n(End Device)"
+  shape: rectangle
+  style.fill: "#dcfce7"
+}
+
+cc: {
+  label: "CC\nnRF52833 DK\n(BLE-Central Bridge)"
+  shape: rectangle
+  style.fill: "#fef9c3"
+}
+
+app: {
+  label: "App\nPixel 7a\nAndroid 16\n(ADB: 3A271JEHN05259)"
+  shape: rectangle
+  style.fill: "#f3e8ff"
+}
+
+central: {
+  label: "Central\nMac mini (host)\nFastAPI + PostgreSQL"
+  shape: rectangle
+  style.fill: "#fce7f3"
+}
+
+# ─── BLE links ─────────────────────────────────────────────────────────────────
+
+ed1 -> gw: {
+  label: "BLE\n1M / 2M / Coded PHY\n(QoS Zone driven)"
+  style.stroke-dash: 4
+}
+
+ed2 -> gw: {
+  label: "BLE\n1M / 2M / Coded PHY\n(QoS Zone driven)"
+  style.stroke-dash: 4
+}
+
+app -> gw: {
+  label: "BLE Peripheral GATT\n(1M, App = central role)\nCMD_V2 / STATUS / METRICS"
+  style.stroke-dash: 4
+}
+
+app -> cc: {
+  label: "BLE Peripheral GATT\n(1M, App = central role)\nCC bridge path"
+  style.stroke-dash: 4
+}
+
+# ─── IP / transport links ──────────────────────────────────────────────────────
+
+cc -> central: {
+  label: "WebSocket / HTTP\n(USB-serial or host BLE TBD)"
+}
+
+app -> central: {
+  label: "HTTPS / WebSocket\n(Wi-Fi / mobile data)\nreconciliation + alias sync"
+}
+
+gw -> central: {
+  label: "HTTPS / WebSocket\n(Wi-Fi or USB TBD)\ntelemetry uplink + roster"
+}
+
+# ─── Dev environment note ──────────────────────────────────────────────────────
+
+dev_env: {
+  label: "Dev Environment (Mac mini)\nNCS SDK: see scripts/dev.sh\nDocker: unit tests\nmobile-mcp: App automation"
+  shape: rectangle
+  style.stroke-dash: 8
+  style.fill: "#f8fafc"
+}
+
+dev_env -> gw: {
+  label: "flash / RTT log\n(scripts/dev.sh)"
+  style.stroke: "#94a3b8"
+}
+
+dev_env -> ed1: {
+  label: "flash / RTT log"
+  style.stroke: "#94a3b8"
+}
+
+dev_env -> ed2: {
+  label: "flash / RTT log"
+  style.stroke: "#94a3b8"
+}
+
+dev_env -> cc: {
+  label: "flash / RTT log"
+  style.stroke: "#94a3b8"
+}
