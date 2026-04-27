@@ -1,16 +1,21 @@
-# Machine-readable authority boundary (DDD bounded context, AI/CI queryable)
-# Source of truth: 02_solution-strategy/capability-map.md (human-readable narrative)
-# Usage: yaml.load() query authority per domain; CI vocabulary check
-# Schema version: 2.0
-# Updated: 2026-04-27
+# Machine-readable authority boundary (DDD bounded context, AI/CI queryable).
+# Source of truth (capability axis): 02_solution-strategy/capability-map.md (human-readable narrative).
+# Sister SSOT (actor axis): 01_context-scope/bounded-context-map.md "Authority Boundaries" section.
+# Usage: yaml.load() query authority per domain; CI vocabulary check; cross-link via maps_to_boundary.
 # L3 refactor (2026-04-27): id field migrated from RML-CAP-NNN opaque schema → name-canonical (per task-b L3 D1, see capability-map.md ## ID Schema Migration Mapping). Domain field unchanged.
-# ADR reference: 99_appendix/decisions/ADR-000-spec-authority-model.md (prescriptive enforcement)
+# Schema NOTE: qos-scheduler-tuning-authority uses nested dict shape (per-actor differentiated permission)
+# vs other 5 entries flat list (uniform consumers). Per-actor variant documented per F-04 capability scope.
+# ADR reference: 99_appendix/decisions/ADR-000-spec-authority-model.md (prescriptive enforcement).
+
+schema_version: "2.0"
+updated: "2026-04-27"
 
 boundaries:
   - id: canonical-identity-authority
     domain: canonical_identity
     description: Canonical identity, assignment, metadata, auth, audit, sync truth
     authority: central
+    maps_to_boundary: Central-Global-Truth-Authority
     consumers:
       - app
       - firmware
@@ -32,6 +37,7 @@ boundaries:
     domain: runtime_observation
     description: Runtime telemetry, QoS measurement, failover execution, radio behavior, device-side recovery
     authority: firmware
+    maps_to_boundary: Firmware-Runtime-Truth-Ownership
     consumers:
       - app
       - central
@@ -52,6 +58,9 @@ boundaries:
     domain: interaction_semantics
     description: Human-facing interaction, presentation semantics, pending/error UX, local view state
     authority: app
+    # NOTE: no App-specific boundary in bounded-context-map.md; primary surface for human roles
+    # (Operator-Limited-Authority + Engineer-Diagnostic-Authority both interact via this layer).
+    maps_to_boundary: Operator-Limited-Authority
     consumers:
       - central
       - firmware
@@ -70,6 +79,7 @@ boundaries:
     domain: wire_contract
     description: GATT / wire contract, opcode, payload field semantics
     authority: firmware
+    maps_to_boundary: Firmware-Runtime-Truth-Ownership
     ssot: ble_qos_demo_V1.2m/ble_api.yaml
     consumers:
       - app
@@ -93,6 +103,7 @@ boundaries:
     domain: orchestration
     description: Cross-repo planning, dispatch, queue/gate governance, handoff, evidence index
     authority: conductor
+    maps_to_boundary: Conductor-Planning-Only
     consumers:
       - central
       - app
@@ -113,6 +124,7 @@ boundaries:
     domain: qos_scheduler_config
     description: GW QoS scheduler deployment tuning (preset / expert override)
     authority: central
+    maps_to_boundary: Central-Global-Truth-Authority
     note: Central owns runtime deployment config truth; Firmware executes + validates; App provides role-gated editor UX
     consumers:
       - firmware
@@ -123,9 +135,10 @@ boundaries:
         - perform final validation guard
       app:
         - provide role-gated editor UX
+    # `central` removed from must_not (Concern 2 Option B): authority=central self-listing redundant.
+    # Self-constraint expressed via must_not_actions.central key + actor=authority match.
     must_not:
       - app
-      - central
       - firmware
     must_not_actions:
       app:

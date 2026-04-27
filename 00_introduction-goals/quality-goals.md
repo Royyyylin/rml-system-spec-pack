@@ -69,7 +69,7 @@ Eight ISO 25010 categories are used as the structuring framework, mapped from th
 | Attribute | Value |
 |---|---|
 | **ISO 25010 Category** | Usability (Operability sub-characteristic) |
-| **Priority** | P1 — Highest architectural influence |
+| **Priority** | 1 |
 | **Feature Traces** | FEA-001, FEA-003, FEA-004 |
 | **Strategic Goal Cross-Ref** | [Authority-Mismatch-Observability](system-intent.md#strategic-goals) |
 

@@ -69,7 +69,7 @@ L3 refactor 2026-04-27 (per ADR-013): 廢 `RML-SCP-NNN` opaque ID schema, 改 sc
 
 Diagram source: [system-actors.d2](system-actors.d2)
 
-The four bounded contexts in this system:
+The five bounded contexts in this system:
 
 | Context | Authority Owner | Bounded Concern |
 | :--- | :--- | :--- |
