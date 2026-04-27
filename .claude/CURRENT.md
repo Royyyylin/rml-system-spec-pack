@@ -1,6 +1,6 @@
 # CURRENT — rml-system-spec-pack
 
-最後更新：2026-04-27
+最後更新：2026-04-28
 
 ## 進度快照
 
@@ -15,7 +15,8 @@
   - Phase 4 K (K1 partial workspace ruleset + staleness blocking; K2 §2 §7 expand; K3-α/β workspace mirror + trace reconcile CI; K4 ADR-009~012 + V-Model OQ resolve)
 - **14 ADR accepted (ADR-000~013)** 全 Nygard format (ADR-013 RML cleanup L3 lock-in)
 - **arc42 8 chapter coverage 滿分 25/25** (§1~§7 + §9 + §11 + §12)
-- 34+ PR merged 跨 5 repo (Task A 25+ + Task B 8 spec-pack (#43-#48 主線 + #50 J3 + #51 ADR-013 patch) + cross-repo central #39, dummy #49 closed unmerged 不計), 5 GitHub Rulesets active
+- 40+ PR merged 跨 5 repo (Task A 25+ + Task B 14 spec-pack (#43-#48 + #50-#57 minus dummy #49) + central #39), 5 GitHub Rulesets active
+- Roy review wave 5 round (#1-#5: handoff INDEX / system-intent / 00_/ / 01_/ / vocab-check.py) — executor adversarial caught master 7+ hallucinations, 全修正 (詳見 EOD handoff doc)
 
 ## cc-bridge Multi-CC Orchestration Real Test
 

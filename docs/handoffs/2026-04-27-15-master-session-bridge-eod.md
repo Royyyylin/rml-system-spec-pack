@@ -72,5 +72,7 @@
 - cc-bridge artifact: `~/cc-bridge/inbox/{master,executor}/` + `~/cc-bridge/inbox/<role>/.archived/` + `state/hmac.key`
 - Memory: 3 new feedback memory (master_index_role / plan_mode_verbal_override / master_verifier_primary_gate)
 - spec-pack origin/main: HEAD = 0b35388 J3 final
-- 34+ PR merged 跨 5 repo (Task A 25+ + Task B 8 spec-pack (#43-#48 + #50 + #51) + cross-repo central #39)
+- 40+ PR merged 跨 5 repo (Task A 25+ + Task B 14 spec-pack (#43-#48 主線 + #50 J3 + #51 ADR-013 patch + #52 EOD master session + #53 INDEX P2 + #54 audit-table P0+P1 + #55 wave-2 cleanup + #56 wave-3 cleanup + #57 wave-4 vocab-check fix) + cross-repo central #39, dummy #49 closed unmerged 不計)
+- Roy review wave 5 round (#1-#5 covered handoff INDEX / system-intent C1 / 5 file 00_introduction-goals/ / 5 file 01_context-scope/ / tools/check_vocabulary_alignment.py)
+- Lessons learned: Roy review wave 抓 master 7+ hallucination (single→double dash anchors / 17 ADR off-by-3 / 28+ PR off-by-6 / 5 chapter dirs vs 4 actual / 76 vs 82 line ADR-013 / 13 vs 14 spec-pack count / map_to_boundary 6 mapping 部分 ambiguous), executor adversarial 全救; J3 audit dim 4-7 accumulator (anchor / sister-file SSOT / diagram intent / docstring-impl alignment / boundary cardinality) 進 K6-010 ADR-014 candidate
 - Score progression: 28 (audit baseline) → 82 (Phase 3 J initial) → 96 (J FINAL Task A) → **98 (J3 Task B L3)**
