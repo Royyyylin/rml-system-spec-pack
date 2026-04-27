@@ -1,12 +1,13 @@
 # AI-DIAGRAM: required
-# primary_message: This diagram shows runtime truth ownership across Central, Firmware, and App; humans act through App, and CC bridge relays without owning truth.
+# source: 01_context-scope/bounded-context-map.md
+# primary_message: This diagram shows runtime truth ownership across Central, Firmware, App, and Conductor (AI orchestration); humans act through App, CC bridge relays without owning truth, and Conductor governs without runtime authority.
 # reader: newcomer
-# template_id: ctx-actor-authority
+# template_id: ctx-actor-authority   # NOTE: template registry pending (K6 backlog); kept as semantic label for now.
 # diagram_type: d2-context
 # layout: top-to-bottom
-# max_nodes: 8
-# max_groups: 4
-# keep: Central/App/Firmware authority boundaries, human roles, 3 firmware sub-roles, authority boundary callout
+# max_nodes: 10
+# max_groups: 5
+# keep: Central/App/Firmware/Conductor authority boundaries, human roles, 3 firmware sub-roles, authority boundary callout
 # avoid: individual feature details, packet names, API fields, state machines
 
 direction: down
@@ -37,6 +38,12 @@ app: "App 手機端\n擁有：人類可見的顯示" {
   style.fill: "#f0fde8"
 }
 
+conductor: "Conductor AI 編排層\n規劃／派工／驗收\n不擁有 runtime truth" {
+  style.fill: "#f3e8ff"
+  style.stroke: "#8b5cf6"
+  style.stroke-dash: 4
+}
+
 # --- Relationships ---
 firmware.gw -> app: "即時遙測"
 firmware.ed -> app: "即時遙測"
@@ -44,6 +51,9 @@ firmware.cc -> central: "轉發"
 central -> app: "權威 metadata"
 humans.operator -> app: "操作"
 humans.engineer -> app: "進階操作"
+conductor -> central: "規劃／驗收 (非 runtime)"
+conductor -> firmware: "規劃／驗收 (非 runtime)"
+conductor -> app: "規劃／驗收 (非 runtime)"
 
 # --- Authority boundary callout ---
 boundary: "權責邊界\n1. 每種 truth 只有一個 owner\n2. 非 owner 不可重定義\n3. CC bridge 只轉發" {
