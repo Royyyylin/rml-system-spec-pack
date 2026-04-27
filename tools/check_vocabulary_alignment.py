@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-"""Check cross-repo vocabulary alignment vs spec-pack ubiquitous-language.md.
+"""Scan firmware/app/central + spec-pack for deprecated terms (DEPRECATED_PATTERNS regex).
 
-Scan firmware/app/central + spec-pack itself (.md/.py/.dart/.c/.h/.yaml/.yml).
-Compare against canonical vocabulary in 01_context-scope/ubiquitous-language.md.
-Fail if:
-  - Used deprecated term (e.g. RML-FEA-* in non-archive context)
-  - Used cross-repo term not registered in canonical list
+Coverage: source files matching INCLUDE_EXT (markdown / python / dart / C / yaml / typescript / javascript / C++).
+Skips: directories in EXCLUDE_DIRS (archive, .git, .claude, build artifacts, etc.) and files in EXCLUDE_FILES (this script, CLAUDE.md, ubiquitous-language.md, capability-map.md migration mapping table, ADR-013).
 
-Blocking mode active as of 2026-04-25. Exit 1 on violations.
+Canonical alignment check (term registration in `01_context-scope/ubiquitous-language.md`) is NOT implemented — see Phase K6 backlog (K6-009 test fixtures + K6-010 audit pattern accumulator). The UBIQUITOUS_LANG existence sanity check is retained as warning-only sentinel.
+
+Fail (exit 1) if any deprecated term used in non-archive non-EXCLUDE_FILES context. Blocking mode active 2026-04-25. ADR-013 (2026-04-27) added 6 RML opaque ID prefix patterns.
 """
 
 from __future__ import annotations
@@ -80,7 +79,13 @@ INCLUDE_EXT: set[str] = {
     ".py",
     ".dart",
     ".c",
+    ".cc",
+    ".cpp",
     ".h",
+    ".hpp",
+    ".js",
+    ".ts",
+    ".tsx",
     ".yaml",
     ".yml",
 }
@@ -97,6 +102,10 @@ def scan_repo(repo: Path) -> list[str]:
     """Scan all eligible files in repo for deprecated terms."""
     violations: list[str] = []
     if not repo.exists():
+        print(
+            f"WARNING: skipping non-existent repo: {repo}",
+            file=sys.stderr,
+        )
         return violations
 
     for file in repo.rglob("*"):

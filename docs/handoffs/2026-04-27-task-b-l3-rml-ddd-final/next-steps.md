@@ -66,6 +66,18 @@ Task B L3 closure 後 maturity 從 96 → 98。要進 99+ / 100 需動 staleness
 - **Why**: 該 invariant statement 目前只靠 honest naming (`App ViewModel render rule (ble_qos_app — no CI test enforcement; K6-008 backlog)`) 標示, 沒實際 CI gate 防 regression。
 - **Effort**: ble_qos_app `lib/.../viewmodel/` 加 unit test for sparse telemetry rendering; CI 跑該 test on PR; 完成後 update system-intent.md Sparse-Telemetry row enforcement mechanism 移除 K6-008 backlog 標。
 
+#### K6-009: tools/check_vocabulary_alignment.py test fixtures
+
+- **Goal**: 為 vocab-check tool 補 unit test fixtures 防 regression — DEPRECATED_PATTERNS positive (true positive) + negative (避免 false positive 例如 REQ-S-001 / REQ-X-001) + EXCLUDE_FILES coverage + lookbehind edge cases (S-N / X-N negative-lookbehind for `REQ-` prefix)。
+- **Why**: 目前 tool 沒 unit test, 任何 pattern 改動只能靠人工 dummy PR test (e.g. PR #49 RML-OBJ-999) 驗證。Roy review #5 P2 系列 finding (P2-3 至 P2-6) 都會 surface in test fixture coverage。
+- **Effort**: 新建 `tools/test_check_vocabulary_alignment.py` (pytest 或 unittest), include positive cases per DEPRECATED_PATTERNS entry + negative cases per EXCLUDE_FILES + REQ- lookbehind edge case + non-existent repo path (post-K6-001 stderr warning 也應 testable)。CI 加 pytest job (新 workflow 或 既有 vocabulary-check.yml 加 step)。
+
+#### K6-010: J3 audit pattern accumulator → ADR-014 candidate
+
+- **Goal**: J3 + Roy review wave 累積出的多 dim audit pattern (anchor resolvability / sister-file SSOT cross-link / diagram intent / tool docstring-impl alignment / boundary cardinality 1:1 vs N:1 mapping) 寫成 ADR-014 (cross-cutting "spec hygiene audit pattern" 對齊全 spec-pack)。
+- **Why**: 目前 audit dim 散在 J3 audit-table.md (3-dim) + 本批 review #5 finding 4-7 dim 累積。各 chapter audit 應有統一 pattern checklist, 非每章都要 master 從頭發明。
+- **Effort**: 寫 `99_appendix/decisions/ADR-014-spec-hygiene-audit-pattern.md` (Nygard format) — list 7+ audit dim + each dim 的 grep / lint / verifier rule + cross-ref to J3 actual evidence。同時 J3 audit-table.md retroactive cross-ref ADR-014。
+
 ## EOD Recommendation
 
 - 短期 (this session 後): Roy `/eod` 寫 final handoff doc, J3 score 98 + Task B L3 closed
